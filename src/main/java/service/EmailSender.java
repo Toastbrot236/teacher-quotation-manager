@@ -14,10 +14,10 @@ import jakarta.mail.internet.MimeMultipart;
 
 public class EmailSender {
 	
-	private static final String USERNAME = "illusioquest@gmail.com";
-	private static final String PASSWORD = "ejatlrwydwtemanb";
+	private static final String USERNAME = "CENSORED";
+	private static final String PASSWORD = "CENSORED";
 	
-	private static final String FROM_EMAIL = "illusioquest@gmail.com";
+	private static final String FROM_EMAIL = "CENSORED";
 	
 	public static boolean sendMail(String subject, String text, String to) {
 		
