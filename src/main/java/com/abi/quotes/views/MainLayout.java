@@ -4,9 +4,14 @@ package com.abi.quotes.views;
 import com.abi.quotes.views.login.LoginView;
 import com.abi.quotes.views.profil.ProfilView;
 import com.abi.quotes.views.start.StartView;
+import com.abi.quotes.views.users.UsersView;
 import com.abi.quotes.views.zitate.ZitateView;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.contextmenu.ContextMenu;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Header;
@@ -14,7 +19,14 @@ import com.vaadin.flow.component.html.ListItem;
 import com.vaadin.flow.component.html.Nav;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.html.UnorderedList;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.RouterLink;
+import com.vaadin.flow.server.VaadinRequest;
+import com.vaadin.flow.theme.lumo.Lumo;
 import com.vaadin.flow.theme.lumo.LumoUtility.AlignItems;
 import com.vaadin.flow.theme.lumo.LumoUtility.BoxSizing;
 import com.vaadin.flow.theme.lumo.LumoUtility.Display;
@@ -30,12 +42,24 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 import com.vaadin.flow.theme.lumo.LumoUtility.Whitespace;
 import com.vaadin.flow.theme.lumo.LumoUtility.Width;
+
+import components.NotLoggedInScreen;
+import database.TableReceiver;
+import database.User;
+import jakarta.servlet.http.Cookie;
+import service.DataManager;
+
+import java.sql.SQLException;
+
 import org.vaadin.lineawesome.LineAwesomeIcon;
 
 /**
  * The main view is a top-level placeholder for other views.
  */
 public class MainLayout extends AppLayout {
+	
+	private HorizontalLayout userDisplay;
+	private Button navButton;
 
     /**
      * A simple navigation item component, based on ListItem element.
@@ -70,19 +94,34 @@ public class MainLayout extends AppLayout {
     }
 
     public MainLayout() {
+    	DataManager.mainLayout = this;
         addToNavbar(createHeaderContent());
+        updateUserSpan();
+        cookieLogin();
     }
 
+    private Header header;
+    
     private Component createHeaderContent() {
-        Header header = new Header();
+        header = new Header();
         header.addClassNames(BoxSizing.BORDER, Display.FLEX, FlexDirection.COLUMN, Width.FULL);
 
         Div layout = new Div();
         layout.addClassNames(Display.FLEX, AlignItems.CENTER, Padding.Horizontal.LARGE);
 
+        HorizontalLayout homeLayout = new HorizontalLayout();
         H1 appName = new H1("Zitate-Sammlung");
         appName.addClassNames(Margin.Vertical.MEDIUM, Margin.End.AUTO, FontSize.LARGE);
-        layout.add(appName);
+        appName.addClickListener(e -> {
+        	getUI().ifPresent(ui -> ui.navigate("start"));
+        });
+        Button homeButton = new Button(VaadinIcon.HOME.create());
+        homeButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST, ButtonVariant.LUMO_TERTIARY_INLINE, ButtonVariant.LUMO_ICON);
+        homeButton.addClickListener(e -> {
+        	getUI().ifPresent(ui -> ui.navigate("start"));
+        });
+        homeLayout.add(appName, homeButton);
+        layout.add(homeLayout);
 
         Nav nav = new Nav();
         nav.addClassNames(Display.FLEX, Overflow.AUTO, Padding.Horizontal.MEDIUM, Padding.Vertical.XSMALL);
@@ -97,7 +136,8 @@ public class MainLayout extends AppLayout {
 
         }
 
-        header.add(layout, nav);
+        header.add(layout);
+        //header.add(nav);
         return header;
     }
 
@@ -112,6 +152,129 @@ public class MainLayout extends AppLayout {
                 new MenuItemInfo("Profil", LineAwesomeIcon.USER.create(), ProfilView.class), //
 
         };
+    }
+    
+    public void updateUserSpan() {
+    	
+    	if (userDisplay != null)
+    		header.remove(userDisplay);
+    	
+    	Span userSpan = new Span();
+    	userDisplay = new HorizontalLayout();
+    	navButton = new Button(VaadinIcon.ELLIPSIS_DOTS_H.create());
+    	
+    	if (DataManager.getLoggedIn() == null || !DataManager.getLoggedIn()) {
+        	userSpan.setText("Anmelden");
+        	userSpan.addClickListener(e -> {
+        		getUI().ifPresent(ui -> ui.navigate(LoginView.class));
+        	});
+        	navButton.setEnabled(false);
+        } else {
+        	userSpan.setText(DataManager.getFirstName() + " " + DataManager.getLastName());
+        	navButton.setEnabled(true);
+        	createUserMenu(userDisplay);
+        }
+
+    	navButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST, ButtonVariant.LUMO_TERTIARY_INLINE, ButtonVariant.LUMO_ICON);
+    	
+    	userDisplay.setJustifyContentMode(JustifyContentMode.END);
+    	userDisplay.getStyle().setPadding("0px 10px 0px 10px");
+    	userDisplay.setWidthFull();
+    	userDisplay.add(userSpan, navButton);
+    	header.addComponentAtIndex(1, userDisplay);
+    }
+    
+    private ContextMenu createUserMenu(HorizontalLayout userSpan) {
+    	ContextMenu menu = new ContextMenu();
+    	
+    	Button logoutButton = new Button("Abmelden");
+    	logoutButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR);
+    	logoutButton.addClickListener(e -> {
+    		DataManager.logout(); 
+    		getUI().ifPresent(ui -> ui.navigate("start")); 
+    		updateUserSpan();
+    		}
+    	);
+    	menu.addItem(logoutButton);
+    	
+    	boolean darkMode = DataManager.getDarkMode();
+    	setDarkMode(darkMode);
+    	Button darkModeButton = new Button((darkMode) ? "Light Mode" : "Dark Mode");
+    	darkModeButton.setIcon((darkMode) ? VaadinIcon.SUN_O.create() : VaadinIcon.MOON_O.create());
+    	darkModeButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_CONTRAST);
+    	darkModeButton.addClickListener(e -> {
+    		setDarkMode(!DataManager.getDarkMode());
+    		darkModeButton.setText((DataManager.getDarkMode()) ? "Light Mode" : "Dark Mode");
+    	});
+    	menu.addItem(darkModeButton);
+    	
+    	Button profileButton = new Button("Dein Profil");
+    	profileButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+    	profileButton.addClickListener(e -> {
+    		getUI().ifPresent(ui -> ui.navigate("profil"));
+    	});
+    	menu.addItem(profileButton);
+    	
+    	if (DataManager.isAdmin()) {
+    		Button usersButton = new Button("Nutzerverwaltung");
+    		usersButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+    		usersButton.addClickListener(e -> {
+                UI.getCurrent().navigate(UsersView.class);
+            });
+    		menu.addItem(usersButton);
+    	}
+    	
+    	menu.setOpenOnClick(true);
+    	menu.setTarget(userSpan);
+        	
+    	return menu;
+    }
+    
+    public void setDarkMode(boolean dark) {
+    	User.updateNumber(DataManager.getUserID(), "user_darkMode", (dark) ? "1" : "0");
+    	DataManager.setDarkMode(dark);
+    	getElement().executeJs("document.documentElement.setAttribute('theme', $0)", (dark) ? Lumo.DARK : Lumo.LIGHT);
+    }
+    
+    public void cookieLogin() {
+    	Cookie[] cookies = VaadinRequest.getCurrent().getCookies();
+    	
+    	String username = "";
+    	String password = "";
+    	for (Cookie c : cookies) {
+    		if (c.getName().equals("name"))
+    			username = c.getValue();
+    		if (c.getName().equals("password"))
+    			password = c.getValue();
+    	}
+    	
+		try {
+			Integer userId = new TableReceiver().runQueryAndGetSingleValue(
+					String.format(
+							"SELECT user_id FROM user WHERE (user_email = \"%s\" OR user_username = \"%s\") AND user_password = \"%s\";",
+							username,
+							username,
+							password
+							),
+					Integer.class
+					);
+			
+			if (userId == null) {
+				return;
+			}	
+			
+			System.out.println("Eingeloggt als " + username + " mit Id = " + userId);
+			DataManager.login(userId);
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+    	
+    	
+		
+		
+		
     }
 
 }
