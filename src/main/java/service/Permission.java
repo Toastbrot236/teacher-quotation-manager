@@ -1,0 +1,58 @@
+package service;
+
+public enum Permission {
+	ADMIN,
+    READ,
+    WRITE,
+    RATE,
+    EDIT,
+    DELETE;
+
+    public static boolean canRead(Permission[] ps) {
+        for (Permission p : ps) {
+            if (p == READ)
+                return true;
+        }
+        return false;
+    }
+    
+    public static boolean isAdmin(Permission[] ps) {
+        for (Permission p : ps) {
+            if (p == ADMIN)
+                return true;
+        }
+        return false;
+    }
+
+    public static boolean canWrite(Permission[] ps) {
+        for (Permission p : ps) {
+            if (p == WRITE)
+                return true;
+        }
+        return false;
+    }
+
+    public static boolean canRate(Permission[] ps) {
+        for (Permission p : ps) {
+            if (p == RATE)
+                return true;
+        }
+        return false;
+    }
+
+    public static boolean canEdit(Permission[] ps) {
+        for (Permission p : ps) {
+            if (p == EDIT)
+                return true;
+        }
+        return false;
+    }
+
+    public static boolean canDelete(Permission[] ps) {
+        for (Permission p : ps) {
+            if (p == DELETE)
+                return true;
+        }
+        return false;
+    }
+}
