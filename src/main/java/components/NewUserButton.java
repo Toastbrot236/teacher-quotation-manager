@@ -55,7 +55,7 @@ public class NewUserButton extends Button {
 					try {
 						new TableReceiver().runUpdate(
 								String.format(
-										"INSERT INTO user (user_firstName, user_lastName, user_username, user_password) VALUES (\"%s\", \"%s\", \"%s\", \"%s\");"
+										"INSERT INTO user (user_firstName, user_lastName, user_username, user_password) VALUES ('%s', '%s', '%s', '%s');"
 										, fNameField.getValue()
 										, nameField.getValue()
 										, fNameField.getValue().substring(0, 3).toLowerCase() + nameField.getValue().substring(0, 3).toLowerCase()

@@ -251,7 +251,7 @@ public class MainLayout extends AppLayout {
 		try {
 			Integer userId = new TableReceiver().runQueryAndGetSingleValue(
 					String.format(
-							"SELECT user_id FROM user WHERE (user_email = \"%s\" OR user_username = \"%s\") AND user_password = \"%s\";",
+							"SELECT user_id FROM user WHERE (user_email = '%s' OR user_username = '%s') AND user_password = '%s';",
 							username,
 							username,
 							password

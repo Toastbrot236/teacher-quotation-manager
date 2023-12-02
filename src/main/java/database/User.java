@@ -201,7 +201,7 @@ public class User {
     
     public void databaseUpdate(String columnName, String newValue) {
     	try {
-			new TableReceiver().runUpdate("UPDATE user SET " + columnName + " = \"" + newValue + "\" WHERE user_id = " + userId);
+			new TableReceiver().runUpdate("UPDATE user SET " + columnName + " = '" + newValue + "' WHERE user_id = " + userId);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

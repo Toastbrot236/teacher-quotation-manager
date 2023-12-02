@@ -122,7 +122,7 @@ public class ProfilView extends VerticalLayout {
         	if (newValue == null)
         		new TableReceiver().runUpdate("UPDATE user SET " + columnName + " = " + newValue + " WHERE user_id = " + DataManager.getUserID());
         	else
-        		new TableReceiver().runUpdate("UPDATE user SET " + columnName + " = \"" + newValue + "\" WHERE user_id = " + DataManager.getUserID());
+        		new TableReceiver().runUpdate("UPDATE user SET " + columnName + " = '" + newValue + "' WHERE user_id = " + DataManager.getUserID());
         } catch (SQLIntegrityConstraintViolationException e) {
             throw e;
         } catch (SQLException e) {

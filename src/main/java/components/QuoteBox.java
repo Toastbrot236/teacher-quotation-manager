@@ -1,5 +1,8 @@
 package components;
 
+import java.text.DateFormat;
+import java.util.Locale;
+
 import com.abi.quotes.views.teacher_detail.TeacherDetailView;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
@@ -52,7 +55,10 @@ public class QuoteBox extends VerticalLayout {
 		
 		VerticalLayout publication = new VerticalLayout();
 		publication.setDefaultHorizontalComponentAlignment(Alignment.END);
-		Span date = new Span(quote.getPublished().toLocaleString());
+		
+		//Span date = new Span(quote.getPublished().toLocaleString());
+		Span date = new Span(DateFormat.getDateTimeInstance(DateFormat.MEDIUM, 2, Locale.GERMAN).format(quote.getPublished()));
+		
 		date.getStyle().set("font-size", "10px");
 		publisher = new Button(User.nameFormat(quote.getUserFirstName(), quote.getUserLastName(), quote.getUserDisplayName()));
 		publisher.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);

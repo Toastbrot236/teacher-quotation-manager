@@ -68,7 +68,7 @@ public class QuoteDetailView extends VerticalLayout {
     					+ "	(SELECT COUNT(likes_id) FROM likes WHERE likes_quote = quotes_id) AS likes,\r\n"
     					+ "	(SELECT COUNT(dislikes_id) FROM dislikes WHERE dislikes_quote = quotes_id) AS dislikes,\r\n"
     					+ " (SELECT COUNT(comments_id) FROM comments WHERE comments_quote = quotes_id) AS comments,\r\n"
-    					+ "	EXISTS(SELECT * FROM stars WHERE stars_user = \"" + DataManager.getUserID() + "\" AND stars_quote = quotes_id) AS isStar,\r\n"
+    					+ "	EXISTS(SELECT * FROM stars WHERE stars_user = '" + DataManager.getUserID() + "' AND stars_quote = quotes_id) AS isStar,\r\n"
     					+ " EXISTS(SELECT * FROM likes WHERE likes_quote = quotes_id AND likes_user = " + DataManager.getUserID() + ") AS isLiked,\r\n"
     					+ " EXISTS(SELECT * FROM dislikes WHERE dislikes_quote = quotes_id AND dislikes_user = " + DataManager.getUserID() + ") AS isDisliked \r\n"
     					+ "FROM quotes\r\n"

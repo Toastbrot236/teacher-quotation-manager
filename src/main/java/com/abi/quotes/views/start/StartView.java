@@ -11,6 +11,7 @@ import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.contextmenu.ContextMenu;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
@@ -22,12 +23,14 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
+import com.vaadin.flow.theme.lumo.Lumo;
 import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 
 import components.ErrorMessage;
 import components.NewQuoteButton;
 import components.NotLoggedInScreen;
 import components.QuoteList;
+import database.User;
 import service.DataManager;
 
 @PageTitle("Start")
@@ -35,6 +38,8 @@ import service.DataManager;
 @RouteAlias(value = "", layout = MainLayout.class)
 public class StartView extends VerticalLayout {
 
+	private H1 title;
+	
     public StartView() {
         setSpacing(false);
         setSizeFull();
@@ -68,13 +73,13 @@ public class StartView extends VerticalLayout {
         			+ "            </ul>\n"
         			+ "    </div >"));
         	
-        	H1 title = new H1("Willkommen, " + DataManager.getFirstName());
+        	title = new H1("Willkommen, " + DataManager.getFirstName());
         	title.getStyle().set("margin-top", "10vh");
             title.getStyle().set("color", "var(--lumo-primary-text-color)");
             title.getStyle().set("font-size", "2em");
             
             Span infoText = new Span("Übrigens, du kannst auf deinen Namen klicken, um dein Profil aufzurufen und dort dein Passwort zu ändern.");
-
+            
             VerticalLayout buttonsLayout = createNavigationButtons();
 
             add(title, infoText, buttonsLayout);
@@ -135,6 +140,46 @@ public class StartView extends VerticalLayout {
     	list.setHeight("110%");
     	list.getList().setHeightFull();
     	return list;
+    }
+    
+    private void openUserMenu(Component target) {
+    	ContextMenu menu = new ContextMenu();
+    	
+    	boolean darkMode = DataManager.getDarkMode();
+    	setDarkMode(darkMode);
+    	Button darkModeButton = new Button((darkMode) ? "Light Mode" : "Dark Mode");
+    	darkModeButton.setIcon((darkMode) ? VaadinIcon.SUN_O.create() : VaadinIcon.MOON_O.create());
+    	darkModeButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_CONTRAST);
+    	darkModeButton.addClickListener(e -> {
+    		setDarkMode(!DataManager.getDarkMode());
+    		darkModeButton.setText((DataManager.getDarkMode()) ? "Light Mode" : "Dark Mode");
+    	});
+    	menu.addItem(darkModeButton);
+    	
+    	Button profileButton = new Button("Dein Profil");
+    	profileButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+    	profileButton.addClickListener(e -> {
+    		getUI().ifPresent(ui -> ui.navigate("profil"));
+    	});
+    	menu.addItem(profileButton);
+    	
+    	if (DataManager.isAdmin()) {
+    		Button usersButton = new Button("Nutzerverwaltung");
+    		usersButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+    		usersButton.addClickListener(e -> {
+                UI.getCurrent().navigate(UsersView.class);
+            });
+    		menu.addItem(usersButton);
+    	}
+    	
+    	menu.setOpenOnClick(true);
+    	menu.setTarget(target);
+    }
+    
+    private void setDarkMode(boolean dark) {
+    	User.updateNumber(DataManager.getUserID(), "user_darkMode", (dark) ? "1" : "0");
+    	DataManager.setDarkMode(dark);
+    	getElement().executeJs("document.documentElement.setAttribute('theme', $0)", (dark) ? Lumo.DARK : Lumo.LIGHT);
     }
 
 }

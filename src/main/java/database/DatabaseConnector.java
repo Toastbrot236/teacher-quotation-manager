@@ -15,13 +15,13 @@ public abstract class DatabaseConnector <T> {
 		if (wholeURL)
 			connectionURL = database;
 		else
-			connectionURL = "jdbc:mysql://localhost:3306/" + database + "?serverTimezone=Europe/Paris&characterEncoding=utf8&useUnicode=true";
+			connectionURL = "jdbc:mysql://mysql-abizitate-abi-zitate.a.aivencloud.com:16763/" + database + "?sslmode=require&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Atlantic/Azores&characterEncoding=utf8&useUnicode=true";
 		this.username = username;
 		this.password = password;
 	}
 	
 	public DatabaseConnector() {
-		this("abizitate", "root", "password", false);
+		this("abizitate", "avnadmin", "AVNS_YqUmaxCG8x1hj3bklPt", false);
 	}
 	
 	public void runQuery(String query) throws SQLException {
@@ -125,6 +125,17 @@ public abstract class DatabaseConnector <T> {
 	private void stop() {
 		long endTime = System.currentTimeMillis();
 		System.out.println("Previous query took " + (endTime-startTime) + " ms.");
+	}
+	
+	public static void main(String[] args) {
+		try {
+			Table t = new TableReceiver().runQueryAndGet("SELECT * From user WHERE user_username =  'jonric'");
+			System.out.println();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }

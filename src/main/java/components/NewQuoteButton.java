@@ -104,7 +104,7 @@ public class NewQuoteButton extends Button {
 		try {
 			new TableReceiver().runUpdate(
 					String.format(
-							"INSERT INTO quotes (quotes_user, quotes_text, quotes_originator, quotes_category, quotes_published) VALUES (%d, \"%s\", %d, \"%s\", now())",
+							"INSERT INTO quotes (quotes_user, quotes_text, quotes_originator, quotes_category, quotes_published) VALUES (%d, '%s', %d, '%s', now())",
 							user,
 							text,
 							originator,
@@ -117,7 +117,7 @@ public class NewQuoteButton extends Button {
 	
 	private String teacherName(int id) {
 		try {
-			return new TableReceiver().runQueryAndGetSingleValue("SELECT CONCAT(IF (teachers_gender LIKE \"m\", \"Herr \", \"Frau \"), teachers_name) FROM teachers WHERE teachers_id = " + id, String.class);
+			return new TableReceiver().runQueryAndGetSingleValue("SELECT CONCAT(IF (teachers_gender LIKE 'm', 'Herr ', 'Frau '), teachers_name) FROM teachers WHERE teachers_id = " + id, String.class);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

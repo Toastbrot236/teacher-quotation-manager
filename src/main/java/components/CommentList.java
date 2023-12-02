@@ -59,7 +59,7 @@ public class CommentList extends VerticalLayout{
 			new TableReceiver().runUpdate(
 					String.format(
 							"INSERT INTO comments (comments_text, comments_published, comments_author, comments_quote) VALUES \r\n"
-									+ "	(\"%s\", now(), %d, %d)",
+									+ "	('%s', now(), %d, %d)",
 							text, DataManager.getUserID(), quote
 							)
 					);

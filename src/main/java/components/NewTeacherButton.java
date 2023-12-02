@@ -67,7 +67,7 @@ public class NewTeacherButton extends Button {
 					try {
 						new TableReceiver().runUpdate(
 								String.format(
-										"INSERT INTO teachers (teachers_gender, teachers_name) VALUES (\"%s\", \"%s\");"
+										"INSERT INTO teachers (teachers_gender, teachers_name) VALUES ('%s', '%s');"
 										, genderBox.getValue()
 										, nameField.getValue()
 										)

@@ -1,5 +1,8 @@
 package components;
 
+import java.text.DateFormat;
+import java.util.Locale;
+
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.html.Span;
@@ -23,7 +26,7 @@ public class CommentBox extends VerticalLayout{
 				));
 		user.getStyle().set("font-weight", "bold");
 		user.getStyle().set("font-size", "var(--lumo-font-size-s)");
-		Span time = new Span(comment.getPublished().toLocaleString());
+		Span time = new Span(DateFormat.getDateTimeInstance(DateFormat.MEDIUM, 2, Locale.GERMAN).format(comment.getPublished()));
 		time.getStyle().set("font-size", "var(--lumo-font-size-xxs)");
 		
 		DeleteButton delete = new DeleteButton(comment, true);

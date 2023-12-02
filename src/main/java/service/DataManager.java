@@ -145,7 +145,7 @@ public class DataManager {
 	
 	/*private void databaseUpdate(String param, String value) {
 		try {
-			new TableReceiver().runUpdate("UPDATE user SET " + param + " = \"" + value + "\" WHERE user_id = " + getUserID());
+			new TableReceiver().runUpdate("UPDATE user SET " + param + " = '" + value + "' WHERE user_id = " + getUserID());
 		} catch (SQLException e) {
 
 			e.printStackTrace();

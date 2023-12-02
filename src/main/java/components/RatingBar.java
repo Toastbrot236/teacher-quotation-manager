@@ -1,6 +1,8 @@
 package components;
 
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.util.Locale;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -317,7 +319,7 @@ public class RatingBar extends HorizontalLayout {
     		icon.setSize("12px");
     		icon.getTooltip().setManual(true);
     		icon.addClickListener(e -> {
-    			icon.setTooltipText("Zuletzt bearbeitet am " + quote.getLastEdited().toLocaleString() + " von " + getName());
+    			icon.setTooltipText("Zuletzt bearbeitet am " + DateFormat.getDateTimeInstance(DateFormat.MEDIUM, 2, Locale.GERMAN).format(quote.getLastEdited()) + " von " + getName());
     			icon.getTooltip().setOpened(!icon.getTooltip().isOpened());
     		});
     		
@@ -333,7 +335,7 @@ public class RatingBar extends HorizontalLayout {
     private String getName() {
     	try {
 			return new TableReceiver().runQueryAndGetSingleValue(
-					"SELECT CONCAT(user_firstName, \" \", user_lastName) AS name FROM user WHERE user_id = " + quote.getLastEditedBy(), 
+					"SELECT CONCAT(user_firstName, ' ', user_lastName) AS name FROM user WHERE user_id = " + quote.getLastEditedBy(), 
 					String.class
 					);
 		} catch (SQLException e) {

@@ -76,7 +76,7 @@ public class LoginView extends LoginOverlay {
 		try {	
 			Integer userId = new TableReceiver().runQueryAndGetSingleValue(
 					String.format(
-							"SELECT user_id FROM user WHERE (user_email = \"%s\" OR user_username = \"%s\") AND user_password = \"%s\";",
+							"SELECT user_id FROM user WHERE (user_email = '%s' OR user_username = '%s') AND user_password = '%s';",
 							username,
 							username,
 							password
@@ -154,7 +154,7 @@ public class LoginView extends LoginOverlay {
         	String email = null;
         	
         	try {
-        		email = new TableReceiver().runQueryAndGetSingleValue("SELECT user_email FROM user WHERE user_username = \"" + nameField.getValue() + "\"", String.class);
+        		email = new TableReceiver().runQueryAndGetSingleValue("SELECT user_email FROM user WHERE user_username = '" + nameField.getValue() + "'", String.class);
         	} catch (Exception __) {
         		dialog.close();
         		new ConfirmDialog("Fehlgeschlagen", "Entweder hast du einen falschen Benutzernamen angegeben oder mit deinem Konto ist keine E-Mail-Adresse verknüpft.", "OK", null).open();
@@ -205,7 +205,7 @@ public class LoginView extends LoginOverlay {
 
 			try {
 				new TableReceiver().runUpdate(String.format(
-						"UPDATE user SET user_password = \"%s\" WHERE user_username = \"%s\"",
+						"UPDATE user SET user_password = '%s' WHERE user_username = '%s'",
 						newPassword,
 						nameField.getValue()
 						));
