@@ -21,7 +21,7 @@ public abstract class DatabaseConnector <T> {
 	}
 	
 	public DatabaseConnector() {
-		this("abizitate", "avnadmin", "AVNS_YqUmaxCG8x1hj3bklPt", false);
+		this("abizitate", "avnadmin", "API_KEY", false);
 	}
 	
 	public void runQuery(String query) throws SQLException {
