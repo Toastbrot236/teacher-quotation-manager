@@ -77,7 +77,7 @@ public class NewQuoteButton extends Button {
 			saveButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS,ButtonVariant.LUMO_PRIMARY);
 			saveButton.addClickListener(event ->{
 				if ((teacherId > 0 || teacherBox.getValue() != null) && !textArea.getValue().equals("")) {
-					String text = textArea.getValue().replace("\n", "<br/>").replace("\"", "\\\"");
+					String text = textArea.getValue().replace("\n", "<br/>").replace("\"", "\\\"").replace("'", "\\'");
 					createQuote(
 							DataManager.getUserID(),
 							text,
