@@ -85,6 +85,11 @@ public class DataManager {
 		return row;
 	}
 	
+	public static boolean setFirstLogin(boolean firstLogin) {
+		SessionManager.saveValue("firstLogin", firstLogin);
+		return firstLogin;
+	}
+	
 	//////////////////////
 	//GETTER
 	
@@ -139,6 +144,10 @@ public class DataManager {
 	public static Row getTeacherDetailRow () {
 		return SessionManager.getValue("teacherDetailRow", Row.class);
 	}
+	
+	public static boolean getFirstLogin() {
+		return SessionManager.getValue("firstLogin", Boolean.class);
+	}
 
 	////////////////////////
 	//Other stuff
@@ -156,8 +165,8 @@ public class DataManager {
 		try {
 			setUserID(userId);
 			setLoggedIn(true);
-			new TableReceiver().runUpdate("UPDATE user SET user_lastLogin = now() WHERE user_id = " + userId);
 			Table results = new TableReceiver().runQueryAndGet("SELECT * FROM user WHERE user_id = " + userId);
+			new TableReceiver().runUpdate("UPDATE user SET user_lastLogin = now() WHERE user_id = " + userId);
 			Row r = results.getRow(0);
 			
 			User user = User.fromRow(r);
@@ -169,6 +178,7 @@ public class DataManager {
 	        setLastName(user.getLastName());
 	        setDisplayName(user.getDisplayName());
 	        setDarkMode(user.isDarkMode());
+	        setFirstLogin(user.getLastLogin() == null);
 	        
 	        ArrayList<Permission> permissions = new ArrayList<Permission>();
 	        if (user.isAdmin()) {

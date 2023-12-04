@@ -43,6 +43,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 import com.vaadin.flow.theme.lumo.LumoUtility.Whitespace;
 import com.vaadin.flow.theme.lumo.LumoUtility.Width;
 
+import components.HasHelp;
 import components.NotLoggedInScreen;
 import database.TableReceiver;
 import database.User;
@@ -223,6 +224,19 @@ public class MainLayout extends AppLayout {
             });
     		menu.addItem(usersButton);
     	}
+    	
+    	Button helpButton = new Button("Hilfe");
+    	helpButton.setIcon(VaadinIcon.QUESTION.create());
+    	helpButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+    	helpButton.addClickListener(e -> {
+    		new HasHelp() {
+				@Override
+				public Component[] getPages() {
+					return new StartView().getPages();
+				}
+    		}.openHelp();
+    	});
+    	menu.addItem(helpButton);
     	
     	menu.setOpenOnClick(true);
     	menu.setTarget(userSpan);

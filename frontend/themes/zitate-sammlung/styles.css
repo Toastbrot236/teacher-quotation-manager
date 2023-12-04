@@ -243,3 +243,8 @@
 .hover-effect {
   position: relative;
 }
+
+@font-face {
+    font-family: "icon-font";
+    src: url("fonts/Vaadin-Icons.woff") format('woff');
+}
