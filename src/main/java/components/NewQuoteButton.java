@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
@@ -20,6 +21,7 @@ import database.Row;
 import database.TableReceiver;
 import service.DataManager;
 import service.Permission;
+import service.Toolkit;
 
 public class NewQuoteButton extends Button {
 	
@@ -56,12 +58,25 @@ public class NewQuoteButton extends Button {
 			teacherBox = new ComboBox<Row>("Lehrer");
 			if (teacherId == -1) {
 				teacherBox.setItems(retrieveTeachers());
-				teacherBox.setItemLabelGenerator(r -> ((r.get("teachers_gender", String.class).equals("m")) ? "Herr" : "Frau") + " " + r.get("teachers_name", String.class));
+				teacherBox.setItemLabelGenerator(r -> (Toolkit.formatTeacherName(r.get("teachers_gender", String.class), r.get("teachers_name", String.class))));
 
 				HorizontalLayout teacherLayout = new HorizontalLayout(teacherBox, new NewTeacherButton(this));
 				teacherLayout.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
 				dialogLayout.add(teacherLayout);
 			}
+			
+			
+			Checkbox studentCheckbox = new Checkbox("Schülerzitat");
+			if (id != -1)
+				studentCheckbox.setEnabled(false);
+			if (id == 79) 
+				studentCheckbox.setValue(true);
+			
+			studentCheckbox.addValueChangeListener(valueChangedEvent -> {
+					teacherBox.setEnabled(!valueChangedEvent.getValue());
+			});
+			dialogLayout.add(studentCheckbox);
+			
 			
 			TextArea textArea = new TextArea();
 	        textArea.setWidthFull();
@@ -76,6 +91,8 @@ public class NewQuoteButton extends Button {
 			Button saveButton = new Button("Hochladen");
 			saveButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS,ButtonVariant.LUMO_PRIMARY);
 			saveButton.addClickListener(event ->{
+				if (studentCheckbox.getValue() == true)
+					teacherId = 79;
 				if ((teacherId > 0 || teacherBox.getValue() != null) && !textArea.getValue().equals("")) {
 					String text = textArea.getValue().replace("\n", "<br/>").replace("\"", "\\\"").replace("'", "\\'");
 					createQuote(

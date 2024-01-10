@@ -3,6 +3,7 @@ package com.abi.quotes.views.start;
 import com.abi.processing.SortingType;
 import com.abi.quotes.views.MainLayout;
 import com.abi.quotes.views.profil.ProfilView;
+import com.abi.quotes.views.student_quote.StudentQuoteView;
 import com.abi.quotes.views.teacher.TeacherView;
 import com.abi.quotes.views.users.UsersView;
 import com.abi.quotes.views.zitate.ZitateView;
@@ -103,13 +104,14 @@ public class StartView extends VerticalLayout implements HasHelp {
     }
     
     private VerticalLayout createNavigationButtons() {
-        Button alleZitateButton = createNavigationButton("Alle Zitate", ZitateView.class);
+        Button alleZitateButton = createNavigationButton("Alle Lehrerzitate", ZitateView.class);
         alleZitateButton.setIcon(VaadinIcon.LIST.create());
         alleZitateButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         alleZitateButton.setWidth("80%");
         alleZitateButton.setMaxWidth("400px");
         
         Button zitateNachLehrerButton = createNavigationButton("Zitate nach Lehrer", TeacherView.class);
+        Button schuelerZitateButton = createNavigationButton("Schülerzitate", StudentQuoteView.class);
         
         NewQuoteButton newQuoteButton = new NewQuoteButton();
         newQuoteButton.setText("Neues Zitat einreichen");
@@ -121,7 +123,7 @@ public class StartView extends VerticalLayout implements HasHelp {
         Button nutzerverwaltungButton = createNavigationButton("Nutzerverwaltung", UsersView.class);
         nutzerverwaltungButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
 
-        VerticalLayout buttonsLayout = new VerticalLayout(alleZitateButton, zitateNachLehrerButton, newQuoteButton);
+        VerticalLayout buttonsLayout = new VerticalLayout(alleZitateButton, new HorizontalLayout(zitateNachLehrerButton, schuelerZitateButton), newQuoteButton);
         buttonsLayout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         
         if (DataManager.isAdmin())
@@ -141,7 +143,7 @@ public class StartView extends VerticalLayout implements HasHelp {
     }
     
     private QuoteList createQuoteList() {
-    	QuoteList list = new QuoteList(3, true);
+    	QuoteList list = new QuoteList(3, true, -1, true);
     	list.setSortingType(SortingType.NEWEST);
     	list.setHeightFull();
     	list.setHeight("110%");

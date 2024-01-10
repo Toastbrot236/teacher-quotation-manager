@@ -15,6 +15,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import database.Quote;
 import database.User;
 import service.DataManager;
+import service.Toolkit;
 
 public class QuoteBox extends VerticalLayout {
 
@@ -46,7 +47,7 @@ public class QuoteBox extends VerticalLayout {
 		
 		
 		teacherName = new Button();
-		teacherName.setText(((quote.getTeachersGender().equals("m")) ? "Herr" : "Frau") + " " + quote.getTeachersName());
+		teacherName.setText((Toolkit.formatTeacherName(quote.getTeachersGender(), quote.getTeachersName())));
 		teacherName.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 		teacherName.addClickListener(e -> {
 			DataManager.setTeacherDetail(quote.getTeachersId());

@@ -31,11 +31,13 @@ public class QuoteList extends VerticalLayout {
 	
 	private int limit;
 	
+	private boolean showStudentQuotes;
+	
 	public QuoteList(int limit, boolean smallRatingBars) {
-		this(limit, smallRatingBars, -1);
+		this(limit, smallRatingBars, -1, false);
 	}
 	
-	public QuoteList(int limit, boolean smallRatingBars, int teacherId) {
+	public QuoteList(int limit, boolean smallRatingBars, int teacherId, boolean showStudentQuotes) {
 		
 		
 		
@@ -43,6 +45,7 @@ public class QuoteList extends VerticalLayout {
 		sort = SortingType.NEWEST;
 		searchValue = "";
 		this.limit = limit;
+		this.showStudentQuotes = showStudentQuotes;
 		
 		list = new VirtualList<Quote>();
 		list.getStyle().set("border-top", "2px solid");
@@ -144,8 +147,10 @@ public class QuoteList extends VerticalLayout {
 		if (teacherId > 0)
 			return " WHERE teachers_id = " + teacherId;
 		if (!searchValue.equals(""))
-			return " WHERE quotes_text LIKE '%" + searchValue + "%'";
-		return "";
+			return " WHERE quotes_text LIKE '%" + searchValue + "%' AND WHERE NOT teachers_gender = 's'";
+		if (showStudentQuotes)
+			return "";
+		return " WHERE NOT teachers_gender = 's'";
 	}
 	
 	private String sortingClause() {

@@ -31,7 +31,7 @@ public class TeacherDetailView extends VerticalLayout {
         
         add(new TeacherBox(teacherId));
 
-        QuoteList list = new QuoteList(-1, true, teacherId);
+        QuoteList list = new QuoteList(-1, true, teacherId, false);
         list.setHeightFull();
         if (list.amountQuotes() == 0) {
         	setSpacing(true);

@@ -11,6 +11,7 @@ import com.vaadin.flow.theme.lumo.LumoIcon;
 import database.Comment;
 import database.Quote;
 import database.TableReceiver;
+import service.Toolkit;
 
 public class DeleteButton extends Button {
 	
@@ -53,8 +54,7 @@ public class DeleteButton extends Button {
 				"Zitat löschen",
 				"Zitat löschen?",
 				"Bist du dir sicher, dass du das Zitat von " 
-						+ (quote.getTeachersGender().equals("m") ? "Herr " : "Frau ")
-						+ quote.getTeachersName()
+						+ Toolkit.formatTeacherName(quote.getTeachersGender(), quote.getTeachersName())
 						+ " löschen möchtest?",
 				"DELETE FROM quotes WHERE quotes_id = " + quote.getId(),
 				compactDesign

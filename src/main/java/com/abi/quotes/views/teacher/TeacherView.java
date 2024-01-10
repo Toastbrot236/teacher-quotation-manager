@@ -48,6 +48,7 @@ public class TeacherView extends VerticalLayout {
 					+ "    (SELECT COUNT(comments_id) FROM comments JOIN quotes ON comments_quote = quotes_id WHERE quotes_originator = teachers_id) AS comments\r\n"
 					+ "FROM teachers\r\n"
 					+ "LEFT JOIN quotes ON quotes_originator = teachers_id\r\n"
+					+ "WHERE teachers_gender NOT LIKE 's'\r\n"
 					+ "ORDER BY teachers_name;"
 					).getRows();
 		} catch (SQLException e) {

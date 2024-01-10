@@ -20,6 +20,7 @@ import database.Row;
 import database.TableReceiver;
 import database.User;
 import service.DataManager;
+import service.Toolkit;
 
 public class TeacherBox extends VerticalLayout {
 	
@@ -40,9 +41,7 @@ public class TeacherBox extends VerticalLayout {
 		setSpacing(false);
 		
 		id = teacher.get("teachers_id", Integer.class);
-		name = (teacher.get("teachers_gender", String.class).equals("m") ?
-				"Herr " : "Frau ") +
-				teacher.get("teachers_name", String.class);
+		name = Toolkit.formatTeacherName(teacher.get("teachers_gender", String.class), teacher.get("teachers_name", String.class));
 		quotes = teacher.get("quotes", Long.class);
 		likes = teacher.get("likes", Long.class);
 		dislikes = teacher.get("dislikes", Long.class);
