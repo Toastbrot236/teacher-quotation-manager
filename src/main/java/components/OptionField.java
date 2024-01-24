@@ -18,7 +18,7 @@ public class OptionField extends HorizontalLayout {
 	
 	private TextFieldBase<?, String> field;
 	private String value, helpText; 
-	private Button editButton, saveButton, cancelButton;
+	private Button editButton, saveButton, cancelButton, helpButton;
 	private ValueSavedListener listener;
 	private EditButtonClickedListener editListener;
 	
@@ -38,7 +38,7 @@ public class OptionField extends HorizontalLayout {
 		add(field);
 		
 		if (helpText != null) {
-			Button helpButton = new Button(VaadinIcon.INFO_CIRCLE.create());
+			helpButton = new Button(VaadinIcon.INFO_CIRCLE.create());
 			helpButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE,
 					ButtonVariant.LUMO_ICON);
 			field.setSuffixComponent(helpButton);
@@ -178,6 +178,17 @@ public class OptionField extends HorizontalLayout {
 	
 	public void setSaveButtonEnabled(boolean newStatus) {
 		saveButton.setEnabled(newStatus);
+	}
+
+	public void setRed(boolean red) {
+		if (red == true) {
+			Icon ico = VaadinIcon.INFO_CIRCLE.create();
+			ico.setColor("#eb4d42");
+			helpButton.setIcon(ico);
+		}
+		else {
+			helpButton.setIcon(VaadinIcon.INFO_CIRCLE.create());
+		}
 	}
 
 }

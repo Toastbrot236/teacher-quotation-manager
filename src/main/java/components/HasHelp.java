@@ -33,8 +33,9 @@ public interface HasHelp {
         dialog.setWidth("90%");
         dialog.setMaxWidth("700px");
         dialog.setHeight("50%");
-        dialog.setModal(true);
+        dialog.setModal(false);
         dialog.setVisible(true);
+        dialog.setCloseOnOutsideClick(false);
        
         dialog.addComponentAsFirst(pages[currPage.get()]);
         

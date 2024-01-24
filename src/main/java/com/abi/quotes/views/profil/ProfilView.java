@@ -48,7 +48,8 @@ public class ProfilView extends VerticalLayout {
         lastNameField = new OptionField("Nachname", DataManager.getLastName(), null);
         displayNameField = new OptionField("Anzeigename", DataManager.getDisplayName(), "Hiermit kannst du einen alternativen Namen festlegen, mit dem du anderen angezeigt wirst. Dein Vorname sowie der Anfangbuchstabe deines Nachnamens bleiben dennoch ersichtlich.");
         passwordField = new OptionField("Passwort", DataManager.getPassword(), "WARNUNG: Dein Passwort kann unter Umständen von einem Administrator eingesehen werden! Verwende kein Passwort, das du auch auf anderen Webseiten benutzt!");
-        emailField = new OptionField("E-Mail", DataManager.getEmail(), "Zurzeit wird deine Email-Adresse nicht benötigt, erlaubt aber zukünftig Kontowiederherstellungen bei vergessenem Passwort.");
+        passwordField.setRed(true);
+        emailField = new OptionField("E-Mail", DataManager.getEmail(), "Deine Email-Adresse wird im Regelfall nicht benötigt, erlaubt aber Kontowiederherstellungen bei vergessenem Passwort.");
         usernameField = new OptionField("Benutzername", DataManager.getUsername(), "WARNUNG: Dein Nutzername dient ausschließlich zum Einloggen. Ohne ihn kommst du nicht mehr in deinen Account.");
 
         usernameField.setValueSavedListener(this::updateValues);

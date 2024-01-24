@@ -14,15 +14,20 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.contextmenu.ContextMenu;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.Notification.Position;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -57,7 +62,7 @@ public class StartView extends VerticalLayout implements HasHelp {
         	add(new NotLoggedInScreen());
         } else {
         	
-        	add(new Html("<div class=\"area\" >\n"
+        	Html effect = new Html("<div class=\"area\" >\n"
         			+ "            <ul class=\"circles\" style=\"width:90%; height:90%\">\n"
         			+ "                    <li></li>\n"
         			+ "                    <li></li>\n"
@@ -77,29 +82,54 @@ public class StartView extends VerticalLayout implements HasHelp {
         			+ "                    <li></li>\n"
         			+ "                    <li></li>\n"
         			+ "            </ul>\n"
-        			+ "    </div >"));
+        			+ "    </div >");
+        	effect.getStyle().set("z-index",  "-1000");
+        	add(effect);
         	
         	title = new H1("Willkommen, " + DataManager.getFirstName());
         	title.getStyle().set("margin-top", "10vh");
             title.getStyle().set("color", "var(--lumo-primary-text-color)");
             title.getStyle().set("font-size", "2em");
+            title.getStyle().set("user-select",  "none");
             
             VerticalLayout buttonsLayout = createNavigationButtons();
 
             add(title, buttonsLayout);
             
             H2 newQuotesHeadline = new H2("Neueste Zitate");
+            newQuotesHeadline.setId("newQuotesHeadline");
+            newQuotesHeadline.getElement().setAttribute("onclick", "document.getElementById('newQuotesHeadline').scrollIntoView()");
+            newQuotesHeadline.addClickListener(event -> {UI.getCurrent().getPage().executeJs("document.getElementById('newQuotesHeadline').scrollIntoView()");});
             newQuotesHeadline.getStyle().set("padding-left", "18px");
             newQuotesHeadline.getStyle().set("padding-top",  "90px");
+            newQuotesHeadline.getStyle().set("user-select",  "none");
             setHorizontalComponentAlignment(Alignment.START, newQuotesHeadline);
             add(newQuotesHeadline);
             
             add(createQuoteList());
         	
-            //If the user logged in for the first time, an introductory dialog is displayed
+            //If the user logged in for the first time, an introductory dialog is displayed and the cookie banner is shown
             if(DataManager.getFirstLogin()) {
+            	Notification cookieNotification = new Notification();
+                cookieNotification.setPosition(Position.BOTTOM_STRETCH);
+                cookieNotification.addThemeVariants(NotificationVariant.LUMO_CONTRAST);
+                HorizontalLayout dialogContent = new HorizontalLayout();
+                dialogContent.setWidthFull();
+                Image cookieImg = new Image("images/cookie.png", "Cookies");
+                cookieImg.setHeight("4em");
+                Html cookieText = new Html("<span style=\"font-size: 8pt\">Diese Website verwendet Cookies. Durch die Nutzung der Website stimmst du der Verwendung von Cookies zu.<span>");
+                cookieText.getStyle().setWidth("100%");
+                Button agreeButton = new Button("Ok");
+                agreeButton.addClickListener(event -> {
+                    cookieNotification.close();
+                });
+                agreeButton.addThemeVariants(ButtonVariant.LUMO_SMALL);
+                dialogContent.add(cookieImg, cookieText, agreeButton);
+                cookieNotification.add(dialogContent);
+                cookieNotification.open();   
+                
             	openHelp().addDialogCloseActionListener(e -> {DataManager.setFirstLogin(false); e.getSource().close();});
-            }      
+            }   
         }
     }
     
@@ -213,8 +243,8 @@ public class StartView extends VerticalLayout implements HasHelp {
 		comp2.add(new Html("<p>Auf dem Startbildschirm hast du neben einer Schnellansicht für die neuesten 3 Zitate direkt die Möglichkeit, "
 				+ "verschiedene Knöpfe zu betätigen.</p>"));
 		comp2.add(new Html("<p><font color=\"#117FFF\">Alle Zitate</font>: Zeigt dir eine Auflistung sämtlicher bisher eingetragener "
-				+ "Zitate, die du sortieren <span style=\"font-family: icon-font;\">filter</span> und durchsuchen "
-				+ "<span style=\"font-family: icon-font;\">search</span> kannst. Ein Klick auf das Zitat bringt dich auf eine neue Seite, "
+				+ "Zitate, die du sortieren und durchsuchen "
+				+ "kannst. Ein Klick auf das Zitat bringt dich auf eine neue Seite, "
 				+ "auf der auch das Kommentieren und Bearbeiten möglich ist."));
 		comp2.add(new Html("<p><font color=\"#117FFF\">Zitate nach Lehrer</font>: Eine Übersicht aller Lehrer der Schule. Ein Klick auf den "
 				+ "jeweiligen Lehrer zeigt dir dessen Zitate an."));
@@ -245,7 +275,7 @@ public class StartView extends VerticalLayout implements HasHelp {
 		comp4.add(new H3("Fragen, Feedback, Fehler?"));
 		comp4.add(new Html("<p>Nur her damit! Gib gerne all deine Verbesserungsvorschläge an mich, Jona, weiter. Entweder persönlich oder per "
 				+ "Mail an <a href=\"mailto:illusioquest@gmail.com\">illusioquest@gmail.com</a>.</p>"));
-		comp4.add(new Html("<p>Sollte dir einmal ein Bug auffallen, melde ihn bitte sofort! <span style=\"font-family: icon-font;\">bug bug bug wer rechnet denn damit dass hier ein geheimer text steht</span>"));
+		comp4.add(new Html("<p>Sollte dir einmal ein Bug auffallen, melde ihn bitte sofort!"));
 		
 		VerticalLayout comp5 = new VerticalLayout();
 		comp5.setPadding(false);
@@ -268,7 +298,7 @@ public class StartView extends VerticalLayout implements HasHelp {
 				+ "  <li><a href=\"https://ngrok.com/\">ngrok</a> (Zu Testzwecken während der Entwicklung)</li>"
 				+ "</ul>"));
 		comp5.add(new Html("<script src=\"https://zitate.webmart.de/zdt.js\" async></script>"));
-		comp5.add(new Html("<span style=\"font-family: monospace\"><small>Version 1.0</small></span>"));
+		comp5.add(new Html("<span style=\"font-family: monospace\"><small>Version 1.1</small></span>"));
 		comp5.add(new Html("<p>Du hast das alles gelesen? Dafür hast du dir einen Keks verdient. 🍪</p>"));
 		
 		return new Component[] {comp1, comp2, comp3, comp4, comp5};
