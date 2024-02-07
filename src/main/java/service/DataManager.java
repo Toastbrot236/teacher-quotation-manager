@@ -5,8 +5,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.abi.quotes.views.MainLayout;
+import com.google.gson.JsonObject;
 import com.vaadin.flow.server.VaadinService;
 
+import schulmanager.api.Session;
 import database.Row;
 import database.Table;
 import database.TableReceiver;
@@ -90,11 +92,24 @@ public class DataManager {
 		return firstLogin;
 	}
 	
+	public static Integer setSmId(Integer smId) {
+		SessionManager.saveValue("smId", smId);
+		return smId;
+	}
+	
+	public static Session setSmSession(Session session) {
+		SessionManager.saveValue("smSession", session);
+		return session;
+	}
+	
 	//////////////////////
 	//GETTER
 	
-	public static int getUserID () {
-		return SessionManager.getValue("userID", Integer.class);
+	public static Integer getUserID () {
+		Integer result = SessionManager.getValue("userID", Integer.class);
+		if (result == null)
+			return -1;
+		return result;
 	}
 	
 	public static String getPassword () {
@@ -148,6 +163,22 @@ public class DataManager {
 	public static boolean getFirstLogin() {
 		return SessionManager.getValue("firstLogin", Boolean.class);
 	}
+	
+	/**
+	 * Returns the Schulmanager's student ID of the user. If accounts are not connected, this will always return null, whereas every other return value proves a connection.
+	 * @return
+	 */
+	public static Integer getSmId() {
+		return SessionManager.getValue("smId", Integer.class);
+	}
+	
+	public static boolean accountsConnected() {
+		return getSmId() != null;
+	}
+	
+	public static Session getSmSession() {
+		return SessionManager.getValue("smSession", Session.class);
+	}
 
 	////////////////////////
 	//Other stuff
@@ -179,6 +210,7 @@ public class DataManager {
 	        setDisplayName(user.getDisplayName());
 	        setDarkMode(user.isDarkMode());
 	        setFirstLogin(user.getLastLogin() == null);
+	        setSmId(user.getSmId());
 	        
 	        ArrayList<Permission> permissions = new ArrayList<Permission>();
 	        if (user.isAdmin()) {
@@ -199,9 +231,15 @@ public class DataManager {
 	        if (user.isDelete()) {
 	            permissions.add(Permission.DELETE);
 	        }
+	        if (user.isTest()) {
+	        	permissions.add(Permission.TEST);
+	        }
 	        setPermissions(permissions.toArray(new Permission[permissions.size()]));
 	        
-	        mainLayout.updateUserSpan();
+	        if (mainLayout != null) {
+	        	mainLayout.updateUserSpan();
+	        	mainLayout.updateMoreButton();
+	        }
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -246,6 +284,20 @@ public class DataManager {
 	
 	public static boolean isAdmin() {
 		return Permission.isAdmin(getPermissions());
+	}
+	
+	public static boolean canTest() {
+		return Permission.canTest(getPermissions());
+	}
+	
+	//IGNORE, BAD STYLE FOLLOWING:
+	
+	public static void setSubscription(JsonObject sub) {
+		SessionManager.saveValue("subscription", sub);
+	}
+	
+	public static JsonObject getSubscription() {
+		return SessionManager.getValue("subscription", JsonObject.class);
 	}
 
 }

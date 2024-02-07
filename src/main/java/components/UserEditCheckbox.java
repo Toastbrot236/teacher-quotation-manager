@@ -29,7 +29,7 @@ public class UserEditCheckbox extends UserEdit<Boolean> {
 			}
 		});
 		
-		if (columnName.equals("user_admin")) {
+		if (columnName.equals("user_admin") || columnName.equals("user_connected")) {
 			checkbox.setReadOnly(true);
 		}
 		

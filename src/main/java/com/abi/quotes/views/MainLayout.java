@@ -1,17 +1,21 @@
 package com.abi.quotes.views;
 
 
+import com.abi.quotes.views.beta_test.BetaTestView;
+import com.abi.quotes.views.beta_test.BetaTestView.TimetableNav;
 import com.abi.quotes.views.login.LoginView;
 import com.abi.quotes.views.profil.ProfilView;
 import com.abi.quotes.views.start.StartView;
 import com.abi.quotes.views.users.UsersView;
 import com.abi.quotes.views.zitate.ZitateView;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.contextmenu.ContextMenu;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Header;
@@ -19,6 +23,7 @@ import com.vaadin.flow.component.html.ListItem;
 import com.vaadin.flow.component.html.Nav;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.html.UnorderedList;
+import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode;
@@ -26,6 +31,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.VaadinRequest;
+import com.vaadin.flow.shared.Registration;
 import com.vaadin.flow.theme.lumo.Lumo;
 import com.vaadin.flow.theme.lumo.LumoUtility.AlignItems;
 import com.vaadin.flow.theme.lumo.LumoUtility.BoxSizing;
@@ -57,10 +63,18 @@ import org.vaadin.lineawesome.LineAwesomeIcon;
 /**
  * The main view is a top-level placeholder for other views.
  */
+@CssImport(value = "themes/zitate-sammlung/footer.css")
 public class MainLayout extends AppLayout {
 	
 	private HorizontalLayout userDisplay;
 	private Button navButton;
+	
+	private VerticalLayout moreButton;
+	
+	public TimetableNav timetableNav;
+	
+	private boolean moreButtonHasUserMenu = false;
+	private Registration moreReg;
 
     /**
      * A simple navigation item component, based on ListItem element.
@@ -97,8 +111,9 @@ public class MainLayout extends AppLayout {
     public MainLayout() {
     	DataManager.mainLayout = this;
         addToNavbar(createHeaderContent());
-        updateUserSpan();
         cookieLogin();
+        //updateUserSpan();
+        
     }
 
     private Header header;
@@ -110,7 +125,7 @@ public class MainLayout extends AppLayout {
         Div layout = new Div();
         layout.addClassNames(Display.FLEX, AlignItems.CENTER, Padding.Horizontal.LARGE);
 
-        HorizontalLayout homeLayout = new HorizontalLayout();
+        /*HorizontalLayout homeLayout = new HorizontalLayout();
         H1 appName = new H1("Zitate-Sammlung");
         appName.addClassNames(Margin.Vertical.MEDIUM, Margin.End.AUTO, FontSize.LARGE);
         appName.addClickListener(e -> {
@@ -122,9 +137,9 @@ public class MainLayout extends AppLayout {
         	getUI().ifPresent(ui -> ui.navigate("start"));
         });
         homeLayout.add(appName, homeButton);
-        layout.add(homeLayout);
+        layout.add(homeLayout);*/
 
-        Nav nav = new Nav();
+        /*Nav nav = new Nav();
         nav.addClassNames(Display.FLEX, Overflow.AUTO, Padding.Horizontal.MEDIUM, Padding.Vertical.XSMALL);
 
         // Wrap the links in a list; improves accessibility
@@ -135,11 +150,57 @@ public class MainLayout extends AppLayout {
         for (MenuItemInfo menuItem : createMenuItems()) {
             list.add(menuItem);
 
-        }
+        }*/
 
-        header.add(layout);
+        //header.add(layout);
         //header.add(nav);
+        
+        layout.add(createNavButton("Stunden", VaadinIcon.CLOCK.create(), "test"));
+        layout.add(createNavButton("Chats", VaadinIcon.CHAT.create(), "chats"));
+        layout.add(createNavButton("Zitate", VaadinIcon.QUOTE_RIGHT.create(), "start"));
+        moreButton = createNavButton("Mehr", VaadinIcon.ELLIPSIS_DOTS_H.create(), null);
+        updateMoreButton();
+
+        layout.add(moreButton);
+        
+        header.add(layout);
         return header;
+    }
+    
+    public void updateMoreButton() {
+    	if (DataManager.getLoggedIn() == null || !DataManager.getLoggedIn()) {
+        	((Span) moreButton.getComponentAt(1)).setText("Anmelden");
+        	if (moreReg == null)
+	        	moreReg = moreButton.addClickListener(e -> {
+	        		getUI().ifPresent(ui -> ui.navigate(LoginView.class));
+	        	});
+        } else {
+        	if (moreReg != null)
+        		moreReg.remove();
+        	((Span) moreButton.getComponentAt(1)).setText("Mehr");
+        	if (!moreButtonHasUserMenu) {
+        		createUserMenu(moreButton);
+        		moreButtonHasUserMenu = true;
+        	}
+        }
+    }
+    
+    private VerticalLayout createNavButton(String name, Icon icon, String target) {
+    	
+    	VerticalLayout layout = new VerticalLayout();
+    	layout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+    	layout.setSpacing(false);
+    	layout.setPadding(false);
+    	layout.setMargin (false);
+    	
+    	layout.add(icon);
+    	layout.add(new Span(name));
+    	if (target != null)
+	        layout.addClickListener(e -> {
+	        	getUI().ifPresent(ui -> ui.navigate(target));
+	        });
+        
+        return layout;
     }
 
     private MenuItemInfo[] createMenuItems() {
@@ -185,7 +246,7 @@ public class MainLayout extends AppLayout {
     	header.addComponentAtIndex(1, userDisplay);
     }
     
-    private ContextMenu createUserMenu(HorizontalLayout userSpan) {
+    private ContextMenu createUserMenu(Component userSpan) {
     	ContextMenu menu = new ContextMenu();
     	
     	Button logoutButton = new Button("Abmelden");
@@ -194,6 +255,7 @@ public class MainLayout extends AppLayout {
     		DataManager.logout(); 
     		getUI().ifPresent(ui -> ui.navigate("start")); 
     		updateUserSpan();
+    		updateMoreButton();
     		}
     	);
     	menu.addItem(logoutButton);
@@ -250,7 +312,7 @@ public class MainLayout extends AppLayout {
     	getElement().executeJs("document.documentElement.setAttribute('theme', $0)", (dark) ? Lumo.DARK : Lumo.LIGHT);
     }
     
-    public void cookieLogin() {
+    public static void cookieLogin() {
     	Cookie[] cookies = VaadinRequest.getCurrent().getCookies();
     	
     	String username = "";
@@ -283,12 +345,28 @@ public class MainLayout extends AppLayout {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-    	
-    	
-		
-		
-		
+
+    }
+    
+    public void addTimetableNav(TimetableNav comp, BetaTestView view) {
+    	removeClassName("hide-timetable-nav");
+    	if (timetableNav == null) {
+	    	comp.addClassName("timetable-nav");
+	    	addToNavbar(comp);
+	    	timetableNav = comp;
+	    	timetableNav.changeView(view);
+    	}
+    	else {
+    		view.updateTtNavText();
+    		timetableNav.changeView(view);
+    	}
+    }
+    
+    /**
+     * One of the least elegant things done in this project... :(
+     */
+    public void removeTimetableNav() {
+    	this.addClassName("hide-timetable-nav");
     }
 
 }

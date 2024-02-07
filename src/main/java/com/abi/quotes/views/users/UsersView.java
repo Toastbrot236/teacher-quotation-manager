@@ -62,11 +62,12 @@ public class UsersView extends VerticalLayout {
 		    Grid.Column<User> c9 = userGrid.addComponentColumn(u -> cb(u, "user_edit")).setHeader("Edit").setFlexGrow(1).setAutoWidth(true).setResizable(true);
 		    Grid.Column<User> c10 = userGrid.addComponentColumn(u -> cb(u, "user_delete")).setHeader("Delete").setFlexGrow(1).setAutoWidth(true).setResizable(true);
 		    Grid.Column<User> c11 = userGrid.addComponentColumn(u -> cb(u, "user_admin")).setHeader("Admin").setFlexGrow(1).setAutoWidth(true).setResizable(true);
-		    Grid.Column<User> c12 = userGrid.addComponentColumn(u -> rp(u)).setHeader("Passwort").setFlexGrow(60).setResizable(true);
+		    Grid.Column<User> c12 = userGrid.addComponentColumn(u -> cb(u, "user_connected")).setHeader("SM verknüpft").setFlexGrow(1).setAutoWidth(true).setResizable(true);
+		    Grid.Column<User> c13 = userGrid.addComponentColumn(u -> rp(u)).setHeader("Passwort").setFlexGrow(60).setResizable(true);
 		    
 		    HeaderRow headerRow = userGrid.prependHeaderRow();
 		    headerRow.join(c1, c2, c3, c4, c5).setText("Nutzerdaten");
-		    headerRow.join(c6, c7, c8, c9, c10, c11).setText("Berechtigungen");
+		    headerRow.join(c6, c7, c8, c9, c10, c11, c12).setText("Berechtigungen");
 		    
 		    userGrid.setMultiSort(true, true);
 		    

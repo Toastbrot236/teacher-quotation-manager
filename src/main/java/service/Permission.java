@@ -6,7 +6,8 @@ public enum Permission {
     WRITE,
     RATE,
     EDIT,
-    DELETE;
+    DELETE,
+	TEST;
 
     public static boolean canRead(Permission[] ps) {
         for (Permission p : ps) {
@@ -51,6 +52,14 @@ public enum Permission {
     public static boolean canDelete(Permission[] ps) {
         for (Permission p : ps) {
             if (p == DELETE)
+                return true;
+        }
+        return false;
+    }
+    
+    public static boolean canTest(Permission[] ps) {
+        for (Permission p : ps) {
+            if (p == TEST)
                 return true;
         }
         return false;

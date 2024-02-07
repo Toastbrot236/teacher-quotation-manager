@@ -94,7 +94,7 @@ public class LoginView extends LoginOverlay {
 			DataManager.setLoginCookies(username, password);
 			DataManager.login(userId);
 			
-			this.getUI().ifPresent(ui -> ui.navigate("start"));
+			this.getUI().ifPresent(ui -> ui.navigate("test"));
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

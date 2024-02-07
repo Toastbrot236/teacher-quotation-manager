@@ -2,6 +2,7 @@ package com.abi.quotes.views.start;
 
 import com.abi.processing.SortingType;
 import com.abi.quotes.views.MainLayout;
+import com.abi.quotes.views.beta_test.BetaTestView;
 import com.abi.quotes.views.profil.ProfilView;
 import com.abi.quotes.views.student_quote.StudentQuoteView;
 import com.abi.quotes.views.teacher.TeacherView;
@@ -14,6 +15,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.contextmenu.ContextMenu;
+import com.vaadin.flow.component.dependency.JavaScript;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
@@ -46,7 +48,6 @@ import service.DataManager;
 
 @PageTitle("Start")
 @Route(value = "start", layout = MainLayout.class)
-@RouteAlias(value = "", layout = MainLayout.class)
 public class StartView extends VerticalLayout implements HasHelp {
 
 	private H1 title;
@@ -56,7 +57,7 @@ public class StartView extends VerticalLayout implements HasHelp {
         setSizeFull();
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         getStyle().set("text-align", "center");
-        
+                
         if (DataManager.getLoggedIn() == null || !DataManager.getLoggedIn()) {
         	setJustifyContentMode(JustifyContentMode.CENTER);
         	add(new NotLoggedInScreen());
@@ -152,12 +153,17 @@ public class StartView extends VerticalLayout implements HasHelp {
         
         Button nutzerverwaltungButton = createNavigationButton("Nutzerverwaltung", UsersView.class);
         nutzerverwaltungButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+        
+        //Button testsButton = createNavigationButton("Neues Zeug testen", BetaTestView.class);
+        //testsButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
 
         VerticalLayout buttonsLayout = new VerticalLayout(alleZitateButton, new HorizontalLayout(zitateNachLehrerButton, schuelerZitateButton), newQuoteButton);
         buttonsLayout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         
         if (DataManager.isAdmin())
         	buttonsLayout.add(nutzerverwaltungButton);
+        /*if (DataManager.canTest())
+        	buttonsLayout.add(testsButton);*/
         buttonsLayout.setSpacing(true);
         buttonsLayout.getStyle().set("margin-top", "20px");
 
@@ -296,10 +302,13 @@ public class StartView extends VerticalLayout implements HasHelp {
 				+ "  <li><a href=\"https://spring.io/\">Spring</a> (? Ist halt bei Vaadin dabei...)</li>"
 				+ "  <li><a href=\"https://github.com/\">GitHub</a> (Versionsmanagement / Veröffentlichung des Quellcodes)</li>"
 				+ "  <li><a href=\"https://ngrok.com/\">ngrok</a> (Zu Testzwecken während der Entwicklung)</li>"
+				+ "  <li><a href=\"https://www.veryicon.com/icons/file-type/color-file-icon-collection/\">veryicon</a> (Dateityp-Icons)</li>"
 				+ "</ul>"));
 		comp5.add(new Html("<script src=\"https://zitate.webmart.de/zdt.js\" async></script>"));
 		comp5.add(new Html("<span style=\"font-family: monospace\"><small>Version 1.1</small></span>"));
 		comp5.add(new Html("<p>Du hast das alles gelesen? Dafür hast du dir einen Keks verdient. 🍪</p>"));
+		comp5.add(new Html("<span>Übrigens, zu manchen Keksen passt auch prima Kaffee:"));
+		comp5.add(new Html("<a href=\"https://www.buymeacoffee.com/illusioquest?l=de\" target=\"_blank\"><img src=\"https://cdn.buymeacoffee.com/buttons/v2/default-blue.png\" alt=\"Buy Me A Coffee\" style=\"height: 60px !important;width: 217px !important;\" ></a>"));
 		
 		return new Component[] {comp1, comp2, comp3, comp4, comp5};
 	}

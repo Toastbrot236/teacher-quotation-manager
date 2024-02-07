@@ -116,6 +116,7 @@
   "@vaadin/integer-field": "24.1.6",
   "@vaadin/item": "24.1.6",
   "@vaadin/list-box": "24.1.6",
+  "@vaadin/lit-renderer": "24.1.6",
   "@vaadin/login": "24.1.6",
   "@vaadin/map": "24.1.6",
   "@vaadin/menu-bar": "24.1.6",
@@ -246,6 +247,7 @@
   "@vaadin/virtual-list/theme/lumo/vaadin-virtual-list.js",
   "Frontend/copytoclipboard.js",
   "Frontend/generated/jar-resources/buttonFunctions.js",
+  "Frontend/generated/jar-resources/color-picker.ts",
   "Frontend/generated/jar-resources/comboBoxConnector.js",
   "Frontend/generated/jar-resources/contextMenuConnector.js",
   "Frontend/generated/jar-resources/contextMenuTargetConnector.js",
@@ -266,15 +268,24 @@
   "Frontend/generated/jar-resources/vaadin-map/mapConnector.js",
   "Frontend/generated/jar-resources/vaadin-time-picker/timepickerConnector.js",
   "Frontend/generated/jar-resources/virtualListConnector.js",
-  "Frontend/themes/zitate-sammlung/loginBackground.css"
+  "Frontend/interaction.js",
+  "Frontend/themes/zitate-sammlung/file-viewer.css",
+  "Frontend/themes/zitate-sammlung/footer.css",
+  "Frontend/themes/zitate-sammlung/loginBackground.css",
+  "Frontend/themes/zitate-sammlung/schulmanager.css"
  ],
  "frontendHashes": {
   "themes/zitate-sammlung/components/vaadin-password-field.css": "0a7d91732f86b30fef5de7bcdb0f83539fea9a0e7d84c7e623f8f0f73afbfd8c",
   "themes/zitate-sammlung/components/vaadin-text-area.css": "0a7d91732f86b30fef5de7bcdb0f83539fea9a0e7d84c7e623f8f0f73afbfd8c",
   "themes/zitate-sammlung/components/vaadin-text-field.css": "0a7d91732f86b30fef5de7bcdb0f83539fea9a0e7d84c7e623f8f0f73afbfd8c",
+  "themes/zitate-sammlung/footer.css": "75126ace38c82d718d8a97ae038cb5c259d124897d9983031012d11a1f774ea5",
+  "themes/zitate-sammlung/schulmanager.css": "88e2a9540276e248c95f87e211cc5089766162dcb83241c7000fd59e7d8d3a7c",
+  "themes/zitate-sammlung/file-viewer.css": "be6ef74aaa0debeb1d9bcc058f58ed3179769338a8ef51c01d5e8cd1f42be59e",
   "themes/zitate-sammlung/loginBackground.css": "ba274857ec617fe0342c0fa1e351b2e2e6890daf2b9ccf365eff47720712f613",
   "copytoclipboard.js": "859e4bdb6dc0a38d85f43a474c4097369a6b1a16273130509f18e6e0058cc997",
+  "interaction.js": "e559431d00913842909a9a402babd8c2cfbe3402946a3347bcad539b57779237",
   "buttonFunctions.js": "c852123f9b2c44eb75e555119d3e05a7dbe78b91d0ab616feb9df1654474707d",
+  "color-picker.ts": "dfbb5ea4cbf54672e89cbde42c09fabfdb1104ed3c7566de6ae70fb1320f9ebc",
   "comboBoxConnector.js": "1d004c3dae9c76f8bcc68678abe1b8f7bdc8b456f5c9c4c7f190df8ed25d66cd",
   "contextMenuConnector.js": "25a200f8086461635ddd92316ebeb5a868294c8650a190efbae120edb1088f4f",
   "contextMenuTargetConnector.js": "870f67643988dd5618c247bd3c28d843f70aa026ee89f44c3c7556b5e70856af",
@@ -300,7 +311,7 @@
   "zitate-sammlung": "{\n  \"lumoImports\" : [ \"typography\", \"color\", \"spacing\", \"badge\", \"utility\" ]\n}"
  },
  "entryScripts": [
-  "VAADIN/build/indexhtml-c7ed2114.js"
+  "VAADIN/build/indexhtml-740b1fd3.js"
  ],
  "webComponents": [],
  "cvdlModules": {
@@ -335,6 +346,6 @@
  },
  "packageJsonHash": "b8efb9756f98032cbfd7247b8c1c9b9caaf0adef8344c592a655516ec4bef63d",
  "indexHtmlGenerated": [
-  "  <script type=\"module\" crossorigin src=\"./VAADIN/build/indexhtml-c7ed2114.js\"></script>"
+  "  <script type=\"module\" crossorigin src=\"./VAADIN/build/indexhtml-740b1fd3.js\"></script>"
  ]
 }

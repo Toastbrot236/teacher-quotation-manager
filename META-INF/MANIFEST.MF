@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Vaadin-Package-Version: 1
+Vaadin-Addon: touchkit-5.0.4.jar
+Implementation-Vendor: org.apache.maven.model.Organization@1473b8e3
+Implementation-Title: TouchKit
+Implementation-Version: 5.0.4

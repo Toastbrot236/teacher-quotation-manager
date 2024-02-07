@@ -147,7 +147,7 @@ public class QuoteList extends VerticalLayout {
 		if (teacherId > 0)
 			return " WHERE teachers_id = " + teacherId;
 		if (!searchValue.equals(""))
-			return " WHERE quotes_text LIKE '%" + searchValue + "%' AND WHERE NOT teachers_gender = 's'";
+			return " WHERE quotes_text LIKE '%" + searchValue + "%' AND NOT teachers_gender = 's'";
 		if (showStudentQuotes)
 			return "";
 		return " WHERE NOT teachers_gender = 's'";

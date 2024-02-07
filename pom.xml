@@ -43,6 +43,12 @@
     </dependencyManagement>
 
     <dependencies>
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.10.1</version>
+		</dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
             <!-- Replace artifactId with vaadin-core to use only free components -->
@@ -86,6 +92,11 @@
     		<groupId>java.mysql</groupId>
    			<artifactId>mysql-connector</artifactId>
     		<version>8.0.32</version>
+		</dependency>
+		<dependency>
+		   <groupId>org.vaadin.addons.tatu</groupId>
+		   <artifactId>colorpicker</artifactId>
+		   <version>1.4.1</version>
 		</dependency>
     </dependencies>
 

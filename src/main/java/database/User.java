@@ -19,10 +19,12 @@ public class User {
     private boolean edit;
     private boolean delete;
     private String password;
+    private boolean test;
+    private Integer smId;
     
     public User(int userId, String username, String firstName, String lastName, String displayName, Timestamp lastLogin,
             boolean admin, boolean read, boolean write, boolean rate, boolean darkMode, String email,
-            boolean edit, boolean delete, String password) {
+            boolean edit, boolean delete, String password, boolean test, Integer smId) {
     this.userId = userId;
     this.username = username;
     this.firstName = firstName;
@@ -38,6 +40,8 @@ public class User {
     this.edit = edit;
     this.delete = delete;
     this.password = password;
+    this.test = test;
+    this.smId = smId;
 }
 
     public User() {
@@ -178,6 +182,24 @@ public class User {
         databaseUpdate("user_password", password);
     }
     
+    public boolean isTest() {
+        return test;
+    }
+
+    public void setTest(boolean test) {
+        this.test = test;
+        databaseUpdate("user_test", test ? "1" : "0");
+    }
+    
+    public Integer getSmId() {
+    	return smId;
+    }
+    
+    public void setSmId(Integer smId) {
+    	this.smId = smId;
+    	databaseUpdate("user_smId", smId.toString());
+    }
+    
     public static User fromRow(Row row) {
         int userId = row.get("user_id", Integer.class);
         String username = row.get("user_username", String.class);
@@ -194,9 +216,11 @@ public class User {
         boolean edit = row.get("user_edit", Boolean.class);
         boolean delete = row.get("user_delete", Boolean.class);
         String password = row.get("user_password", String.class);
+        boolean test = row.get("user_test", Boolean.class);
+        Integer smId = row.get("user_smId", Integer.class);
 
         return new User(userId, username, firstName, lastName, displayName, lastLogin, admin, read, write, rate,
-                        darkMode, email, edit, delete, password);
+                        darkMode, email, edit, delete, password, test, smId);
     }
     
     public void databaseUpdate(String columnName, String newValue) {
@@ -262,6 +286,8 @@ public class User {
             case "user_delete":
                 value = isDelete();
                 break;
+            case "user_connected":
+            	value = smId != null;
         };
 
         return value;
@@ -280,4 +306,27 @@ public class User {
 			e.printStackTrace();
 		}
     }
+    
+    /**
+     * 
+     * @param userId
+     * @return String array of length 2, where index 0 contains username and index 1 contains password
+     */
+    public static String[] smCredentials(int userId) {
+    	try {
+			Table result = new TableReceiver().
+					runQueryAndGet(
+							"SELECT smCredentials_username, smCredentials_password FROM smCredentials JOIN user ON user_smId = smCredentials_id WHERE user_id = " + userId);
+			if (result.rowCount() == 0)
+				return null;
+			return new String[] {
+					result.get(0, "smCredentials_username", String.class),
+					result.get(0, "smCredentials_password", String.class)
+			};
+    	} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	return null;
+    }
+
 }

@@ -1,0 +1,10 @@
+vaadin-app-layout {
+	padding-block: var(--vaadin-app-layout-navbar-offset-bottom) var(--vaadin-app-layout-navbar-offset-top) !important;
+}
+
+vaadin-app-layout::part(navbar) {
+	bottom: 0 !important;
+	top: auto !important;
+    justify-content: center;
+	min-height: var(--lumo-size-l) !important;
+}

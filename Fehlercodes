@@ -1,5 +1,12 @@
 ------- 100: Datenbankfehler (programmatisch)
-101:  Der Name eines Lehrers konnte nicht anhand der ID ermittelt werden. Entweder wurde ein NewQuoteButton mi einer falschen ID erstellt oder es ist ein Verbindungsfehler zur Datenbank.
+101: Der Name eines Lehrers konnte nicht anhand der ID ermittelt werden. Entweder wurde ein NewQuoteButton mi einer falschen ID erstellt oder es ist ein Verbindungsfehler zur Datenbank.
 ------- 200: Datenbankfehler (wahrsch. Nutzer schuld)
 201: Fehler beim Aktualisieren der Nutzerdaten über das ProfilView in der Datenbank. Evtl. String zu lang (username: 20, first u. lastName u. pass: 30, displayName: 15, email: 50)
 202: Benutzername/Email bereits vergeben
+------- 300: Fehler, die eigentlich nie auftreten sollten, aber dennoch ein try-catch brauchen
+301: Fehler, beim Versuch die Nutzer, deren Stundenplan mit einem geteilt wurde, zu erhalten. Einzige Fehlerquelle: Falsche oder nicht vorhandene userID. Könnte nur auftreten, wenn bei nicht verknüpften Accounts ein TimetableSharingDialog geöffnet wird.
+302: Fehler, beim Versuch, alle Nutzer, deren Accounts verknüpft wurden, aus der Datenbank zu erhalten
+------- 400: URL-Parameter-Fehler
+401: Navigation zu /chat ohne angegebene threadId.
+402: Navigation zu /chat ohne angegebenes subject.
+403: Navigation zu /chat ohne angegebenen recipientString.
