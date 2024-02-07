@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 import com.abi.quotes.views.MainLayout;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification;
@@ -31,6 +33,8 @@ public class ProfilView extends VerticalLayout {
     private OptionField emailField;
     private OptionField usernameField;
     private Span idLabel;
+    
+    private Button removeConnectionButton;
 
     public ProfilView() {
     	setSpacing(false);
@@ -51,17 +55,22 @@ public class ProfilView extends VerticalLayout {
         passwordField.setRed(true);
         emailField = new OptionField("E-Mail", DataManager.getEmail(), "Deine Email-Adresse wird im Regelfall nicht benötigt, erlaubt aber Kontowiederherstellungen bei vergessenem Passwort.");
         usernameField = new OptionField("Benutzername", DataManager.getUsername(), "WARNUNG: Dein Nutzername dient ausschließlich zum Einloggen. Ohne ihn kommst du nicht mehr in deinen Account.");
-
+        removeConnectionButton = new Button("Schulmanager-Verknüpfung aufheben");
+        removeConnectionButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR);
+        removeConnectionButton.setEnabled(DataManager.accountsConnected());
+        removeConnectionButton.setDisableOnClick(true);
+        
         usernameField.setValueSavedListener(this::updateValues);
         emailField.setValueSavedListener(this::updateValues);
         passwordField.setValueSavedListener(this::updateValues);
         firstNameField.setValueSavedListener(this::updateValues);
         lastNameField.setValueSavedListener(this::updateValues);
         displayNameField.setValueSavedListener(this::updateValues);
+        removeConnectionButton.addClickListener(e -> removeSmConnection());
         
         idLabel.getStyle().set("transform", "translate(60px)");
 
-        add(new H2("Dein Profil"), usernameField, emailField, passwordField, firstNameField, lastNameField, displayNameField, idLabel);
+        add(new H2("Dein Profil"), usernameField, emailField, passwordField, firstNameField, lastNameField, displayNameField, idLabel, removeConnectionButton);
         }
     }
 
@@ -133,5 +142,16 @@ public class ProfilView extends VerticalLayout {
             not.setText("Fehler 201: " + e.getMessage());
             not.open();
         }
+    }
+    
+    private void removeSmConnection() {
+    	try {
+    		new TableReceiver().runUpdate("UPDATE user SET user_smId = NULL WHERE user_id = " + DataManager.getUserID());
+    		new TableReceiver().runUpdate("DELETE FROM smCredentials WHERE smCredentials_id = " + DataManager.getSmId());
+    		Notification.show("Accounts erfolgreich entkoppelt!");
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    		Notification.show("Fehler 102");
+    	}
     }
 }

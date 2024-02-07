@@ -1,5 +1,6 @@
 ------- 100: Datenbankfehler (programmatisch)
 101: Der Name eines Lehrers konnte nicht anhand der ID ermittelt werden. Entweder wurde ein NewQuoteButton mi einer falschen ID erstellt oder es ist ein Verbindungsfehler zur Datenbank.
+102: Die SM-Verknüpfung konnte nicht gelöscht werden; hier gibt es wohl Probleme mit der Session-Verfügbarkeit beider Nutzer-IDs.
 ------- 200: Datenbankfehler (wahrsch. Nutzer schuld)
 201: Fehler beim Aktualisieren der Nutzerdaten über das ProfilView in der Datenbank. Evtl. String zu lang (username: 20, first u. lastName u. pass: 30, displayName: 15, email: 50)
 202: Benutzername/Email bereits vergeben

@@ -154,7 +154,7 @@ public class BetaTestView extends VerticalLayout implements CalendarCalc {
         layout.setJustifyContentMode(JustifyContentMode.CENTER);
         
         //Creating timetable
-        timetable = new Timetable(r.getLessons(), start, true, currUserID); //TODO Change to allow timetable color sharing
+        timetable = new Timetable(r.getLessons(), start, true, currUserID);
         layout.add(timetable);
 
         UI.getCurrent().getPage().retrieveExtendedClientDetails(receiver -> {
@@ -175,7 +175,8 @@ public class BetaTestView extends VerticalLayout implements CalendarCalc {
         DataManager.getMainLayout().addTimetableNav(tNav, this);
         
         UI.getCurrent().addBeforeLeaveListener(e -> {
-        	DataManager.getMainLayout().removeTimetableNav();
+        	if (e.getNavigationTarget() != BetaTestView.class)
+        		DataManager.getMainLayout().removeTimetableNav();
         	tNav.personButton.setText(session.getStudent().get("firstname").getAsString() + " " + session.getStudent().get("lastname").getAsString());
         });
 
