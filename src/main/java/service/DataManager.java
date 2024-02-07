@@ -16,9 +16,16 @@ import database.User;
 import jakarta.servlet.http.Cookie;
 
 public class DataManager {
+
 	
-	public static MainLayout mainLayout;
+	public static MainLayout setMainLayout(MainLayout mainLayout) {
+		SessionManager.saveValue("mainLayout", mainLayout);
+		return mainLayout;
+	}
 	
+	public static MainLayout getMainLayout() {
+		return SessionManager.getValue("mainLayout", MainLayout.class);
+	}
 	//////////////////////
 	//SETTER
 	
@@ -236,9 +243,9 @@ public class DataManager {
 	        }
 	        setPermissions(permissions.toArray(new Permission[permissions.size()]));
 	        
-	        if (mainLayout != null) {
-	        	mainLayout.updateUserSpan();
-	        	mainLayout.updateMoreButton();
+	        if (getMainLayout() != null) {
+	        	getMainLayout().updateUserSpan();
+	        	getMainLayout().updateMoreButton();
 	        }
 			
 		} catch (SQLException e) {

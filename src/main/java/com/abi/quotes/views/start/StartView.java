@@ -294,6 +294,7 @@ public class StartView extends VerticalLayout implements HasHelp {
 		comp5.add(new Html("<p>GitHub-Repo: <a href = \"https://github.com/IllusioQuest/teacher-quotation-manager\">teacher-quotation-manager</a></p>"));
 		comp5.add(new Html("<p>Helfende Hände:</p>"));
 		comp5.add(new Html("<ul>\r\n"
+				+ "  <li><a href=\"https://schulmanager-online.de/\">Schulmanager</a> (Gesamter Stundenplan- und Chats-Sektor; nicht bloß eine helfende Hand, sondern dort essentiell für die Bereitstellung der Daten)</li>"
 				+ "  <li><a href=\"https://www.eclipse.org/\">Eclipse</a> (IDE)</li>"
 				+ "  <li><a href=\"https://cloud.google.com/run/\">Google Cloud Run</a> (Hosting)</li>"
 				+ "  <li><a href=\"https://www.docker.com/\">Docker</a> (Containerisierung)</li>"
@@ -305,7 +306,7 @@ public class StartView extends VerticalLayout implements HasHelp {
 				+ "  <li><a href=\"https://www.veryicon.com/icons/file-type/color-file-icon-collection/\">veryicon</a> (Dateityp-Icons)</li>"
 				+ "</ul>"));
 		comp5.add(new Html("<script src=\"https://zitate.webmart.de/zdt.js\" async></script>"));
-		comp5.add(new Html("<span style=\"font-family: monospace\"><small>Version 1.1</small></span>"));
+		comp5.add(new Html("<span style=\"font-family: monospace\"><small>Version 2.0</small></span>"));
 		comp5.add(new Html("<p>Du hast das alles gelesen? Dafür hast du dir einen Keks verdient. 🍪</p>"));
 		comp5.add(new Html("<span>Übrigens, zu manchen Keksen passt auch prima Kaffee:"));
 		comp5.add(new Html("<a href=\"https://www.buymeacoffee.com/illusioquest?l=de\" target=\"_blank\"><img src=\"https://cdn.buymeacoffee.com/buttons/v2/default-blue.png\" alt=\"Buy Me A Coffee\" style=\"height: 60px !important;width: 217px !important;\" ></a>"));

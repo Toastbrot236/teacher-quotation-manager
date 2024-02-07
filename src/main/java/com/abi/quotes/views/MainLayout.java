@@ -109,7 +109,7 @@ public class MainLayout extends AppLayout {
     }
 
     public MainLayout() {
-    	DataManager.mainLayout = this;
+    	DataManager.setMainLayout(this);
         addToNavbar(createHeaderContent());
         cookieLogin();
         //updateUserSpan();

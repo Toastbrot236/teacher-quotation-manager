@@ -172,10 +172,10 @@ public class BetaTestView extends VerticalLayout implements CalendarCalc {
         provideElementToJs();
         
         TimetableNav tNav = new TimetableNav();
-        DataManager.mainLayout.addTimetableNav(tNav, this);
+        DataManager.getMainLayout().addTimetableNav(tNav, this);
         
         UI.getCurrent().addBeforeLeaveListener(e -> {
-        	DataManager.mainLayout.removeTimetableNav();
+        	DataManager.getMainLayout().removeTimetableNav();
         	tNav.personButton.setText(session.getStudent().get("firstname").getAsString() + " " + session.getStudent().get("lastname").getAsString());
         });
 
@@ -345,7 +345,7 @@ public class BetaTestView extends VerticalLayout implements CalendarCalc {
 	}
 	
 	public void updateTtNavText() {
-		DataManager.mainLayout.timetableNav.personButton.setText(DataManager.getSmSession().getStudent().get("firstname").getAsString() + " " + DataManager.getSmSession().getStudent().get("lastname").getAsString());
+		DataManager.getMainLayout().timetableNav.personButton.setText(DataManager.getSmSession().getStudent().get("firstname").getAsString() + " " + DataManager.getSmSession().getStudent().get("lastname").getAsString());
 	}
 
 
