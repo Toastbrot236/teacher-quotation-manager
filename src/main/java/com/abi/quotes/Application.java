@@ -17,7 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @Theme(value = "zitate-sammlung")
-@PWA(name = "Zitate-Sammlung für das Abi 2026", shortName = "Abi-Zitate")
+@PWA(name = "SchulHub", shortName = "SchulHub", offlinePath="offline.html", offlineResources = { "schulmanager.css" })
 public class Application implements AppShellConfigurator {
 
     public static void main(String[] args) {
@@ -26,8 +26,15 @@ public class Application implements AppShellConfigurator {
     
     @Override
     public void configurePage(AppShellSettings settings) {
-      settings.addFavIcon("icon", "icons/favicon.ico", "32x32");
+      settings.addFavIcon("icon", "icons/apple-touch-icon.png", "32x32");
+      settings.addFavIcon("icon", "icons/favicon-32x32.png", "32x32");
+      settings.addFavIcon("icon", "icons/favicon-16x16.png", "16x16");
+      settings.addLink("manifest", "icons/site.webmanifest");
+      settings.addLink("mask-icon", "icons/safari-pinned-tab.svg");
       settings.addLink("shortcut icon", "icons/favicon.ico");
+      settings.addMetaTag("msapplication-TileColor", "#da532bc");
+      settings.addMetaTag("msapplication-config", "icons/browserconfig.xml");
+      settings.addMetaTag("theme-color", "#3ba2be");
     }
 
 }

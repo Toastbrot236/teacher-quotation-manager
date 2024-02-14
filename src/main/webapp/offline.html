@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchulHub - Offline</title>
+    <link rel="stylesheet" href="schulmanager.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .offline-message {
+            margin-top: 50px;
+            font-size: 24px;
+        }
+        .cached-data {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-message">
+        Du bist offline!
+    </div>
+    <div class="cached-data">
+        <p>Wir können dir aber trotzdem deinen Stundenplan der aktuellen Woche anzeigen. Der wurde zum Glück auf deinem Gerät gespeichert. Er ist zwar nicht so hübsch und funktionsreich wie in der Online-Version, aber er zeigt dir trotzdem den Vertretungsplan an. (Stand: Als du die App das letzte Mal online geöffnet hast)</p>
+        <div id="cached-content"></div>
+    </div>
+
+    <script>
+        if (typeof(Storage) !== "undefined" && localStorage.getItem("timetable")) {
+            var cachedContent = localStorage.getItem("timetable");
+            document.getElementById("cached-content").innerHTML = cachedContent;
+        } else {
+            document.getElementById("cached-content").innerHTML = "Aktuell leider nicht möglich.";
+        }
+    </script>
+</body>
+</html>

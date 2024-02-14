@@ -114,7 +114,7 @@ public class LessonBox extends VerticalLayout implements CalendarCalc {
 		
 		if (!substitution) {
 			html = String.format(
-				"<div class=\"timetable box %s%s%s\" style=\"background-color: var(--light); color: var(--dark); width: 100%%\">\r\n"
+				"<div class=\"timetable box %s%s%s\" style=\"--dark: %s; --light: %s; background-color: var(--light); color: var(--dark); width: 100%%\">\r\n"
 				+ "    <div class=\"vertical-bar\" style=\"background-color: var(--dark)\"></div>\r\n"
 				+ "    <span><b>%s</b></span>\r\n"
 				+ "    <span class=\"bottom\">%s</span>\r\n"
@@ -123,6 +123,12 @@ public class LessonBox extends VerticalLayout implements CalendarCalc {
 				subjectLabel,
 				cancelled ? " cancelled" : "",
 				(comment != null) ? " additional-info" : "",
+						
+				/*HTML*/
+				darker(getColor()),
+				getColor(),
+				/**/
+						
 				subjectLabel,
 				teacher.get("abbreviation").getAsString(),
 				room.get("name").getAsString()
@@ -135,7 +141,7 @@ public class LessonBox extends VerticalLayout implements CalendarCalc {
 		}
 		else {
 			html = String.format(
-					"<div class=\"timetable box %s%s\" style=\"background-color: var(--light); color: var(--dark); width: 100%%\">\r\n"
+					"<div class=\"timetable box %s%s\" style=\"--dark: %s; --light: %s; background-color: var(--light); color: var(--dark); width: 100%%\">\r\n"
 					+ "    <div class=\"vertical-bar\" style=\"background-color: var(--dark)\"></div>\r\n"
 					+ "    <div>\r\n"
 					+ "      <span class=\"subst\" style=\"background-color: var(--dark); color: var(--light);\"><b>%s</b></span>\r\n"
@@ -152,6 +158,12 @@ public class LessonBox extends VerticalLayout implements CalendarCalc {
 					+ "  </div>",
 					subjectLabel, //Class name of Box
 					(comment != null) ? " additional-info" : "",
+							
+					/*HTML*/
+					darker(getColor()),
+					getColor(),
+					/**/
+					
 					substitutionLesson.get("subjectLabel").getAsString(),
 					subjectLabel,
 					substitutionLesson.getAsJsonArray("teachers").get(0).getAsJsonObject().get("abbreviation").getAsString(),

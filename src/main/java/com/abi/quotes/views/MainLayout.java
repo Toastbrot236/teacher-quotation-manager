@@ -16,6 +16,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.contextmenu.ContextMenu;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Header;
@@ -30,6 +31,7 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.RouterLink;
+import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.VaadinRequest;
 import com.vaadin.flow.shared.Registration;
 import com.vaadin.flow.theme.lumo.Lumo;
@@ -56,6 +58,10 @@ import database.User;
 import jakarta.servlet.http.Cookie;
 import service.DataManager;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.SQLException;
 
 import org.vaadin.lineawesome.LineAwesomeIcon;
@@ -109,6 +115,9 @@ public class MainLayout extends AppLayout {
     }
 
     public MainLayout() {
+    	
+    	getElement().executeJs("document.documentElement.setAttribute('lang', 'de-de')");
+    	
     	DataManager.setMainLayout(this);
         addToNavbar(createHeaderContent());
         cookieLogin();
@@ -299,6 +308,27 @@ public class MainLayout extends AppLayout {
     		}.openHelp();
     	});
     	menu.addItem(helpButton);
+    	
+    	Button dataProtectionButton = new Button("Datenschutz");
+    	dataProtectionButton.setIcon(VaadinIcon.LOCK.create());
+    	dataProtectionButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+    	dataProtectionButton.addClickListener(e -> {
+    		try {
+	    		InputStream stream = getClass().getResourceAsStream("/META-INF/resources/texts/Datenschutz.html");
+	    		BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+	    		String html = "";
+	    		String line = reader.readLine();
+	    		while(line != null) {
+	    			html += line;
+					line = reader.readLine();
+				}
+	    		Dialog d = new Dialog();
+	    		d.add(new Html("<div>" + html + "</div>"));
+	    		d.open();
+    		} catch (IOException e1) {e1.printStackTrace();}
+    	});
+    	menu.addItem(dataProtectionButton);
+    	
     	
     	menu.setOpenOnClick(true);
     	menu.setTarget(userSpan);

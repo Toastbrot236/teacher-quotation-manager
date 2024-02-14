@@ -22,11 +22,14 @@ import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.Page;
+import com.vaadin.flow.component.page.WebStorage;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.server.VaadinRequest;
+import com.vaadin.flow.server.VaadinService;
 import com.vaadin.flow.shared.Registration;
 import com.vaadin.flow.theme.lumo.Lumo;
 
@@ -156,6 +159,10 @@ public class BetaTestView extends VerticalLayout implements CalendarCalc {
         //Creating timetable
         timetable = new Timetable(r.getLessons(), start, true, currUserID);
         layout.add(timetable);
+        
+        /*HTML*/
+        WebStorage.setItem("timetable", timetable.getHtml());
+		/**/
 
         UI.getCurrent().getPage().retrieveExtendedClientDetails(receiver -> {
             int screenWidth = receiver.getScreenWidth();

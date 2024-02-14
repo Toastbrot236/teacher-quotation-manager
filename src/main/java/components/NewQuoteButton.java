@@ -2,10 +2,12 @@ package components;
 
 import java.sql.SQLException;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -84,6 +86,7 @@ public class NewQuoteButton extends Button {
 	        dialogLayout.add(textArea);
 	        
 	        HorizontalLayout specialChars = new HorizontalLayout();
+	        textArea.setClassName("quote-input");
 	        specialChars.add(specialCharacterButton("„", textArea));
 	        specialChars.add(specialCharacterButton("“", textArea));
 	        dialogLayout.add(specialChars);
@@ -164,8 +167,7 @@ public class NewQuoteButton extends Button {
 	private Button specialCharacterButton(String c, TextArea area) {
 		Button button = new Button(c);
 		button.addClickListener(e -> {
-			area.setValue(area.getValue() + c);
-			area.focus();
+			UI.getCurrent().getPage().executeJs("window.insertAtCursor(document.getElementsByClassName(\"quote-input\")[0].children[2], \"" + c + "\")");
 		});
 		return button;
 	}

@@ -26,6 +26,7 @@ public class DataManager {
 	public static MainLayout getMainLayout() {
 		return SessionManager.getValue("mainLayout", MainLayout.class);
 	}
+	
 	//////////////////////
 	//SETTER
 	
@@ -109,6 +110,11 @@ public class DataManager {
 		return session;
 	}
 	
+	public static JsonObject[] setSubscriptions(JsonObject[] subscriptions) {
+		SessionManager.saveValue("subscriptions", subscriptions);
+		return subscriptions;
+	}
+	
 	//////////////////////
 	//GETTER
 	
@@ -185,6 +191,10 @@ public class DataManager {
 	
 	public static Session getSmSession() {
 		return SessionManager.getValue("smSession", Session.class);
+	}
+	
+	public static JsonObject[] getSubscriptions() {
+		return SessionManager.getValue("subscriptions", JsonObject[].class);
 	}
 
 	////////////////////////

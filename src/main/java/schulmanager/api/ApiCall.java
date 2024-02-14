@@ -47,6 +47,10 @@ public class ApiCall {
 		}
 	}
 	
+	public void removeAllRequests() {
+		this.requests = new ArrayList<Request>();
+	}
+	
 	private String generateRequestBody() {
 		JsonObject body = new JsonObject();
 		body.addProperty("bundleVersion", BUNDLE_VERSION);

@@ -1,6 +1,7 @@
 package com.abi.quotes.views.zitate;
 
 import com.abi.quotes.views.MainLayout;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
@@ -22,6 +23,7 @@ import service.Permission;
 
 @PageTitle("Zitate")
 @Route(value = "zitate", layout = MainLayout.class)
+@JsModule("./insertatcursor.js")
 public class ZitateView extends VerticalLayout {
 
     public ZitateView() {

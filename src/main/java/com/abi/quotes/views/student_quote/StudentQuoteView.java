@@ -1,6 +1,7 @@
 package com.abi.quotes.views.student_quote;
 
 import com.abi.quotes.views.MainLayout;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
@@ -22,6 +23,7 @@ import service.Permission;
 
 @PageTitle("Schülerzitate")
 @Route(value = "schuelerzitate", layout = MainLayout.class)
+@JsModule("./insertatcursor.js")
 public class StudentQuoteView extends VerticalLayout {
 
     public StudentQuoteView() {

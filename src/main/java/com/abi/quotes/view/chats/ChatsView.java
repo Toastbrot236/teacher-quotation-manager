@@ -8,6 +8,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import schulmanager.api.ApiCall;
+import schulmanager.api.ReloadMessagesRequest;
 import schulmanager.api.Request;
 import schulmanager.api.SubscriptionsRequest;
 import schulmanager.components.ChatOverviewBox;
@@ -25,10 +26,34 @@ public class ChatsView extends SmView {
 	protected void initialise() {
 		this.setHorizontalComponentAlignment(Alignment.START);
 		
+		JsonObject[] subs;
 		ApiCall call = new ApiCall(DataManager.getSmSession());
-		SubscriptionsRequest subscriptionsRequest = new SubscriptionsRequest();
-		call.addRequest(subscriptionsRequest);
-		call.execute();
+		
+		//Checks whether subscriptions have already been loaded during this session
+		if (DataManager.getSubscriptions() == null || DataManager.getSubscriptions().length == 0) {
+			//Gains subscriptions from API
+			SubscriptionsRequest subscriptionsRequest = new SubscriptionsRequest();
+			call.addRequest(subscriptionsRequest);
+			call.execute();
+			subs = DataManager.setSubscriptions(subscriptionsRequest.getSubscriptions());
+		}
+		else {
+			//If subscriptions have already been loaded, a reload-messages request is sent
+			subs = DataManager.getSubscriptions();
+			String lastMessageTimestamp = subs[0].getAsJsonObject("thread").get("lastMessageTimestamp").getAsString();
+			ReloadMessagesRequest reloadRequest = new ReloadMessagesRequest(lastMessageTimestamp);
+			call.addRequest(reloadRequest);
+			call.execute();
+			
+			//Checks whether something's changed
+			if (!reloadRequest.getResultString().equals("{\"status\":200,\"data\":[]}")) {
+				SubscriptionsRequest subscriptionsRequest = new SubscriptionsRequest();
+				call.removeAllRequests();
+				call.addRequest(subscriptionsRequest);
+				call.execute();
+				subs = DataManager.setSubscriptions(subscriptionsRequest.getSubscriptions());
+			}
+		}
 		
 		VerticalLayout innerLayout = new VerticalLayout();
 		innerLayout.setPadding(false);
@@ -37,7 +62,6 @@ public class ChatsView extends SmView {
 		innerLayout.setMaxWidth("800px");
 		innerLayout.setDefaultHorizontalComponentAlignment(Alignment.STRETCH);
 		
-		JsonObject[] subs = subscriptionsRequest.getSubscriptions();
 		for (int i = 0; i < subs.length; i++) {
 			ChatOverviewBox box = new ChatOverviewBox(subs[i]);
 			if (box.getUnreadCount() > 0)

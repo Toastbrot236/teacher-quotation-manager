@@ -1,0 +1,307 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil+Supplement&display=swap');
+
+:root {
+  color-scheme: only light;
+}
+
+.timetable, .timetable > * {
+  font-size: 12px;
+  font-family: "Noto Sans Tamil Supplement", sans-serif;
+  font-weight: 200;
+  line-height: 1.2;
+}
+  
+div.box {
+  color: var(--dark);
+  padding: 4px 4px 4px 8px;
+  height: 55px;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.2s;
+  transition: box-shadow 0.1s;
+  margin-bottom: 2.5px;
+  margin-top: 2.5px;
+}
+
+.box * b {
+  font-size: 16px;
+}
+
+.box > *{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.bottom {
+  margin-top: auto;
+}
+
+.vertical-bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 4px;
+  background-color: var(--dark);
+  border-radius: 2rem;
+}
+div.box:hover,
+div.box:focus {
+  box-shadow: 0 0.2em 1em 0.2em black;
+  transform: translateY(-0.25em);
+}
+
+.vertical-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.break {
+  padding-bottom: 25px;
+  border-top: 1px solid rgba(128, 128, 128, 0.2);
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.free {
+  margin-bottom: 68px;
+}
+
+.centered-element {
+  text-align: center;
+}
+
+
+
+div.box.cancelled {
+  background-color: #d4d4d4 !important;
+}
+
+.cancelled > .vertical-bar {
+  background-color: #8c8c8c !important;
+}
+
+.cancelled {
+  color: #8c8c8c !important;
+  text-decoration: line-through;
+}
+
+span.subst {
+  text-decoration: none !important;
+  color: var(--light);
+  background-color: var(--dark);
+  border-radius: 2px;
+  margin-right: 5px;
+  box-shadow: 0px 0px 0px 7px var(--dark);
+}
+
+span.origi, span.origi > b {
+  text-decoration: line-through;
+  font-size: 5px;
+}
+
+.additional-info::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 5px;
+  height: 5px;
+  background-color: white;
+  animation: blinking 0.4s 6 ease-in-out;
+  border: 2px solid var(--dark);
+  border-radius: 10px;
+}
+
+@keyframes blinking {
+  0% {
+    background-color: var(--lumo-primary-color);
+  }
+  100% {
+    background-color: #fff;
+  }
+}
+
+@keyframes moving1 {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes moving2 {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.sliding-right1 {
+  animation: moving1 2s ease-in;
+}
+
+.sliding-right2 {
+  animation: moving2 2s ease-out;
+}
+
+.sliding-right1r {
+  animation: moving1 2s reverse ease-in;
+}
+
+.sliding-right2r {
+  animation: moving2 2s reverse ease-out;
+}
+
+.timetable-nav {
+    position: fixed;
+    bottom: 60px;
+}
+
+.hide-timetable-nav > .timetable-nav, hide-timetable-nav > .timetable-nav-item {
+	display: none;
+}
+
+.timetable-nav-item {
+	box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+	background-color: var(--lumo-base-color);
+}
+
+[theme~='dark'] .timetable-nav-item {
+	box-shadow: rgba(208, 223, 248, 0.25) 0px 4px 8px -2px, rgba(208, 223, 248, 0.08) 0px 0px 0px 1px !important;
+}
+
+.header-top {
+  background-color: var(--lumo-base-color);
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  width: 110%;
+  z-index: 10;
+  margin-bottom: 10px;
+  outline: 18px solid var(--lumo-base-color);
+}
+
+.bubble
+{
+   position: relative;
+   padding: 0px;
+   background: var(--lumo-base-color);
+   -webkit-border-radius: 10px;
+   -moz-border-radius: 10px;
+   border-radius: 10px;
+   border: var(--lumo-contrast-10pct) solid 2px;
+   margin-bottom: 15px;
+   font-size: 16px;
+   font-family: "Noto Sans Tamil Supplement", sans-serif;
+   line-height: var(--lumo-line-height-s);
+}
+
+.bubble:after
+{
+	--bubble-base-color: transparent var(--lumo-base-color);
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 8px 14px 8px 0;
+    border-color: transparent var(--lumo-base-color);
+    display: block;
+    width: 0;
+    z-index: 1;
+    left: -14px;
+    top: 12px;
+}
+
+.bubble:before
+{
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 9px 15px 9px 0;
+    border-color: transparent var(--lumo-contrast-10pct);
+    display: block;
+    width: 0;
+    z-index: 0;
+    left: -17px;
+    top: 11px;
+}
+
+.bubble .sender {
+	font-size: 14px;
+	color: var(--lumo-primary-color);
+}
+
+.self-bubble
+{
+   position: relative;
+   padding: 0px;
+   -webkit-border-radius: 10px;
+   -moz-border-radius: 10px;
+   border-radius: 10px;
+   border: var(--lumo-contrast-10pct) solid 2px;
+   margin-bottom: 15px;
+   font-size: 14px;
+   background-color: var(--lumo-primary-color-50pct);
+   color: var(--lumo-base-color);
+   align-self: end;
+   font-size: 16px;
+   font-family: "Noto Sans Tamil Supplement", sans-serif;
+   line-height: var(--lumo-line-height-s);
+}
+
+.self-bubble:after
+{
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 8px 0 8px 14px;
+    border-color: transparent var(--lumo-primary-color-50pct) !important;
+    display: block;
+    width: 0;
+    z-index: 1;
+    right: -14px;
+    top: 12px;
+}
+
+.self-bubble:before
+{
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 9px 0 9px 15px;
+    border-color: transparent var(--lumo-contrast-10pct);
+    display: block;
+    width: 0;
+    z-index: 0;
+    right: -17px;
+    top: 11px;
+}
+
+.self-bubble .sender {
+	font-size: 14px;
+	color: var(--lumo-body-text-color);
+}
+
+.self-bubble {
+	background-color: var(--lumo-primary-color-50pct);
+	color: var(--lumo-base-color);
+}
+
+img.chat-image {
+	height: 150px;
+    width: 250px !important;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: 10px;
+	cursor: pointer;
+	transition: 0.3s;
+}
+
+img.chat-image:hover {
+	opacity: 0.7;
+}

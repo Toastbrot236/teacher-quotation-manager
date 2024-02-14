@@ -16,6 +16,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.contextmenu.ContextMenu;
 import com.vaadin.flow.component.dependency.JavaScript;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
@@ -48,6 +49,7 @@ import service.DataManager;
 
 @PageTitle("Start")
 @Route(value = "start", layout = MainLayout.class)
+@JsModule("./insertatcursor.js")
 public class StartView extends VerticalLayout implements HasHelp {
 
 	private H1 title;
@@ -306,7 +308,7 @@ public class StartView extends VerticalLayout implements HasHelp {
 				+ "  <li><a href=\"https://www.veryicon.com/icons/file-type/color-file-icon-collection/\">veryicon</a> (Dateityp-Icons)</li>"
 				+ "</ul>"));
 		comp5.add(new Html("<script src=\"https://zitate.webmart.de/zdt.js\" async></script>"));
-		comp5.add(new Html("<span style=\"font-family: monospace\"><small>Version 2.0.2</small></span>"));
+		comp5.add(new Html("<span style=\"font-family: monospace\"><small>Version 2.1.0</small></span>"));
 		comp5.add(new Html("<p>Du hast das alles gelesen? Dafür hast du dir einen Keks verdient. 🍪</p>"));
 		comp5.add(new Html("<span>Übrigens, zu manchen Keksen passt auch prima Kaffee:"));
 		comp5.add(new Html("<a href=\"https://www.buymeacoffee.com/illusioquest?l=de\" target=\"_blank\"><img src=\"https://cdn.buymeacoffee.com/buttons/v2/default-blue.png\" alt=\"Buy Me A Coffee\" style=\"height: 60px !important;width: 217px !important;\" ></a>"));

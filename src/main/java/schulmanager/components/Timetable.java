@@ -30,7 +30,12 @@ public class Timetable extends HorizontalLayout implements CalendarCalc {
 	
 	private boolean isOwnTimetable;
 	
+	private String html;
+	
 	public Timetable(JsonObject[] allLessons, LocalDate monday, boolean isOwnTimetable, int userID) {
+		
+		html = "<div style=\"display: flex; flex-direction: row; width: 100%; justify-content: space-between\">";
+		
 		this.monday = monday;
 		this.isOwnTimetable = isOwnTimetable;
 		this.userID = userID;
@@ -57,6 +62,10 @@ public class Timetable extends HorizontalLayout implements CalendarCalc {
 		for (int i = 0; i < 5; i++) {
 			add(dayColumn(lessons[i], monday.plusDays(i)));
 		}
+		
+		html += "</div>";
+		//System.out.println("START:\n" + html);
+		
 	}
 	
 	private Div dayColumn(JsonObject[] lessons, LocalDate day) {
@@ -64,6 +73,23 @@ public class Timetable extends HorizontalLayout implements CalendarCalc {
 		column.addClassName("vertical-container");
 		column.addClassName("timetable");
 		column.setWidthFull();
+		
+		
+		/*HTML*/
+		html += String.format(
+					"""
+				    <div class="vertical-container timetable">
+						<div class="centered-element" style="color: darkgrey">
+							<span style="font-size: 20px">%s</span>
+						</div>
+						<div class="centered-element" style="color: darkgrey">
+							<span style="font-size: 14px">%s</span>
+						</div>
+					""",
+					String.valueOf(day.getDayOfMonth()),
+					String.valueOf(getDayName(day))
+				);
+		/**/
 		
 		//Display for Day Number ( 1 to 31)
 		Div dayNumberContainer = new Div();
@@ -97,23 +123,37 @@ public class Timetable extends HorizontalLayout implements CalendarCalc {
 				Div freeDiv = new Div();
 				freeDiv.addClassName("free");
 				column.add(freeDiv);
+				/*HTML*/
+				html += "<div class=\"free\"/></div>";
+				/**/
 			}
 			else {
-				column.add(new LessonBox(
+				LessonBox box = new LessonBox(
 						lessons[i],
 						subjectColors,
 						lessonColors,
 						this,
-						isOwnTimetable));
+						isOwnTimetable);
+				column.add(box);
+				/*HTML*/
+				html += box.getHtml();
+				/*HTML*/
 			}
 			
 			if(i % 2 == 1 && i < 11) {
 				Div breakDiv = new Div();
 				breakDiv.addClassName("break");
 				column.add(breakDiv);
+				/*HTML*/
+				html += "<div class=\"break\"></div>";
+				/**/
 			}		
 		}
 		
+		/*HTML*/
+		html += "</div>";
+		/**/
+
 		return column;
 	}
 	
@@ -139,6 +179,10 @@ public class Timetable extends HorizontalLayout implements CalendarCalc {
 				html += "<div class=\"break\" style=\"margin-bottom:11px\"></div>";
 			}
 		}
+		
+		/*HTML*/
+		this.html += html + "</div>";
+		/*HTML*/
 		
 		return new Html(html + "</div>");
 	}
@@ -199,6 +243,10 @@ public class Timetable extends HorizontalLayout implements CalendarCalc {
 	
 	public void setIsOwnTimetable(boolean isOwnTimetable) {
 		this.isOwnTimetable = isOwnTimetable;
+	}
+	
+	public String getHtml() {
+		return html;
 	}
 
 }

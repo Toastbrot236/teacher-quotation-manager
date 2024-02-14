@@ -8,6 +8,7 @@ import components.QuoteList;
 import components.TeacherBox;
 import service.DataManager;
 
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
@@ -17,6 +18,7 @@ import com.vaadin.flow.router.Route;
 
 @PageTitle("Lehreransicht")
 @Route(value = "lehrer-detail", layout = MainLayout.class)
+@JsModule("./insertatcursor.js")
 public class TeacherDetailView extends VerticalLayout {
 	
 	private int teacherId;

@@ -3,6 +3,7 @@ package com.abi.quotes.views.chat_detail;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
@@ -19,14 +20,24 @@ import com.vaadin.flow.component.avatar.AvatarVariant;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.shared.Tooltip;
+import com.vaadin.flow.component.shared.Tooltip.TooltipPosition;
+import com.vaadin.flow.component.textfield.TextArea;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.upload.Upload;
+import com.vaadin.flow.component.upload.UploadI18N;
+import com.vaadin.flow.component.upload.receivers.MultiFileBuffer;
+import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
@@ -35,6 +46,7 @@ import com.vaadin.flow.router.OptionalParameter;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.QueryParameters;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.theme.lumo.LumoIcon;
 
 import schulmanager.api.ApiCall;
 import schulmanager.api.MessagesRequest;
@@ -55,6 +67,8 @@ public class ChatDetailView extends SmView implements HasUrlParameter<String> {
 	private boolean isPrivateChat = false;
 	private String recipientString = "Fehler 403";
 	private int unreadCount = 0;
+	
+	private Upload upload;
 	
 	//@Override
 	public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
@@ -88,6 +102,7 @@ public class ChatDetailView extends SmView implements HasUrlParameter<String> {
 		
 		createHeader();
 		createMessagesList();
+		createMessageBar();
 		
 	}
 	
@@ -120,7 +135,20 @@ public class ChatDetailView extends SmView implements HasUrlParameter<String> {
 		Span subjectSpan = new Span(subject);
 		subjectSpan.getStyle().set("font-weight", "bold");
 		headerTextLayout.add(subjectSpan);
-		headerTextLayout.add(new Span(recipientString));
+		
+		Span recipientSpan = new Span(
+				recipientString.length() > 80 
+				? recipientString.substring(0, 80) + "... Klick!" 
+				: recipientString);
+		Tooltip tooltip = Tooltip.forComponent(recipientSpan)
+				.withText(recipientString)
+				.withPosition(TooltipPosition.BOTTOM_START)
+				.withManual(true);
+		recipientSpan.addClickListener(e -> {
+			tooltip.setOpened(!tooltip.isOpened());
+		});
+		
+		headerTextLayout.add(recipientSpan);
 		header.add(headerTextLayout);
 		
 		header.addClassName("header-top");
@@ -139,6 +167,7 @@ public class ChatDetailView extends SmView implements HasUrlParameter<String> {
 		innerLayout.setWidth("100%");
 		innerLayout.setMaxWidth("800px");
 		innerLayout.getStyle().set("padding-top", "18px");
+		innerLayout.getStyle().set("padding-bottom", "100px");
 		
 		LocalDate currDate = null;
 		LocalDate date = null;
@@ -219,8 +248,107 @@ public class ChatDetailView extends SmView implements HasUrlParameter<String> {
 		return dateSpan;
 	}
 	
+	private void createMessageBar() {
+		if (canAnswer) {
+			VerticalLayout outerContainer = new VerticalLayout();
+			outerContainer.setMargin(false);
+			outerContainer.setPadding(false);
+			outerContainer.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+			
+			HorizontalLayout bar = new HorizontalLayout();
+			/*bar.*/outerContainer.getStyle().set("position", "fixed").set("bottom", "70px");
+			bar.setMaxHeight("30%");
+			bar.setWidthFull();
+			bar.setJustifyContentMode(JustifyContentMode.CENTER);
+			
+			Button attachmentButton = new Button(VaadinIcon.PAPERCLIP.create());
+			attachmentButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ICON);
+			attachmentButton.addClickListener(e -> {
+				toggleUpload(outerContainer);
+			});
+			
+			TextArea area = new TextArea();
+			area.setWidthFull();
+			area.setMaxWidth("800px");
+
+			Button sendButton = new Button(VaadinIcon.PAPERPLANE.create());
+			sendButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ICON);
+			
+			//TODO CHANGE ONCE FINISHED:
+			sendButton.setEnabled(false);
+			
+			bar.add(attachmentButton, area, sendButton);
+			
+			outerContainer.add(bar);
+			add(outerContainer);
+		}
+	}
 	
+	private void toggleUpload(VerticalLayout container) {
+		
+		if (upload == null) {
+		
+			/*Dialog uploadDialog = new Dialog();
+			uploadDialog.setHeaderTitle("Anhänge hochladen");
+			Button closeButton = new Button(LumoIcon.CROSS.create(),
+			        (e) -> uploadDialog.close());
+			closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+			uploadDialog.getHeader().add(closeButton);*/
+	
+			MultiFileBuffer buffer = new MultiFileBuffer();
+			Upload uploadComponent = new Upload(buffer);
+			uploadComponent.setI18n(getUploadI18n());
+	
+			/*Button uploadButton = new Button("Anhängen", e -> {
+				handleUploads(buffer);
+				uploadDialog.close();
+			});
+			uploadButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);*/
+			
+			/*VerticalLayout layout = new VerticalLayout(uploadComponent, uploadButton);
+			layout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);*/
+			
+			//uploadDialog.add(layout);
+			
+			container.addComponentAsFirst(uploadComponent);
+			
+			upload = uploadComponent;
+			
+			//uploadDialog.open();
+			
+		} else {
+			container.remove(upload);
+			upload = null;
+		}
+		
+	}
+	
+	private void handleUploads(MultiFileBuffer buffer) {
+		//buffer.
+	}
 
 	protected void initialise() {}
+	
+	public static UploadI18N getUploadI18n() {
+		UploadI18N i = new UploadI18N();
+		i.setDropFiles(new UploadI18N.DropFiles().setMany("Drag & Drop"));
+        i.setAddFiles(new UploadI18N.AddFiles().setMany("Dateien auswählen..."));
+        i.setError(new UploadI18N.Error().setTooManyFiles("Zu viele Dateien")
+               .setFileIsTooBig("Datei zu groß")
+               .setIncorrectFileType("Falscher Dateityp"));
+        i.setUploading(new UploadI18N.Uploading().setStatus(new UploadI18N.Uploading.Status()
+                .setConnecting("Verbinde...").setStalled("In der Warteschlange...")
+                .setProcessing("Lädt..."))
+                .setRemainingTime(new UploadI18N.Uploading.RemainingTime()
+                        .setPrefix("Verbleibend: ")
+                        .setUnknown("Zeit kann nicht abgeschätzt werden"))
+                .setError(new UploadI18N.Uploading.Error()
+                        .setServerUnavailable("Fehlgeschlagen")
+                        .setUnexpectedServerError("Unerwarteter Fehler")
+                        .setForbidden("Nicht autorisiert")));
+        i.setUnits(new UploadI18N.Units().setSize(Arrays.asList("B", "kB", "MB", "GB", "TB",
+                "PB", "EB", "ZB", "YB")));
+        return i;
+	}
 	
 }
