@@ -17,7 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @Theme(value = "zitate-sammlung")
-@PWA(name = "SchulHub", shortName = "SchulHub", offlinePath="offline.html", offlineResources = { "schulmanager.css" })
+@PWA(name = "SchulHub", shortName = "SchulHub", offlinePath="offline.html", offlineResources = { "schulmanager.css", "offline.html" })
 public class Application implements AppShellConfigurator {
 
     public static void main(String[] args) {
@@ -26,7 +26,7 @@ public class Application implements AppShellConfigurator {
     
     @Override
     public void configurePage(AppShellSettings settings) {
-      settings.addFavIcon("icon", "icons/apple-touch-icon.png", "32x32");
+      settings.addFavIcon("icon", "icons/apple-touch-icon.png", "180x180");
       settings.addFavIcon("icon", "icons/favicon-32x32.png", "32x32");
       settings.addFavIcon("icon", "icons/favicon-16x16.png", "16x16");
       settings.addLink("manifest", "icons/site.webmanifest");
