@@ -118,7 +118,11 @@ public class AttachmentDisplay extends VerticalLayout {
 		HorizontalLayout layout = new HorizontalLayout();
 		layout.setDefaultVerticalComponentAlignment(Alignment.CENTER);
 		
-		String imageUrl = "images/" + fileType.split("/")[1] + ".svg";
+		String type = fileType.split("/")[1];
+		if (type.equals("docx"))
+			type = "doc";
+		
+		String imageUrl = "images/" + type + ".svg";
 		
 		Anchor a = new Anchor(requestUrl);
 		Image img = new Image(imageUrl, "Unb. Dateityp");
