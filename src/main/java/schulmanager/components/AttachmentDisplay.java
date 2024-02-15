@@ -119,7 +119,7 @@ public class AttachmentDisplay extends VerticalLayout {
 		layout.setDefaultVerticalComponentAlignment(Alignment.CENTER);
 		
 		String type = fileType.split("/")[1];
-		if (type.equals("docx"))
+		if (type.equals("vnd.openxmlformats-officedocument. wordprocessingml.document") || type.equals("msword"))
 			type = "doc";
 		
 		String imageUrl = "images/" + type + ".svg";
