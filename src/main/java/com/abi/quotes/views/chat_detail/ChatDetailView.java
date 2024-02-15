@@ -181,6 +181,7 @@ public class ChatDetailView extends SmView implements HasUrlParameter<String> {
 				setReadCall.addRequest(new SetReadRequest(message, DataManager.getSubscription()));
 				setReadCall.execute();
 				unreadCount--;
+				DataManager.setSubscriptions(null);
 			}
 			
 			innerLayout.addComponentAsFirst(createMessageBox(message));
