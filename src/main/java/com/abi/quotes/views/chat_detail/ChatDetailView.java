@@ -50,6 +50,7 @@ import com.vaadin.flow.theme.lumo.LumoIcon;
 
 import schulmanager.api.ApiCall;
 import schulmanager.api.MessagesRequest;
+import schulmanager.api.SendMessageRequest;
 import schulmanager.api.SetReadRequest;
 import schulmanager.components.AttachmentDisplay;
 import schulmanager.components.ChatOverviewBox;
@@ -69,6 +70,8 @@ public class ChatDetailView extends SmView implements HasUrlParameter<String> {
 	private int unreadCount = 0;
 	
 	private Upload upload;
+	
+	private VerticalLayout innerLayout;
 	
 	//@Override
 	public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
@@ -161,7 +164,7 @@ public class ChatDetailView extends SmView implements HasUrlParameter<String> {
 		call.addRequest(request);
 		call.execute();
 		
-		VerticalLayout innerLayout = new VerticalLayout();
+		innerLayout = new VerticalLayout();
 		innerLayout.setPadding(false);
 		innerLayout.setSpacing(false);
 		innerLayout.setWidth("100%");
@@ -191,9 +194,10 @@ public class ChatDetailView extends SmView implements HasUrlParameter<String> {
 				currDate = date;
 			}
 			if (!currDate.equals(date)) {
-				Component dateDisplay = createDateDisplay(date);
-				innerLayout.addComponentAsFirst(dateDisplay);
+				Component dateDisplay = createDateDisplay(currDate);
+				innerLayout.addComponentAtIndex(1, dateDisplay);
 				innerLayout.setHorizontalComponentAlignment(Alignment.CENTER, dateDisplay);
+				currDate = date;
 			}
 		}
 		Component dateDisplay = createDateDisplay(date);
@@ -267,6 +271,7 @@ public class ChatDetailView extends SmView implements HasUrlParameter<String> {
 			attachmentButton.addClickListener(e -> {
 				toggleUpload(outerContainer);
 			});
+			attachmentButton.setEnabled(false); //TODO
 			
 			TextArea area = new TextArea();
 			area.setWidthFull();
@@ -275,14 +280,28 @@ public class ChatDetailView extends SmView implements HasUrlParameter<String> {
 			Button sendButton = new Button(VaadinIcon.PAPERPLANE.create());
 			sendButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ICON);
 			
-			//TODO CHANGE ONCE FINISHED:
-			sendButton.setEnabled(false);
+			sendButton.setEnabled(true);
+			sendButton.addClickListener(e -> {
+				if (area.getValue() != null && !area.getValue().equals("")) {
+					JsonObject sentMessage = sendMessage(area.getValue());
+					area.clear();
+					innerLayout.add(createMessageBox(sentMessage));
+				}
+			});
 			
 			bar.add(attachmentButton, area, sendButton);
 			
 			outerContainer.add(bar);
 			add(outerContainer);
 		}
+	}
+	
+	private JsonObject sendMessage(String text) {
+		ApiCall call = new ApiCall(session);
+		SendMessageRequest r = new SendMessageRequest(text, DataManager.getSubscription().getAsJsonObject("thread"));
+		call.addRequest(r);
+		call.execute();
+		return r.getMessage();
 	}
 	
 	private void toggleUpload(VerticalLayout container) {
