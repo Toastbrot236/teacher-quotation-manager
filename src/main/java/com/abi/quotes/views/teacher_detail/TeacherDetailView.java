@@ -8,9 +8,12 @@ import components.QuoteList;
 import components.TeacherBox;
 import service.DataManager;
 
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -30,6 +33,16 @@ public class TeacherDetailView extends VerticalLayout {
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
        
         getStyle().set("text-align", "center");
+        
+        Button backButton = new Button("Zurück zur Lehrer-Übersicht");
+        backButton.setIcon(VaadinIcon.ARROW_BACKWARD.create());
+        backButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY, ButtonVariant.LUMO_SMALL);
+        backButton.getStyle().setMarginBottom("0");
+        this.setHorizontalComponentAlignment(Alignment.START, backButton);
+        backButton.addClickListener(e -> {
+			getUI().ifPresent(ui -> ui.navigate("lehrer"));
+		});
+        add(backButton);
         
         add(new TeacherBox(teacherId));
 

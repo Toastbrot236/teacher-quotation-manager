@@ -14,6 +14,7 @@ import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.progressbar.ProgressBar;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -44,6 +45,16 @@ public class QuoteDetailView extends VerticalLayout {
         setSizeFull();
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         getStyle().set("text-align", "center");
+        
+        Button backButton = new Button("Zurück zur Zitate-Übersicht");
+        backButton.setIcon(VaadinIcon.ARROW_BACKWARD.create());
+        backButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY, ButtonVariant.LUMO_SMALL);
+        backButton.getStyle().setMarginBottom("0");
+        this.setHorizontalComponentAlignment(Alignment.START, backButton);
+        backButton.addClickListener(e -> {
+			getUI().ifPresent(ui -> ui.navigate("zitate"));
+		});
+        add(backButton);
         
         if (DataManager.getLoggedIn() == null || !DataManager.getLoggedIn()) {
         	add(new NotLoggedInScreen());
