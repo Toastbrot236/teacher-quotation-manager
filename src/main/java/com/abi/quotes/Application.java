@@ -17,7 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @Theme(value = "zitate-sammlung")
-@PWA(name = "SchulHub", shortName = "SchulHub", offlinePath="offline.html", offlineResources = { "schulmanager.css", "offline.html" })
+@PWA(name = "SchulHub", shortName = "SchulHub", offlinePath = "offline.html", offlineResources = { "./schulmanager.css"})
 public class Application implements AppShellConfigurator {
 
     public static void main(String[] args) {

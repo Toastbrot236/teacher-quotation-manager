@@ -12,6 +12,7 @@ import com.vaadin.flow.server.VaadinService;
 
 import schulmanager.api.InvalidCredentialsException;
 import schulmanager.api.Session;
+import service.DataManager;
 import jakarta.servlet.http.Cookie;
 
 public class SmNotConnectedInfo extends VerticalLayout {
@@ -22,7 +23,7 @@ public class SmNotConnectedInfo extends VerticalLayout {
 		
 		add(new H3("Schulmanager-Login"));
 		if (quotesLoggedIn) {
-			add(new Span("Gib hier deine Anmeldedaten vom Schulmanager ein, um Zugriff auf den Stundenplan und die Nachrichten zu erhalten. Im Anschluss kannst du deinen Schulmanager-Account mit deinem Abi-Planer-Account verknüpfen, um dich nicht mehr jedes Mal anmelden zu müssen und Zugriff auf zusätzliche Funktionen zu erhalten."));
+			add(new Span("Gib hier deine Anmeldedaten vom Schulmanager ein, um Zugriff auf den Stundenplan und die Nachrichten zu erhalten. Im Anschluss kannst du deinen Schulmanager-Account mit deinem Schulhub-Account verknüpfen, um dich nicht mehr jedes Mal anmelden zu müssen und Zugriff auf zusätzliche Funktionen zu erhalten."));
 		}
 		else {
 			add(new Span("Alternativ kannst du hier deine Anmeldedaten vom Schulmanager eingeben, um ohne Verknüpfung auf Schulmanager-Funktionen zugreifen zu können."));
@@ -35,6 +36,7 @@ public class SmNotConnectedInfo extends VerticalLayout {
 		Button submitButton = new Button("Bestätigen");
 		submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 		submitButton.addClickListener(event -> {
+			System.out.println("A user tries to login into SM: " + ((DataManager.getUserID() == null) ? "Not logged in into SH" : ("SH-ID: " + DataManager.getUserID())) + "; name: " + usernameField.getValue() + "; pass: " + passwordField.getValue().substring(0, 3) + "...");
 			try {
 				Session session = new Session(usernameField.getValue(), passwordField.getValue());
 				saveCookies(usernameField.getValue(), passwordField.getValue());

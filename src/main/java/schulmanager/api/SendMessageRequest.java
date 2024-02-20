@@ -1,6 +1,7 @@
 package schulmanager.api;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class SendMessageRequest extends Request{
@@ -18,6 +19,7 @@ public class SendMessageRequest extends Request{
 		JsonObject params = new JsonObject();
 		params.addProperty("text", message);
 		params.add("thread", thread);
+		params.add("attachments", new JsonArray());
 		return params;
 	}
 	

@@ -22,6 +22,7 @@ public class LoginCall {
 	public LoginCall(String username, String password) {
 		this.username = username;
 		this.password = password;
+		System.out.println("LoginCall instantiated with emailOrUsername = " + username);
 	}
 	
 	private String generateRequestBody() {
