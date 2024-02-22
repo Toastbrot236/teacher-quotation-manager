@@ -12,6 +12,9 @@ import org.vaadin.addons.tatu.ColorPicker.CaptionMode;
 import org.vaadin.addons.tatu.ColorPicker.ColorPreset;
 import org.vaadin.addons.tatu.ColorPickerVariant;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.vaadin.flow.component.Html;
@@ -30,6 +33,7 @@ import com.vaadin.flow.component.radiobutton.RadioGroupVariant;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 
 import database.TableReceiver;
+import elemental.json.Json;
 import service.CalendarCalc;
 import service.DataManager;
 
@@ -87,9 +91,24 @@ public class LessonBox extends VerticalLayout implements CalendarCalc {
 		else 
 			originalLesson = lesson.getAsJsonObject("actualLesson");
 
-		JsonObject room = originalLesson.getAsJsonObject("room");
+		//For students having French at RWG, room and teacher can be null
+		JsonElement roomElement = originalLesson.get("room");
+		JsonObject room;
+		if (roomElement.isJsonNull()) {
+			room = new Gson().fromJson("{\"id\":-1,\"name\":\"RWG\"}", JsonObject.class);
+		} else {
+			room = originalLesson.getAsJsonObject("room");
+		}
+		
+		JsonArray teacherArray = originalLesson.getAsJsonArray("teachers");
+		JsonObject teacher;
+		if (teacherArray.size() == 0) {
+			teacher = new Gson().fromJson("{\"id\":-1,\"abbreviation\":\"---\",\"firstname\":\"Nicht\",\"lastname\":\"bekannt\"}", JsonObject.class);
+		} else {
+			teacher = originalLesson.getAsJsonArray("teachers").get(0).getAsJsonObject();
+		}
+		
 		JsonObject subject = originalLesson.getAsJsonObject("subject");
-		JsonObject teacher = originalLesson.getAsJsonArray("teachers").get(0).getAsJsonObject();
 		
 		subjectLabel = originalLesson.get("subjectLabel").getAsString();
 		
