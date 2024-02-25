@@ -94,14 +94,15 @@ public class NewQuoteButton extends Button {
 			Button saveButton = new Button("Hochladen");
 			saveButton.addThemeVariants(ButtonVariant.LUMO_SUCCESS,ButtonVariant.LUMO_PRIMARY);
 			saveButton.addClickListener(event ->{
+				int tempTeacherId = teacherId;
 				if (studentCheckbox.getValue() == true)
-					teacherId = 79;
-				if ((teacherId > 0 || teacherBox.getValue() != null) && !textArea.getValue().equals("")) {
+					tempTeacherId = 79;
+				if ((tempTeacherId > 0 || teacherBox.getValue() != null) && !textArea.getValue().equals("")) {
 					String text = textArea.getValue().replace("\n", "<br/>").replace("\"", "\\\"").replace("'", "\\'");
 					createQuote(
 							DataManager.getUserID(),
 							text,
-							(teacherId > 0) ? teacherId : teacherBox.getValue().get("teachers_id", Integer.class),
+							(tempTeacherId > 0) ? tempTeacherId : teacherBox.getValue().get("teachers_id", Integer.class),
 							"l"
 					);
 					dialog.close();

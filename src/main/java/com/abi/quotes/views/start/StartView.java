@@ -4,6 +4,7 @@ import com.abi.processing.SortingType;
 import com.abi.quotes.views.MainLayout;
 import com.abi.quotes.views.beta_test.BetaTestView;
 import com.abi.quotes.views.profil.ProfilView;
+import com.abi.quotes.views.pushtest.PushTestView;
 import com.abi.quotes.views.student_quote.StudentQuoteView;
 import com.abi.quotes.views.teacher.TeacherView;
 import com.abi.quotes.views.users.UsersView;
@@ -54,6 +55,7 @@ import service.DataManager;
 public class StartView extends VerticalLayout implements HasHelp {
 
 	private H1 title;
+	private QuoteList list;
 	
     public StartView() {
         setSpacing(false);
@@ -153,20 +155,21 @@ public class StartView extends VerticalLayout implements HasHelp {
         newQuoteButton.getStyle().set("background-color", "var(--lumo-success-color)");
         newQuoteButton.getStyle().set("color", "white");
         newQuoteButton.getStyle().set("font-weight", "bold");
+        newQuoteButton.setQuoteCreationListener(() -> list.update());
         
         Button nutzerverwaltungButton = createNavigationButton("Nutzerverwaltung", UsersView.class);
         nutzerverwaltungButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         
-        //Button testsButton = createNavigationButton("Neues Zeug testen", BetaTestView.class);
-        //testsButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+        Button testsButton = createNavigationButton("Neues Zeug testen", PushTestView.class);
+        testsButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
 
         VerticalLayout buttonsLayout = new VerticalLayout(alleZitateButton, new HorizontalLayout(zitateNachLehrerButton, schuelerZitateButton), newQuoteButton);
         buttonsLayout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         
         if (DataManager.isAdmin())
         	buttonsLayout.add(nutzerverwaltungButton);
-        /*if (DataManager.canTest())
-        	buttonsLayout.add(testsButton);*/
+        if (DataManager.canTest())
+        	buttonsLayout.add(testsButton);
         buttonsLayout.setSpacing(true);
         buttonsLayout.getStyle().set("margin-top", "20px");
 
@@ -182,7 +185,7 @@ public class StartView extends VerticalLayout implements HasHelp {
     }
     
     private QuoteList createQuoteList() {
-    	QuoteList list = new QuoteList(3, true, -1, true);
+    	list = new QuoteList(3, true, -1, true);
     	list.setSortingType(SortingType.NEWEST);
     	list.setHeightFull();
     	list.setHeight("110%");

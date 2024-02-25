@@ -50,6 +50,17 @@ public class Timetable extends HorizontalLayout implements CalendarCalc {
 		for (int i = 0; i < allLessons.length; i++) {
 			int dayOfWeek = fromString(allLessons[i].get("date").getAsString()).getDayOfWeek().getValue()-1;
 			int hour = allLessons[i].get("classHour").getAsJsonObject().get("number").getAsInt()-1;
+			
+			//CORRECT French RWG lessons' positions
+			if (userID == 40 || userID == 17) {
+				if (dayOfWeek == 1 && hour == 4)
+					hour = 7;
+				else if (dayOfWeek == 1 && hour == 5)
+					hour = 8;
+				else if (dayOfWeek == 4 && hour == 0)
+					hour = 7;
+			}
+			
 			lessons[dayOfWeek][hour] = allLessons[i];
 		}
 		
