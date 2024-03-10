@@ -55,9 +55,8 @@ public class QuoteList extends VerticalLayout {
 			QuoteBox box = new QuoteBox(quote);
 			if (smallRatingBars)
 				box.setRatingBarSmall();
-			quote.setAsscociatedBox(box);
 			if (!searchValue.equals("")) {
-				markFoundTextParts(quote);
+				markFoundTextParts(box);
 			}
 			return box;
 		}));
@@ -175,8 +174,8 @@ public class QuoteList extends VerticalLayout {
 		return amountQuotes;
 	}
 	
-	private void markFoundTextParts(Quote q) {
-		q.getAsscociatedBox().mark(searchValue);
+	private void markFoundTextParts(QuoteBox q) {
+		q.mark(searchValue);
 	}
 
 }

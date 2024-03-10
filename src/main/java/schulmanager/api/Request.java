@@ -5,19 +5,22 @@ import com.google.gson.JsonObject;
 public abstract class Request {
 	
 	private String endpointName, moduleName;
+	protected boolean hasParameters;
 	
 	protected JsonObject result;
 	
 	protected Request(String endpointName, String moduleName) {
 		this.endpointName = endpointName;
 		this.moduleName = moduleName;
+		hasParameters = true;
 	}
 	
 	public JsonObject toJson(Session session) {
 		JsonObject request = new JsonObject();
 		request.addProperty("endpointName", endpointName);
 		request.addProperty("moduleName", moduleName);
-		request.add("parameters", createParameters(session));
+		if (hasParameters)
+			request.add("parameters", createParameters(session));
 		
 		return request;
 	}

@@ -3,7 +3,12 @@ package com.abi.quotes.view.chats;
 import com.abi.quotes.views.MainLayout;
 import com.abi.quotes.views.beta_test.SmView;
 import com.google.gson.JsonObject;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -12,6 +17,7 @@ import schulmanager.api.ReloadMessagesRequest;
 import schulmanager.api.Request;
 import schulmanager.api.SubscriptionsRequest;
 import schulmanager.components.ChatOverviewBox;
+import schulmanager.components.NewChatButton;
 import service.DataManager;
 
 @PageTitle("Chats")
@@ -25,6 +31,16 @@ public class ChatsView extends SmView {
 	@Override
 	protected void initialise() {
 		this.setHorizontalComponentAlignment(Alignment.START);
+		
+		/*TextField searchField = new TextField();
+   	 	searchField.setValueChangeMode(ValueChangeMode.EAGER);
+   	 	searchField.setWidth("30%");
+   	 	searchField.setMaxWidth("200px");
+        searchField.setPlaceholder("Suche");
+        searchField.setClearButtonVisible(true);
+        add(searchField);*/
+		
+		add(new NewChatButton());
 		
 		JsonObject[] subs;
 		ApiCall call = new ApiCall(DataManager.getSmSession());

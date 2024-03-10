@@ -228,14 +228,4 @@ public class Quote {
                 comments, teachersId);
     }
     
-    private QuoteBox associatedBox;
-    
-    public void setAsscociatedBox(QuoteBox b) {
-    	this.associatedBox = b;
-    }
-    
-    public QuoteBox getAsscociatedBox() {
-    	return associatedBox;
-    }
-    
 }

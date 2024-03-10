@@ -27,7 +27,6 @@ public class QuoteBox extends VerticalLayout {
 	
 	public QuoteBox(Quote quote) {
 		this.quote = quote;
-		quote.setAsscociatedBox(this);
 		
 		addClassName("hover-effect");
 		
