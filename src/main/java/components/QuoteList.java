@@ -55,6 +55,10 @@ public class QuoteList extends VerticalLayout {
 			QuoteBox box = new QuoteBox(quote);
 			if (smallRatingBars)
 				box.setRatingBarSmall();
+			quote.setAsscociatedBox(box);
+			if (!searchValue.equals("")) {
+				markFoundTextParts(quote);
+			}
 			return box;
 		}));
 		
@@ -112,6 +116,8 @@ public class QuoteList extends VerticalLayout {
 			amountQuotes = rows.length;
 			list.setItems(quotes);
 			
+			
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -144,8 +150,12 @@ public class QuoteList extends VerticalLayout {
 	}
 	
 	private String whereClause() {
-		if (teacherId > 0)
-			return " WHERE teachers_id = " + teacherId;
+		if (teacherId > 0) {
+			if (searchValue.equals(""))
+				return " WHERE teachers_id = " + teacherId;
+			else
+				return " WHERE teachers_id = " + teacherId + " AND quotes_text LIKE '%" + searchValue + "%'";
+		}
 		if (!searchValue.equals(""))
 			return " WHERE quotes_text LIKE '%" + searchValue + "%' AND NOT teachers_gender = 's'";
 		if (showStudentQuotes)
@@ -163,6 +173,10 @@ public class QuoteList extends VerticalLayout {
 	
 	public int amountQuotes() {
 		return amountQuotes;
+	}
+	
+	private void markFoundTextParts(Quote q) {
+		q.getAsscociatedBox().mark(searchValue);
 	}
 
 }

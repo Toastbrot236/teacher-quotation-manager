@@ -3,6 +3,8 @@ package database;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
+import components.QuoteBox;
+
 public class Quote {
     private int id;
     private String category;
@@ -225,4 +227,15 @@ public class Quote {
                 userDisplayName, text, lastEdited, lastEditedBy, likes, dislikes, isStar, isLiked, isDisliked, 
                 comments, teachersId);
     }
+    
+    private QuoteBox associatedBox;
+    
+    public void setAsscociatedBox(QuoteBox b) {
+    	this.associatedBox = b;
+    }
+    
+    public QuoteBox getAsscociatedBox() {
+    	return associatedBox;
+    }
+    
 }

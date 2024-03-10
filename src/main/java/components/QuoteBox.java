@@ -23,9 +23,11 @@ public class QuoteBox extends VerticalLayout {
 	
 	private RatingBar ratingBar;
 	private Button teacherName, publisher;
+	private Html text;
 	
 	public QuoteBox(Quote quote) {
 		this.quote = quote;
+		quote.setAsscociatedBox(this);
 		
 		addClassName("hover-effect");
 		
@@ -84,7 +86,7 @@ public class QuoteBox extends VerticalLayout {
 		l.setJustifyContentMode(JustifyContentMode.CENTER);
 		l.setWidthFull();
 		
-		Html text = new Html("<span>" + quote.getText() + "</span");
+		text = new Html("<span>" + quote.getText() + "</span");
 		text.getStyle().setWidth("85%");
 		l.addClickListener(e -> {
         	DataManager.setQuoteDetail(quote.getId());
@@ -117,5 +119,36 @@ public class QuoteBox extends VerticalLayout {
 		teacherName.getStyle().setMargin("0px");
 		publisher.getStyle().set("font-size", "12px");
 	}
+	
+	public String mark(String searchText) {
+		String text = this.text.getInnerHtml();
+		
+		StringBuilder sb = new StringBuilder(text);
+		
+		for (int textIndex = 0; textIndex < text.length() - searchText.length()+1; textIndex++) {
+			if (Character.toUpperCase(text.charAt(textIndex)) == Character.toUpperCase(searchText.charAt(0))) {
+				if (searchForString(text, searchText, textIndex)) {
+					sb.insert(textIndex, "<span style=\"background-color: rgba(255, 255, 0, 0.2)\">");
+					textIndex += 55;
+					sb.insert(textIndex + searchText.length(), "</span>");
+					textIndex += searchText.length() + 7;
+					text = sb.toString();
+				}
+			}
+		}
+		
+		this.text.setHtmlContent("<span>"+text+"</span>");
+		
+		return text;
+	}
+	
+	private static boolean searchForString(String text, String searchText, int textIndex) {
+		return text.substring(textIndex, textIndex + searchText.length()).toUpperCase()
+				.equals(searchText.toUpperCase());
+	}
+	
+	/*public void main(String[] args) {
+		System.out.println(mark("Ich mag jeden hier. Schließlich mag jeder hier auch maggi.", "mag"));
+	}*/
 	
 }

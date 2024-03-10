@@ -103,7 +103,7 @@ public class LessonBox extends VerticalLayout implements CalendarCalc {
 		JsonArray teacherArray = originalLesson.getAsJsonArray("teachers");
 		JsonObject teacher;
 		if (teacherArray.size() == 0) {
-			teacher = new Gson().fromJson("{\"id\":-1,\"abbreviation\":\"---\",\"firstname\":\"Nicht\",\"lastname\":\"bekannt\"}", JsonObject.class);
+			teacher = new Gson().fromJson("{\"id\":-1,\"abbreviation\":\"Rdrm\",\"firstname\":\"Maximilian\",\"lastname\":\"Radermacher\"}", JsonObject.class);
 		} else {
 			teacher = originalLesson.getAsJsonArray("teachers").get(0).getAsJsonObject();
 		}

@@ -38,7 +38,7 @@ public class StudentQuoteView extends VerticalLayout {
         } else {
         	QuoteList list = new QuoteList(-1, false, 79, true);
         	
-        	add(list);
+        	add(new SettingBar(list));
         	
         	list.setSizeFull();
         	add(list);
