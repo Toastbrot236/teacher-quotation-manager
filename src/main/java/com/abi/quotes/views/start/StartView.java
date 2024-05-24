@@ -3,6 +3,7 @@ package com.abi.quotes.views.start;
 import com.abi.processing.SortingType;
 import com.abi.quotes.views.MainLayout;
 import com.abi.quotes.views.beta_test.BetaTestView;
+import com.abi.quotes.views.favorites.FavoritesView;
 import com.abi.quotes.views.profil.ProfilView;
 import com.abi.quotes.views.pushtest.PushTestView;
 import com.abi.quotes.views.student_quote.StudentQuoteView;
@@ -16,6 +17,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.contextmenu.ContextMenu;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JavaScript;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -42,6 +44,7 @@ import com.vaadin.flow.theme.lumo.Lumo;
 import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 
 import components.ErrorMessage;
+import components.FavoriteButton;
 import components.HasHelp;
 import components.NewQuoteButton;
 import components.NotLoggedInScreen;
@@ -52,6 +55,8 @@ import service.DataManager;
 @PageTitle("Start")
 @Route(value = "start", layout = MainLayout.class)
 @JsModule("./insertatcursor.js")
+@JsModule("./favoritebutton.js")
+@CssImport(value = "themes/zitate-sammlung/favorite-button.css")
 public class StartView extends VerticalLayout implements HasHelp {
 
 	private H1 title;
@@ -146,6 +151,15 @@ public class StartView extends VerticalLayout implements HasHelp {
         alleZitateButton.setWidth("80%");
         alleZitateButton.setMaxWidth("400px");
         
+        Button favoritenButton = createNavigationButton("★", FavoritesView.class);
+        favoritenButton.addThemeVariants(ButtonVariant.LUMO_ICON, ButtonVariant.LUMO_PRIMARY);
+        
+        HorizontalLayout firstRow = new HorizontalLayout(alleZitateButton, favoritenButton);
+        firstRow.setWidth("85%");
+        firstRow.setMaxWidth("450px");
+        firstRow.setSpacing(false);
+        firstRow.getThemeList().set("spacing-xs", true);
+        
         Button zitateNachLehrerButton = createNavigationButton("Zitate nach Lehrer", TeacherView.class);
         Button schuelerZitateButton = createNavigationButton("Schülerzitate", StudentQuoteView.class);
         
@@ -163,7 +177,7 @@ public class StartView extends VerticalLayout implements HasHelp {
         Button testsButton = createNavigationButton("Neues Zeug testen", PushTestView.class);
         testsButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
 
-        VerticalLayout buttonsLayout = new VerticalLayout(alleZitateButton, new HorizontalLayout(zitateNachLehrerButton, schuelerZitateButton), newQuoteButton);
+        VerticalLayout buttonsLayout = new VerticalLayout(firstRow, new HorizontalLayout(zitateNachLehrerButton, schuelerZitateButton), newQuoteButton);
         buttonsLayout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         
         if (DataManager.isAdmin())

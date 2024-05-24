@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.util.Locale;
 
+import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.icon.Icon;
@@ -23,12 +24,15 @@ public class RatingBar extends HorizontalLayout {
 	private Quote quote;
 	
 	private Button like, dislike, commentButton;
+	private FavoriteButton favoriteButton;
 	private boolean liked, disliked;
 	
 	private HorizontalLayout cornerLayout;
 	
 	public RatingBar(Quote quote) {
 		this.quote = quote;
+		
+		setSpacing(false);
 		
 		HorizontalLayout inner = new HorizontalLayout();
 		inner.setJustifyContentMode(JustifyContentMode.EVENLY);
@@ -109,6 +113,9 @@ public class RatingBar extends HorizontalLayout {
         		ui.navigate("quote-detail"));
         });
         inner.add(commentButton);
+        
+        favoriteButton = new FavoriteButton(quote.getId(), quote.isStar());
+        inner.add(favoriteButton);
         
         if (!DataManager.canRate()) {
         	likeReg.remove();
@@ -274,6 +281,8 @@ public class RatingBar extends HorizontalLayout {
     	like.addThemeVariants(ButtonVariant.LUMO_SMALL);
     	dislike.addThemeVariants(ButtonVariant.LUMO_SMALL);
     	commentButton.addThemeVariants(ButtonVariant.LUMO_SMALL);
+    	
+    	favoriteButton.setSmall();
     	
     	addDeleteButton();
     }

@@ -32,6 +32,13 @@ public class QuoteList extends VerticalLayout {
 	private int limit;
 	
 	private boolean showStudentQuotes;
+	private boolean showOnlyFavorites;
+	
+	public QuoteList(boolean showOnlyFavorites) {
+		this();
+		this.showOnlyFavorites = showOnlyFavorites;
+		update();
+	}
 	
 	public QuoteList(int limit, boolean smallRatingBars) {
 		this(limit, smallRatingBars, -1, false);
@@ -50,6 +57,7 @@ public class QuoteList extends VerticalLayout {
 		list = new VirtualList<Quote>();
 		list.getStyle().set("border-top", "2px solid");
 		list.getStyle().set("border-color", " var(--lumo-body-text-color)");
+		list.getStyle().set("overflow-x", "clip");
 		update();
 		list.setRenderer(new ComponentRenderer<Component, Quote>(quote ->{
 			QuoteBox box = new QuoteBox(quote);
@@ -96,7 +104,7 @@ public class QuoteList extends VerticalLayout {
 					+ "	(SELECT COUNT(likes_id) FROM likes WHERE likes_quote = quotes_id) AS likes,\r\n"
 					+ "	(SELECT COUNT(dislikes_id) FROM dislikes WHERE dislikes_quote = quotes_id) AS dislikes,\r\n"
 					+ " (SELECT COUNT(comments_id) FROM comments WHERE comments_quote = quotes_id) AS comments,\r\n"
-					+ "	EXISTS(SELECT * FROM stars WHERE stars_user = '" + DataManager.getUserID() + "' AND stars_quote = quotes_id) AS isStar,\r\n"
+					+ "	EXISTS(SELECT * FROM stars WHERE stars_user = " + DataManager.getUserID() + " AND stars_quote = quotes_id) AS isStar,\r\n"
 					+ " EXISTS(SELECT * FROM likes WHERE likes_quote = quotes_id AND likes_user = " + DataManager.getUserID() + ") AS isLiked,\r\n"
 					+ " EXISTS(SELECT * FROM dislikes WHERE dislikes_quote = quotes_id AND dislikes_user = " + DataManager.getUserID() + ") AS isDisliked \r\n"
 					+ "FROM quotes\r\n"
@@ -149,6 +157,9 @@ public class QuoteList extends VerticalLayout {
 	}
 	
 	private String whereClause() {
+		if (showOnlyFavorites) {
+			return " HAVING isStar = TRUE";
+		}
 		if (teacherId > 0) {
 			if (searchValue.equals(""))
 				return " WHERE teachers_id = " + teacherId;
