@@ -184,7 +184,7 @@ public class ChatDetailView extends SmView implements HasDynamicTitle, HasUrlPar
 		innerLayout.setPadding(false);
 		innerLayout.setSpacing(false);
 		innerLayout.setWidth("100%");
-		innerLayout.setMaxWidth("800px");
+		innerLayout.setMaxWidth("900px");
 		innerLayout.getStyle().set("padding-top", "18px");
 		innerLayout.getStyle().set("padding-bottom", "100px");
 		
@@ -274,12 +274,14 @@ public class ChatDetailView extends SmView implements HasDynamicTitle, HasUrlPar
 			VerticalLayout outerContainer = new VerticalLayout();
 			outerContainer.setMargin(false);
 			outerContainer.setPadding(false);
-			outerContainer.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+			outerContainer.setDefaultHorizontalComponentAlignment(Alignment.STRETCH);
 			
 			HorizontalLayout bar = new HorizontalLayout();
 			/*bar.*/outerContainer.getStyle().set("position", "fixed").set("bottom", "70px");
 			bar.setMaxHeight("30%");
-			bar.setWidthFull();
+			//bar.setWidthFull();
+			bar.setMargin(true);
+			bar.getStyle().set("margin-left", "5px").set("margin-right", "5px").set("margin-bottom", "10px").set("margin-top", "0px");
 			bar.setJustifyContentMode(JustifyContentMode.CENTER);
 			
 			Button attachmentButton = new Button(VaadinIcon.PAPERCLIP.create());

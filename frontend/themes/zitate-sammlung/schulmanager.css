@@ -160,7 +160,7 @@ span.origi, span.origi > b {
 
 .timetable-nav {
     position: fixed;
-    bottom: 60px;
+    bottom: 74px;
 }
 
 .hide-timetable-nav > .timetable-nav, hide-timetable-nav > .timetable-nav-item {
@@ -212,8 +212,8 @@ span.origi, span.origi > b {
     border-color: transparent var(--lumo-base-color);
     display: block;
     width: 0;
-    z-index: 1;
-    left: -14px;
+    z-index: -1;
+    left: -12px;
     top: 12px;
 }
 
@@ -226,8 +226,8 @@ span.origi, span.origi > b {
     border-color: transparent var(--lumo-contrast-10pct);
     display: block;
     width: 0;
-    z-index: 0;
-    left: -17px;
+    z-index: -1;
+    left: -15px;
     top: 11px;
 }
 
@@ -263,7 +263,7 @@ span.origi, span.origi > b {
     border-color: transparent var(--lumo-primary-color-50pct) !important;
     display: block;
     width: 0;
-    z-index: 1;
+    z-index: -1;
     right: -14px;
     top: 12px;
 }
@@ -277,8 +277,8 @@ span.origi, span.origi > b {
     border-color: transparent var(--lumo-contrast-10pct);
     display: block;
     width: 0;
-    z-index: 0;
-    right: -17px;
+    z-index: -1;
+    right: -16px;
     top: 11px;
 }
 
