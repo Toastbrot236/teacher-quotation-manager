@@ -24,6 +24,9 @@ import service.DataManager;
 
 @PageTitle("Profil")
 @Route(value = "profil", layout = MainLayout.class)
+/**
+ * Page where you can view and edit your own user information
+ */
 public class ProfilView extends VerticalLayout {
 
     private OptionField firstNameField;

@@ -52,11 +52,15 @@ import components.QuoteList;
 import database.User;
 import service.DataManager;
 
-@PageTitle("Start")
+@PageTitle("Zitateübersicht")
 @Route(value = "start", layout = MainLayout.class)
+//@RouteAlias(value = "start", layout = MainLayout.class) // original        route
 @JsModule("./insertatcursor.js")
 @JsModule("./favoritebutton.js")
 @CssImport(value = "themes/zitate-sammlung/favorite-button.css")
+/**
+ * Overview page for all quote-related pages, shows 3 most recent quotes
+ */
 public class StartView extends VerticalLayout implements HasHelp {
 
 	private H1 title;

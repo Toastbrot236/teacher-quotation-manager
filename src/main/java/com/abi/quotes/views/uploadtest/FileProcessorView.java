@@ -21,6 +21,9 @@ import java.util.Base64;
 @PageTitle("File-Processor")
 @Route(value="file-processor", layout= MainLayout.class)
 @CssImport(value = "themes/zitate-sammlung/file-viewer.css")
+/**
+ * Test page where you can apparently upload files to somewhere
+ */
 public class FileProcessorView extends VerticalLayout {
 
     public FileProcessorView() {

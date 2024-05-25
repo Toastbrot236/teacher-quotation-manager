@@ -44,11 +44,15 @@ import schulmanager.components.TimetableSharingDialog;
 import service.CalendarCalc;
 import service.DataManager;
 
-@PageTitle("Beta-Tests")
-@Route(value = "test", layout=MainLayout.class)
+@PageTitle("Stundenplan")
+@Route(value = "stunden", layout=MainLayout.class)
+@RouteAlias(value = "test", layout = MainLayout.class) // original        route
 @RouteAlias(value = "", layout = MainLayout.class)
 @CssImport(value = "themes/zitate-sammlung/schulmanager.css")
 @JavaScript("./interaction.js")
+/**
+ * Page that shows your/someone else's Timetable
+ */
 public class BetaTestView extends VerticalLayout implements CalendarCalc {
 
 	private BetaTestView thisPointer;
@@ -261,8 +265,10 @@ public class BetaTestView extends VerticalLayout implements CalendarCalc {
 		private Registration leftReg, rightReg, personReg;
 		
 		public TimetableNav() {
-	        setWidthFull();
-	        setSpacing(false);
+			setMaxWidth("0px");
+			setSpacing(false);
+			setPadding(false);
+			setMargin(true);
 	        setDefaultHorizontalComponentAlignment(Alignment.CENTER);
 	        Button reloadButton = new Button(VaadinIcon.REFRESH.create());
 	        reloadButton.addClassName("timetable-nav-item");

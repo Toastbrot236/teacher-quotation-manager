@@ -41,6 +41,7 @@ import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
+import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Location;
 import com.vaadin.flow.router.OptionalParameter;
 import com.vaadin.flow.router.PageTitle;
@@ -56,15 +57,19 @@ import schulmanager.components.AttachmentDisplay;
 import schulmanager.components.ChatOverviewBox;
 import service.DataManager;
 
-@PageTitle("Chat")
+//@PageTitle("Chat")
 @Route(value = "chat", layout = MainLayout.class)
 @CssImport(value = "themes/zitate-sammlung/schulmanager.css")
 @CssImport(value = "themes/zitate-sammlung/file-viewer.css")
-public class ChatDetailView extends SmView implements HasUrlParameter<String> {
+/**
+ * Page that shows a certain chat's (currently only most recent) messages, its UI can be manipulated using the url parameters
+ */
+public class ChatDetailView extends SmView implements HasDynamicTitle, HasUrlParameter<String> {
 
 	private int threadId = -1;
 	private boolean canAnswer = false;
 	private String subject = "Fehler 402";
+	private String title = "Irgendein Chat";
 	private boolean isPrivateChat = false;
 	private String recipientString = "Fehler 403";
 	private int unreadCount = 0;
@@ -95,12 +100,23 @@ public class ChatDetailView extends SmView implements HasUrlParameter<String> {
 	    	recipientString = parametersMap.get("recipientString").get(0);
 	    if (parametersMap.containsKey("unreadCount"))
 	    	unreadCount = Integer.parseInt(parametersMap.get("unreadCount").get(0));
-	    
-	    if (threadId == -1)
+
+		// if the subject is not an empty string or set to it's default value (Fehler 402), set the tab name to the subject
+		if (!(subject.equals("Fehler 402") || subject.equals("")))
+			title = subject;
+
+		if (threadId == -1)
 	    	add(new H1("Hier ist etwas schiefgelaufen! (Fehler 401)"));
 	    else init();
 	}
-	
+
+
+	//@Override
+	public String getPageTitle() {
+		return title;
+	}
+
+
 	public void init() {
 		
 		createHeader();
