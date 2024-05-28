@@ -47,7 +47,6 @@ public class ChatsView extends SmView {
 		
 		JsonObject[] subs;
 		ApiCall call = new ApiCall(DataManager.getSmSession());
-		
 		//Checks whether subscriptions have already been loaded during this session
 		if (DataManager.getSubscriptions() == null || DataManager.getSubscriptions().length == 0) {
 			//Gains subscriptions from API
