@@ -28,7 +28,7 @@ public abstract class SmView extends VerticalLayout {
         	MainLayout.cookieLogin();
         }
         else {
-        	getElement().executeJs("document.documentElement.setAttribute('theme', $0)", (DataManager.getDarkMode()) ? Lumo.DARK : Lumo.LIGHT);
+        	getElement().executeJs("document.documentElement.setAttribute('theme', $0)", (DataManager.getTheme() == 1) ? Lumo.DARK : Lumo.LIGHT);
         }
         
         if (DataManager.getSmSession() == null) {

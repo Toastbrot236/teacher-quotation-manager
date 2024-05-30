@@ -69,6 +69,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
 
+import java.util.Map;
+
 import org.vaadin.lineawesome.LineAwesomeIcon;
 
 /**
@@ -260,6 +262,44 @@ public class MainLayout extends AppLayout {
     	header.addComponentAtIndex(1, userDisplay);
     }
 
+	private void createThemeButton(ContextMenu menu, int i) {
+		MenuItem themeButton;
+		Icon themeIcon = VaadinIcon.STOP.create();
+
+		themeIcon.setSize("var(--lumo-icon-size-s)");
+		themeIcon.getStyle().set("padding", "0.10em");
+
+		switch (i) {
+			case 0:
+				themeButton = menu.addItem("  " + "Light Mode", event -> {
+					setTheme(0);
+				});
+				themeIcon.getStyle().set("color", "hsl(214, 35%, 99%)");
+				break;
+			case 1:
+				themeButton = menu.addItem("  " + "Dark Mode", event -> {
+					setTheme(1);
+				});
+				themeIcon.getStyle().set("color", "hsl(214, 35%, 21%)");
+				break;
+			case 2:
+				themeButton = menu.addItem("  " + "Pitch Black", event -> {
+					setTheme(2);
+				});
+				themeIcon.getStyle().set("color", "hsl(214, 35%, 0%)");
+				break;
+			default:
+				themeButton = menu.addItem("  " + "Unnamed Theme", event -> {
+					setTheme(0);
+				});
+				themeIcon.getStyle().set("color", "hsl(214, 35%, 69%)");
+				break;
+		}
+
+		themeButton.addComponentAsFirst(themeIcon);
+		themeButton.getStyle().set("padding-left", "10px").set("padding-right", "30px");
+	}
+
 	// THE ContextMenu
     private ContextMenu createUserMenu(Component userSpan) {
 		// The wastebin:
@@ -307,7 +347,19 @@ public class MainLayout extends AppLayout {
 		logoutButton.setClassName("text-error");
 		logoutButton.getStyle().set("padding-left", "10px").set("padding-right", "30px");
 
+		// break line
+		menu.add(new Hr());
 
+		// "Themes: " text
+		menu.addItem("  " + "Themes: ");
+
+		// the theme buttons
+		int themeAmount = 3 ; // actual amount of themes - 1 for the for loop, left it like this to make it better understandable
+		for (int i = 0; i < themeAmount; i++) {
+			createThemeButton(menu, i);
+		}
+
+		/*
 		// themes button with submenu
 		MenuItem themeButton = menu.addItem("  " + "Themes");
 		Icon themeIcon = VaadinIcon.PAINTBRUSH.create();
@@ -330,7 +382,10 @@ public class MainLayout extends AppLayout {
 		});
 		MenuItem dmButtonMenuItem = themeMenu.addItem(darkModeButton);
 		dmButtonMenuItem.getStyle().set("padding-right", "30px");
+		*/
 
+		// break line
+		menu.add(new Hr());
 
 		// profile button
 		MenuItem profileButton = menu.addItem("  " + "Dein Profil", event -> {
@@ -448,6 +503,11 @@ public class MainLayout extends AppLayout {
     	DataManager.setDarkMode(dark);
     	getElement().executeJs("document.documentElement.setAttribute('theme', $0)", (dark) ? Lumo.DARK : Lumo.LIGHT);
     }
+
+	public void setTheme(int theme) {
+		User.updateNumber(DataManager.getUserID(), "user_darkMode", String.valueOf(theme));
+		getElement().executeJs("document.documentElement.setAttribute('theme', $0)", (theme == 1) ? Lumo.DARK : Lumo.LIGHT);
+	}
     
     public static void cookieLogin() {
     	Cookie[] cookies = VaadinRequest.getCurrent().getCookies();
