@@ -14,61 +14,35 @@ public class User {
     private boolean read;
     private boolean write;
     private boolean rate;
-    //private boolean darkMode;
-    private int theme;
+    private boolean darkMode;
     private String email;
     private boolean edit;
     private boolean delete;
     private String password;
     private boolean test;
     private Integer smId;
-
-    // without theme parameter, theme gets set depending on darkMode parameter's value
+    
     public User(int userId, String username, String firstName, String lastName, String displayName, Timestamp lastLogin,
             boolean admin, boolean read, boolean write, boolean rate, boolean darkMode, String email,
             boolean edit, boolean delete, String password, boolean test, Integer smId) {
-        this.userId = userId;
-        this.username = username;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.displayName = displayName;
-        this.lastLogin = lastLogin;
-        this.admin = admin;
-        this.read = read;
-        this.write = write;
-        this.rate = rate;
-        //this.darkMode = darkMode;
-        this.theme = darkMode ? 1 : 0 ;
-        this.email = email;
-        this.edit = edit;
-        this.delete = delete;
-        this.password = password;
-        this.test = test;
-        this.smId = smId;
-    }
-
-    // with theme parameter
-    public User(int userId, String username, String firstName, String lastName, String displayName, Timestamp lastLogin,
-                boolean admin, boolean read, boolean write, boolean rate, int theme, String email,
-                boolean edit, boolean delete, String password, boolean test, Integer smId) {
-        this.userId = userId;
-        this.username = username;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.displayName = displayName;
-        this.lastLogin = lastLogin;
-        this.admin = admin;
-        this.read = read;
-        this.write = write;
-        this.rate = rate;
-        this.theme = theme;
-        this.email = email;
-        this.edit = edit;
-        this.delete = delete;
-        this.password = password;
-        this.test = test;
-        this.smId = smId;
-    }
+    this.userId = userId;
+    this.username = username;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.displayName = displayName;
+    this.lastLogin = lastLogin;
+    this.admin = admin;
+    this.read = read;
+    this.write = write;
+    this.rate = rate;
+    this.darkMode = darkMode;
+    this.email = email;
+    this.edit = edit;
+    this.delete = delete;
+    this.password = password;
+    this.test = test;
+    this.smId = smId;
+}
 
     public User() {
 	}
@@ -164,22 +138,12 @@ public class User {
     }
 
     public boolean isDarkMode() {
-        //return darkMode;
-        return this.theme == 1;
+        return darkMode;
     }
 
     public void setDarkMode(boolean darkMode) {
-        this.setTheme( darkMode ? 1 : 0 );
-        // databaseUpdate("user_darkMode", darkMode ? "1" : "0");
-    }
-
-    public int getTheme() {
-        return theme;
-    }
-
-    public void setTheme(int theme) {
-        this.theme = theme;
-        databaseUpdate("user_darkMode", String.valueOf(theme));
+        this.darkMode = darkMode;
+        databaseUpdate("user_darkMode", darkMode ? "1" : "0");
     }
 
     public String getEmail() {
@@ -248,14 +212,6 @@ public class User {
         boolean write = row.get("user_write", Boolean.class);
         boolean rate = row.get("user_rate", Boolean.class);
         boolean darkMode = row.get("user_darkMode", Boolean.class);
-        // transition from darkMode to theme by setting theme to 1 if darkMode is true, leaving theme
-        // at 0 if darkMode is false, moving over whether the user has been using darkmode before or not,
-        // then setting darkMode to false so the if block doesnt overwrite the theme setting over and over again
-        int theme = 0;
-        if (darkMode) {
-            theme = 1;
-            //this.setDarkMode(false);
-        }
         String email = row.get("user_email", String.class);
         boolean edit = row.get("user_edit", Boolean.class);
         boolean delete = row.get("user_delete", Boolean.class);
@@ -264,7 +220,7 @@ public class User {
         Integer smId = row.get("user_smId", Integer.class);
 
         return new User(userId, username, firstName, lastName, displayName, lastLogin, admin, read, write, rate,
-                        theme, email, edit, delete, password, test, smId);
+                        darkMode, email, edit, delete, password, test, smId);
     }
     
     public void databaseUpdate(String columnName, String newValue) {

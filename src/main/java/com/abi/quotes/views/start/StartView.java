@@ -210,12 +210,8 @@ public class StartView extends VerticalLayout implements HasHelp {
     	list.getList().setHeightFull();
     	return list;
     }
-
-	/**
-	 * Looks like we found the old user context menu (not doing any changes to this as it's not used anywhere anymore)
-	 * @param target Component to open the ContextMenu next to / Component which is supposed to open the ContextMenu
-	 */
-	private void openUserMenu(Component target) {
+    
+    private void openUserMenu(Component target) {
     	ContextMenu menu = new ContextMenu();
     	
     	boolean darkMode = DataManager.getDarkMode();

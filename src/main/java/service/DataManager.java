@@ -69,11 +69,6 @@ public class DataManager {
 		SessionManager.saveValue("darkMode", dark);
 		return dark;
 	}
-
-	public static int setTheme (int theme) {
-		SessionManager.saveValue("theme", theme);
-		return theme;
-	}
 	
 	public static boolean setLoggedIn (boolean loggedIn) {
 		SessionManager.saveValue("loggedIn", loggedIn);
@@ -154,10 +149,8 @@ public class DataManager {
 		return SessionManager.getValue("displayName", String.class);
 	}
 	
-	public static Boolean getDarkMode () { return SessionManager.getValue("darkMode", Boolean.class); }
-
-	public static int getTheme() {
-		return SessionManager.getValue("theme", Integer.class);
+	public static Boolean getDarkMode () {
+		return SessionManager.getValue("darkMode", Boolean.class);
 	}
 	
 	public static Boolean getLoggedIn () {
@@ -232,8 +225,7 @@ public class DataManager {
 	        setFirstName(user.getFirstName());
 	        setLastName(user.getLastName());
 	        setDisplayName(user.getDisplayName());
-	        //setDarkMode(user.isDarkMode());
-			setTheme(user.getTheme());
+	        setDarkMode(user.isDarkMode());
 	        setFirstLogin(user.getLastLogin() == null);
 	        setSmId(user.getSmId());
 	        

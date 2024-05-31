@@ -18,17 +18,11 @@ public enum Permission {
     }
     
     public static boolean isAdmin(Permission[] ps) {
-        try {
-            for (Permission p : ps) {
-                if (p == ADMIN)
-                    return true;
-            }
-            return false;
+        for (Permission p : ps) {
+            if (p == ADMIN)
+                return true;
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        return false;
     }
 
     public static boolean canWrite(Permission[] ps) {
