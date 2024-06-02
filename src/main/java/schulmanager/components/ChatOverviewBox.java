@@ -23,6 +23,9 @@ import com.vaadin.flow.component.html.Hr;
 import service.CalendarCalc;
 import service.DataManager;
 
+/**
+ * A "box" that represents one chat in the chat overview on the chats page.
+ */
 public class ChatOverviewBox extends HorizontalLayout implements CalendarCalc {
 
 	private JsonObject subscription;
@@ -48,7 +51,7 @@ public class ChatOverviewBox extends HorizontalLayout implements CalendarCalc {
 		boolean isPrivateChat = thread.get("isPrivateChat").getAsBoolean();
 		boolean allowAnswers = thread.get("allowAnswers").getAsBoolean();
 		
-		//The subject of a private chat should be the name of the other person
+		// The subject of a private chat should be the name of the other person
 		if (isPrivateChat) {
 			String userFirstName = DataManager.getFirstName();
 			if (senderString.contains(userFirstName))
@@ -88,16 +91,17 @@ public class ChatOverviewBox extends HorizontalLayout implements CalendarCalc {
 		lastMessageSpan.getStyle().set("padding-right", "5px");
 		lastMessageSpan.getStyle().set("font-size", "9.5px");
 
-		//context menu button
+		// ContextMenu button
 		Button menuButton = new Button(VaadinIcon.ELLIPSIS_DOTS_V.create());
 		menuButton.getStyle().set("padding-bottom", "10px").set("padding-top", "10px");
 		menuButton.addThemeVariants(/*ButtonVariant.LUMO_SMALL, */ButtonVariant.LUMO_TERTIARY);
 		createChatOptionsMenu(menuButton);
+		menuButton.setEnabled(false);  // disabled for now
 
 		// both get added to VerticalLayout
 		optionPart.add(lastMessageSpan, menuButton);
 
-		// unread messages count if there are any i think
+		// unread messages count if there are any
 		if (unreadCount > 0) {
 			Span unreadMessagesInfo = new Span(unreadCount + "");
 			unreadMessagesInfo.getStyle().set("border-radius", "10px");

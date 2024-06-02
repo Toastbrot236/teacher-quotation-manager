@@ -52,14 +52,13 @@ import components.QuoteList;
 import database.User;
 import service.DataManager;
 
-@PageTitle("Zitateübersicht")
+@PageTitle("Startseite")
 @Route(value = "start", layout = MainLayout.class)
-//@RouteAlias(value = "start", layout = MainLayout.class) // original        route
 @JsModule("./insertatcursor.js")
 @JsModule("./favoritebutton.js")
 @CssImport(value = "themes/zitate-sammlung/favorite-button.css")
 /**
- * Overview page for all quote-related pages, shows 3 most recent quotes
+ * Overview page for all quote-related pages, shows 3 most recent quotes. Also used as starting page.
  */
 public class StartView extends VerticalLayout implements HasHelp {
 
@@ -253,6 +252,7 @@ public class StartView extends VerticalLayout implements HasHelp {
 
 	@Override
 	public Component[] getPages() {
+		boolean darkMode = DataManager.getDarkMode();
 		VerticalLayout comp1 = new VerticalLayout();
 		comp1.setPadding(false);
 		comp1.add(new Paragraph("Herzlich willkommen, " + DataManager.getFirstName()));
@@ -267,15 +267,18 @@ public class StartView extends VerticalLayout implements HasHelp {
 		
 		VerticalLayout comp2 = new VerticalLayout();
 		comp2.setPadding(false);
-		Image img0 = new Image("images/help0.png", "Start-Bildschirm");
-		img0.setWidth("60%");
+		Image img0 = new Image(darkMode ? "images/help0-dark.png" : "images/help0.png", "Start-Bildschirm");
+		img0.setWidth("90%");
+		img0.setMaxWidth("570px");
 		comp2.add(img0);
 		comp2.add(new Html("<p>Auf dem Startbildschirm hast du neben einer Schnellansicht für die neuesten 3 Zitate direkt die Möglichkeit, "
 				+ "verschiedene Knöpfe zu betätigen.</p>"));
-		comp2.add(new Html("<p><font color=\"#117FFF\">Alle Zitate</font>: Zeigt dir eine Auflistung sämtlicher bisher eingetragener "
-				+ "Zitate, die du sortieren und durchsuchen "
+		comp2.add(new Html("<p><font color=\"#117FFF\">Alle Lehrerzitate</font>: Zeigt dir eine Auflistung sämtlicher bisher eingetragener "
+				+ "Lehrerzitate, die du sortieren und durchsuchen "
 				+ "kannst. Ein Klick auf das Zitat bringt dich auf eine neue Seite, "
 				+ "auf der auch das Kommentieren und Bearbeiten möglich ist."));
+				comp2.add(new Html("<p><font color=\"#117FFF\">Schülerzitate</font>: Tut dasselbe wie Alle Lehrerzitate, aber für Schülerzitate. "
+				+ "Von Schülern, für Schüler."));
 		comp2.add(new Html("<p><font color=\"#117FFF\">Zitate nach Lehrer</font>: Eine Übersicht aller Lehrer der Schule. Ein Klick auf den "
 				+ "jeweiligen Lehrer zeigt dir dessen Zitate an."));
 		comp2.add(new Html("<p><font color=\"#158443\">Neues Zitat einreichen</font>: Das Herzstück dieser Webseite! Trage bitte möglichst viele "
@@ -286,12 +289,13 @@ public class StartView extends VerticalLayout implements HasHelp {
 		HorizontalLayout comp3Inner = new HorizontalLayout();
 		comp3Inner.setHeight("100%");
 		comp3Inner.setPadding(false);
-		Image img1 = new Image("images/help1.png", "Drei-Punkte-Menü");
-		img1.setWidth("40%");
-		img1.setHeight("70%");
+		Image img1 = new Image(darkMode ? "images/help1-dark.png" : "images/help1.png", "Drei-Punkte-Menü");
+		img1.setWidth("90%");
+		img1.setMaxWidth("210px");
+		img1.setHeight("90%");
 		comp3Inner.add(img1);
 		comp3.add(comp3Inner);
-		comp3Inner.add(new Html("<p>Klickst du von irgendeiner Seite auf die drei Punkte in der oberen rechten Bildschirmecke, öffnet sich ein "
+		comp3Inner.add(new Html("<p>Klickst du von irgendeiner Seite auf die drei Punkte in der unteren rechten Bildschirmecke, öffnet sich ein "
 				+ "kleines Menü.</p>"));
 		comp3.add(new Html("<p>Hier kannst du dich abmelden (Du wirst beim nächsten Besuch mit dem selben Gerät automatisch wieder eingeloggt.), "
 				+ "zwischen Dark Mode und Light Mode wechseln, diese Hilfe jederzeit wieder öffnen oder auf dein Profil zugreifen. Am besten "
@@ -320,6 +324,7 @@ public class StartView extends VerticalLayout implements HasHelp {
 		comp5.add(new Html("<ul>\r\n"
 				+ "  <li><a href=\"https://schulmanager-online.de/\">Schulmanager</a> (Gesamter Stundenplan- und Chats-Sektor; nicht bloß eine helfende Hand, sondern dort essentiell für die Bereitstellung der Daten)</li>"
 				+ "  <li><a href=\"https://www.eclipse.org/\">Eclipse</a> (IDE)</li>"
+				+ "  <li><a href=\"https://www.jetbrains.com/idea/\">IntelliJ IDEA (die Community Variante)</a> (IDE)</li>"
 				+ "  <li><a href=\"https://cloud.google.com/run/\">Google Cloud Run</a> (Hosting)</li>"
 				+ "  <li><a href=\"https://www.docker.com/\">Docker</a> (Containerisierung)</li>"
 				+ "  <li><a href=\"https://aiven.io/\">Aiven</a> (Datenbank)</li>"

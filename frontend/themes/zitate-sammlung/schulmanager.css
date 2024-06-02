@@ -160,7 +160,7 @@ span.origi, span.origi > b {
 
 .timetable-nav {
     position: fixed;
-    bottom: 74px;
+    bottom: 78px;
 }
 
 .hide-timetable-nav > .timetable-nav, hide-timetable-nav > .timetable-nav-item {
@@ -212,7 +212,7 @@ span.origi, span.origi > b {
     border-color: transparent var(--lumo-base-color);
     display: block;
     width: 0;
-    z-index: -1;
+    z-index: 0;
     left: -12px;
     top: 12px;
 }
@@ -263,7 +263,7 @@ span.origi, span.origi > b {
     border-color: transparent var(--lumo-primary-color-50pct) !important;
     display: block;
     width: 0;
-    z-index: -1;
+    z-index: 0;
     right: -14px;
     top: 12px;
 }

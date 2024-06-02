@@ -463,15 +463,16 @@ public class MainLayout extends AppLayout {
     	});
     	menu.addItem(dataProtectionButton);
     	*/
-    	
-    	menu.setOpenOnClick(true);
-    	menu.setTarget(userSpan);
-        	
+
+
+		menu.setOpenOnClick(true);
+		menu.setTarget(userSpan);
+
     	return menu;
     }
 
 	private void createThemeButton(ContextMenu menu, int i) {
-		MenuItem themeButton;
+		final MenuItem themeButton;
 		Icon themeIcon = VaadinIcon.STOP.create();
 
 		themeIcon.setSize("var(--lumo-icon-size-s)");
@@ -482,25 +483,27 @@ public class MainLayout extends AppLayout {
 				themeButton = menu.addItem("  " + "Light Mode", event -> {
 					setDarkMode(false);
 				});
-				themeIcon.getStyle().set("color", "hsl(214, 35%, 99%)");
+				themeIcon.getStyle().set("color", "hsl(210, 20%, 96%)");
+				/*
+				if (!DataManager.getDarkMode()) themeButton.setEnabled(false);
+				else themeButton.setEnabled(true);
+				*/ // bugged right now
 				break;
 			case 1:
 				themeButton = menu.addItem("  " + "Dark Mode", event -> {
 					setDarkMode(true);
 				});
 				themeIcon.getStyle().set("color", "hsl(214, 35%, 21%)");
-				break;
-			case 2:
-				themeButton = menu.addItem("  " + "Pitch Black", event -> {  // not yet implemented, hopefully soon
-					setDarkMode(true);
-				});
-				themeIcon.getStyle().set("color", "hsl(214, 35%, 0%)");
+				/*
+				if (DataManager.getDarkMode()) themeButton.setEnabled(false);
+				else themeButton.setEnabled(true);
+				*/ // bugged right now
 				break;
 			default:
 				themeButton = menu.addItem("  " + "Unnamed Theme", event -> {
 					// setTheme(0);
 				});
-				themeIcon.getStyle().set("color", "hsl(214, 35%, 69%)");
+				themeIcon.getStyle().set("color", "hsl(213, 30%, 0%)");
 				break;
 		}
 
