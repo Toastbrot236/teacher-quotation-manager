@@ -25,6 +25,11 @@ import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.H4;
+import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.html.Header;
 import com.vaadin.flow.component.html.ListItem;
 import com.vaadin.flow.component.html.Nav;
@@ -267,38 +272,11 @@ public class MainLayout extends AppLayout {
 
 	// THE ContextMenu
 	/**
-	 * Creates the ContextMenu you see when clicking either the user span or the more button
-	 * @param userSpan The component (userspan or more button) to open next to when said component is clicked
+	 * Creates the ContextMenu the user sees when clicking either the user span or the more button
+	 * @param userSpan The component (userspan or more button) to open to when said component is clicked
 	 * @return The ContextMenu
 	 */
     private ContextMenu createUserMenu(Component userSpan) {
-		// The wastebin:
-		//logoutButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR);
-
-    	/* Button logoutButton = new Button("Abmelden");
-    	logoutButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR);
-    	logoutButton.addClickListener(e -> {
-    		DataManager.logout();
-    		getUI().ifPresent(ui -> ui.navigate("start"));
-    		updateUserSpan();
-    		updateMoreButton();
-    		}
-    	);
-    	menu.addItem(logoutButton); */
-    	/*
-    	boolean darkMode = DataManager.getDarkMode();
-    	setDarkMode(darkMode);
-    	Button darkModeButton = new Button((darkMode) ? "Light Mode" : "Dark Mode");
-    	darkModeButton.setIcon((darkMode) ? VaadinIcon.SUN_O.create() : VaadinIcon.MOON_O.create());
-    	darkModeButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_CONTRAST);
-    	darkModeButton.addClickListener(e -> {
-    		setDarkMode(!DataManager.getDarkMode());
-    		darkModeButton.setText((DataManager.getDarkMode()) ? "Light Mode" : "Dark Mode");
-    	});
-    	MenuItem dmButtonMenuItem = menu.addItem(darkModeButton);
-		dmButtonMenuItem.getStyle().set("padding-right", "30px");
-		*/
-
 		// initialise ContextMenu
     	ContextMenu menu = new ContextMenu();
 
@@ -318,46 +296,21 @@ public class MainLayout extends AppLayout {
 		logoutButton.getStyle().set("padding-left", "10px").set("padding-right", "30px");
 
 
-		// break line
+
 		menu.add(new Hr());
 
 		// "Themes: " text
 		menu.addItem("  " + "Themes: ");
 
 		// the theme buttons
-		int themeAmount = 2 ; // actual amount of themes
+		int themeAmount = 2 ; // actual amount of themes right now
 		for (int i = 0; i < themeAmount; i++) {
 			createThemeButton(menu, i);
 		}
 
-		// break line
 		menu.add(new Hr());
 
 
-		/*
-		// themes button with submenu
-		MenuItem themeButton = menu.addItem("  " + "Themes");
-		Icon themeIcon = VaadinIcon.PAINTBRUSH.create();
-		themeIcon.setSize("var(--lumo-icon-size-s)");
-		themeIcon.getStyle().set("padding", "0.10em");
-		themeButton.addComponentAsFirst(themeIcon);
-
-		// initialise submenu
-		SubMenu themeMenu = themeButton.getSubMenu();
-
-		// light/dark mode button
-		boolean darkMode = DataManager.getDarkMode();
-		setDarkMode(darkMode);
-		Button darkModeButton = new Button((darkMode) ? "Light Mode" : "Dark Mode");
-		darkModeButton.setIcon((darkMode) ? VaadinIcon.SUN_O.create() : VaadinIcon.MOON_O.create());
-		darkModeButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_CONTRAST);
-		darkModeButton.addClickListener(e -> {
-			setDarkMode(!DataManager.getDarkMode());
-			darkModeButton.setText((DataManager.getDarkMode()) ? "Light Mode" : "Dark Mode");
-		});
-		MenuItem dmButtonMenuItem = themeMenu.addItem(darkModeButton);
-		dmButtonMenuItem.getStyle().set("padding-right", "30px");
-		*/
 
 		// profile button
 		MenuItem profileButton = menu.addItem("  " + "Dein Profil", event -> {
@@ -390,7 +343,7 @@ public class MainLayout extends AppLayout {
 			new HasHelp() {
 				@Override
 				public Component[] getPages() {
-					return new StartView().getPages();
+					return MainLayout.getHelpPages();
 				}
 			}.openHelp();
 		});
@@ -413,7 +366,34 @@ public class MainLayout extends AppLayout {
 		privacyButton.addComponentAsFirst(privacyIcon);
 		privacyButton.getStyle().set("padding-left", "10px").set("padding-right", "30px");
 
+
 		/*
+		logoutButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR);
+
+    	Button logoutButton = new Button("Abmelden");
+    	logoutButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR);
+    	logoutButton.addClickListener(e -> {
+    		DataManager.logout();
+    		getUI().ifPresent(ui -> ui.navigate("start"));
+    		updateUserSpan();
+    		updateMoreButton();
+    		}
+    	);
+    	menu.addItem(logoutButton);
+
+    	boolean darkMode = DataManager.getDarkMode();
+    	setDarkMode(darkMode);
+    	Button darkModeButton = new Button((darkMode) ? "Light Mode" : "Dark Mode");
+    	darkModeButton.setIcon((darkMode) ? VaadinIcon.SUN_O.create() : VaadinIcon.MOON_O.create());
+    	darkModeButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_CONTRAST);
+    	darkModeButton.addClickListener(e -> {
+    		setDarkMode(!DataManager.getDarkMode());
+    		darkModeButton.setText((DataManager.getDarkMode()) ? "Light Mode" : "Dark Mode");
+    	});
+    	MenuItem dmButtonMenuItem = menu.addItem(darkModeButton);
+		dmButtonMenuItem.getStyle().set("padding-right", "30px");
+
+
     	Button profileButton = new Button("Dein Profil");
     	profileButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
     	profileButton.addClickListener(e -> {
@@ -517,6 +497,105 @@ public class MainLayout extends AppLayout {
     	DataManager.setDarkMode(dark);
     	getElement().executeJs("document.documentElement.setAttribute('theme', $0)", (dark) ? Lumo.DARK : Lumo.LIGHT);
     }
+
+	/**
+	 * Returns the content for the help dialog in the form of an array, containing 5 Components, with each representing
+	 * one "page" of the help dialog. Copied from StartView to here to reduce requests and save time when the user
+	 * tries loading the help dialog (optimization).
+	 * @return An array of Components, each including one "page" of the help dialog
+	 */
+	public static Component[] getHelpPages() {
+		boolean darkMode = DataManager.getDarkMode();
+		VerticalLayout comp1 = new VerticalLayout();
+		comp1.setPadding(false);
+		comp1.add(new Paragraph("Herzlich willkommen, " + DataManager.getFirstName()));
+		comp1.add(new Html("<p>Schön, dass du hierher gefunden hast. "
+				+ "(<i>Scrolle herunter, um alles zu lesen.</i>) Diese Website dient dazu, all die <b>lustigen und denkwürdigen Sätze, Weisheiten und Sprüche</b>, "
+				+ "denen wir im Laufe unserer Oberstufe begegnen, festzuhalten.</p>"));
+		comp1.add(new Html("<p>So soll eine digitale Sammlung der besten Lehrer- und Schülerzitate entstehen. Alles hier im Web. Anstelle "
+				+ "kleiner privater Sammlungen und Notizzettel gibt es eine <b>zentrale Sammelstelle</b>, an der jeder teilhaben "
+				+ "und in vielerlei Erinnerungen an die kleinen Momente schwelgen kann."));
+		comp1.add(new Html("<p>Wenn du erfahren möchtest, wie du mitmachen kannst und wie die Website bedient werden kann, "
+				+ "klicke dich durch die nächsten Seiten. Vielen Dank für dein Interesse!"));
+
+		VerticalLayout comp2 = new VerticalLayout();
+		comp2.setPadding(false);
+		Image img0 = new Image(darkMode ? "images/help0-dark.png" : "images/help0.png", "Start-Bildschirm");
+		img0.setWidth("90%");
+		img0.setMaxWidth("480px");
+		comp2.add(img0);
+		comp2.add(new Html("<p>Auf dem Startbildschirm hast du neben einer Schnellansicht für die neuesten 3 Zitate direkt die Möglichkeit, "
+				+ "verschiedene Knöpfe zu betätigen.</p>"));
+		comp2.add(new Html("<p><font color=\"#117FFF\">Alle Lehrerzitate</font>: Zeigt dir eine Auflistung sämtlicher bisher eingetragener "
+				+ "Lehrerzitate, die du sortieren und durchsuchen "
+				+ "kannst. Ein Klick auf das Zitat bringt dich auf eine neue Seite, "
+				+ "auf der auch das Kommentieren und Bearbeiten möglich ist."));
+		comp2.add(new Html("<p><font color=\"#117FFF\">Schülerzitate</font>: Tut dasselbe wie Alle Lehrerzitate, aber für Schülerzitate. "
+				+ "Von Schülern, für Schüler."));
+		comp2.add(new Html("<p><font color=\"#117FFF\">Zitate nach Lehrer</font>: Eine Übersicht aller Lehrer der Schule. Ein Klick auf den "
+				+ "jeweiligen Lehrer zeigt dir dessen Zitate an."));
+		comp2.add(new Html("<p><font color=\"#158443\">Neues Zitat einreichen</font>: Das Herzstück dieser Webseite! Trage bitte möglichst viele "
+				+ "neue Zitate ein. Hierzu musst du bloß einen Lehrer aus dem Dropdown-Menü auswählen und das Zitat eintippen. <i>Tipp: "
+				+ "Überprüfe am besten vorher mit der Suchfunktion bei</i> Alle Zitate<i>, ob das Zitat bereits vorhanden ist.</i>"));
+
+		VerticalLayout comp3 = new VerticalLayout();
+		HorizontalLayout comp3Inner = new HorizontalLayout();
+		comp3Inner.setHeight("100%");
+		comp3Inner.setPadding(false);
+		Image img1 = new Image(darkMode ? "images/help1-dark.png" : "images/help1.png", "Drei-Punkte-Menü");
+		img1.setWidth("60%");
+		img1.setMaxWidth("240px");
+		img1.setHeight("80%");
+		comp3Inner.add(img1);
+		comp3.add(comp3Inner);
+		comp3.add(new Html("<p>Klickst du von irgendeiner Seite auf die drei Punkte in der unteren rechten Bildschirmecke, öffnet sich ein "
+				+ "kleines Menü.</p>"));
+		comp3.add(new Html("<p>Hier kannst du dich abmelden (Du wirst beim nächsten Besuch mit dem selben Gerät automatisch wieder eingeloggt.), "
+				+ "zwischen Dark Mode und Light Mode wechseln, diese Hilfe jederzeit wieder öffnen oder auf dein Profil zugreifen. Am besten "
+				+ "änderst du dein Passwort und gibst eine E-Mail-Adresse an. Diese wird benötigt, solltest du einmal deine Anmeldedaten vergessen.</p>"
+		));
+		comp3.add(new Html("<p><font color=\"red\"><u>ACHTUNG</u>: Verwende <b>auf keinen Fall</b> ein Passwort, das du auch auf anderen Websites benutzt! "
+				+ "Deine Daten sind nicht geschützt.</font></p>"));
+
+		VerticalLayout comp4 = new VerticalLayout();
+		comp4.setPadding(false);
+		comp4.add(new H3("Fragen, Feedback, Fehler?"));
+		comp4.add(new Html("<p>Nur her damit! Gib gerne all deine Verbesserungsvorschläge an mich, Jona, weiter. Entweder persönlich oder per "
+				+ "Mail an <a href=\"mailto:illusioquest@gmail.com\">illusioquest@gmail.com</a>.</p>"));
+		comp4.add(new Html("<p>Sollte dir einmal ein Bug auffallen, melde ihn bitte sofort!"));
+
+		VerticalLayout comp5 = new VerticalLayout();
+		comp5.setPadding(false);
+		comp5.setSpacing(false);
+		Html html0 = new Html("<p>Entwickler: <b>Jona Richartz</b>  <small>(Ja, das hab ich gemacht)</small></p>");
+		html0.getElement().setProperty("margin", "0px");
+		Html html1 = new Html("<p>Unter Verwendung von <a href=\"https://vaadin.com/\"><b>Vaadin 24</b></a></p>");
+		html1.getElement().setProperty("margin", "0px");
+		comp5.add(html0, html1);
+		comp5.add(new Html("<p>GitHub-Repo: <a href = \"https://github.com/IllusioQuest/teacher-quotation-manager\">teacher-quotation-manager</a></p>"));
+		comp5.add(new Html("<p>Helfende Hände:</p>"));
+		comp5.add(new Html("<ul>\r\n"
+				+ "  <li><a href=\"https://schulmanager-online.de/\">Schulmanager</a> (Gesamter Stundenplan- und Chats-Sektor; nicht bloß eine helfende Hand, sondern dort essentiell für die Bereitstellung der Daten)</li>"
+				+ "  <li><a href=\"https://www.eclipse.org/\">Eclipse</a> (IDE)</li>"
+				+ "  <li><a href=\"https://www.jetbrains.com/idea/\">IntelliJ IDEA (die Community Variante)</a> (IDE)</li>"
+				+ "  <li><a href=\"https://cloud.google.com/run/\">Google Cloud Run</a> (Hosting)</li>"
+				+ "  <li><a href=\"https://www.docker.com/\">Docker</a> (Containerisierung)</li>"
+				+ "  <li><a href=\"https://aiven.io/\">Aiven</a> (Datenbank)</li>"
+				+ "  <li><a href=\"https://maven.apache.org/\">Maven</a> (Projekt- / Dependencymanager)</li>"
+				+ "  <li><a href=\"https://spring.io/\">Spring</a> (? Ist halt bei Vaadin dabei...)</li>"
+				+ "  <li><a href=\"https://github.com/\">GitHub</a> (Versionsmanagement / Veröffentlichung des Quellcodes)</li>"
+				+ "  <li><a href=\"https://ngrok.com/\">ngrok</a> (Zu Testzwecken während der Entwicklung)</li>"
+				+ "  <li><a href=\"https://www.veryicon.com/icons/file-type/color-file-icon-collection/\">veryicon</a> (Dateityp-Icons)</li>"
+				+ "</ul>"));
+		comp5.add(new Html("<script src=\"https://zitate.webmart.de/zdt.js\" async></script>"));
+		comp5.add(new Html("<span style=\"font-family: monospace\"><small>Version 2.2.0</small></span>"));
+		comp5.add(new Html("<p>Du hast das alles gelesen? Dafür hast du dir einen Keks verdient. 🍪</p>"));
+		comp5.add(new Html("<span>Übrigens, zu manchen Keksen passt auch prima Kaffee:"));
+		comp5.add(new Html("<a href=\"https://www.buymeacoffee.com/illusioquest?l=de\" target=\"_blank\"><img src=\"https://cdn.buymeacoffee.com/buttons/v2/default-blue.png\" alt=\"Buy Me A Coffee\" style=\"height: 60px !important;width: 217px !important;\" ></a>"));
+
+		return new Component[] {comp1, comp2, comp3, comp4, comp5};
+	}
+
     
     public static void cookieLogin() {
     	Cookie[] cookies = VaadinRequest.getCurrent().getCookies();
