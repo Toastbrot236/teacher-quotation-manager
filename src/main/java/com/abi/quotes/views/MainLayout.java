@@ -220,7 +220,7 @@ public class MainLayout extends AppLayout {
 
 	public void updateMoreButton() {
 		if (DataManager.getLoggedIn() == null || !DataManager.getLoggedIn()) {
-			layout.remove(moreButton);
+			//layout.remove(moreButton);
 			((Span) moreButton.getComponentAt(1)).setText("Anmelden");
 			if (moreReg == null) {
 				moreReg = moreButton.addClickListener(e -> {
