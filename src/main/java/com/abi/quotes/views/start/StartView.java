@@ -174,19 +174,27 @@ public class StartView extends VerticalLayout implements HasHelp {
         newQuoteButton.getStyle().set("font-weight", "bold");
         newQuoteButton.setQuoteCreationListener(() -> list.update());
         
-        Button nutzerverwaltungButton = createNavigationButton("Nutzerverwaltung", UsersView.class);
-        nutzerverwaltungButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
-        
-        Button testsButton = createNavigationButton("Neues Zeug testen", PushTestView.class);
-        testsButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+        Button nutzerverwaltungButton;
+
+		Button testsButton;
+
 
         VerticalLayout buttonsLayout = new VerticalLayout(firstRow, new HorizontalLayout(zitateNachLehrerButton, schuelerZitateButton), newQuoteButton);
         buttonsLayout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
-        
-        if (DataManager.isAdmin())
-        	buttonsLayout.add(nutzerverwaltungButton);
-        if (DataManager.canTest())
-        	buttonsLayout.add(testsButton);
+
+
+        if (DataManager.isAdmin()) {
+			nutzerverwaltungButton = createNavigationButton("Nutzerverwaltung", UsersView.class);
+			nutzerverwaltungButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+			buttonsLayout.add(nutzerverwaltungButton);
+		}
+        if (DataManager.canTest()) {
+			testsButton = createNavigationButton("Neues Zeug testen", PushTestView.class);
+			testsButton.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+			buttonsLayout.add(testsButton);
+		}
+
+
         buttonsLayout.setSpacing(true);
         buttonsLayout.getStyle().set("margin-top", "20px");
 
@@ -269,7 +277,7 @@ public class StartView extends VerticalLayout implements HasHelp {
 		comp2.setPadding(false);
 		Image img0 = new Image(darkMode ? "images/help0-dark.png" : "images/help0.png", "Start-Bildschirm");
 		img0.setWidth("90%");
-		img0.setMaxWidth("570px");
+		img0.setMaxWidth("480px");
 		comp2.add(img0);
 		comp2.add(new Html("<p>Auf dem Startbildschirm hast du neben einer Schnellansicht für die neuesten 3 Zitate direkt die Möglichkeit, "
 				+ "verschiedene Knöpfe zu betätigen.</p>"));
@@ -290,12 +298,12 @@ public class StartView extends VerticalLayout implements HasHelp {
 		comp3Inner.setHeight("100%");
 		comp3Inner.setPadding(false);
 		Image img1 = new Image(darkMode ? "images/help1-dark.png" : "images/help1.png", "Drei-Punkte-Menü");
-		img1.setWidth("90%");
-		img1.setMaxWidth("210px");
-		img1.setHeight("90%");
+		img1.setWidth("60%");
+		img1.setMaxWidth("240px");
+		img1.setHeight("80%");
 		comp3Inner.add(img1);
 		comp3.add(comp3Inner);
-		comp3Inner.add(new Html("<p>Klickst du von irgendeiner Seite auf die drei Punkte in der unteren rechten Bildschirmecke, öffnet sich ein "
+		comp3.add(new Html("<p>Klickst du von irgendeiner Seite auf die drei Punkte in der unteren rechten Bildschirmecke, öffnet sich ein "
 				+ "kleines Menü.</p>"));
 		comp3.add(new Html("<p>Hier kannst du dich abmelden (Du wirst beim nächsten Besuch mit dem selben Gerät automatisch wieder eingeloggt.), "
 				+ "zwischen Dark Mode und Light Mode wechseln, diese Hilfe jederzeit wieder öffnen oder auf dein Profil zugreifen. Am besten "

@@ -31,8 +31,9 @@ public interface HasHelp {
         dialog.getHeader().add(closeButton);
 
         dialog.setWidth("90%");
-        dialog.setMaxWidth("700px");
-        dialog.setHeight("50%");
+        dialog.setMaxWidth("1000px");
+        dialog.setHeight("80%");
+        dialog.setMaxHeight("1500px");
         dialog.setModal(false);
         dialog.setVisible(true);
         dialog.setCloseOnOutsideClick(false);
