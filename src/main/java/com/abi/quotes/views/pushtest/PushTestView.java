@@ -13,7 +13,7 @@ import com.vaadin.flow.router.Route;
 @PageTitle("Push-Benachrichtigungs-Test")
 @Route(value="push-test", layout= MainLayout.class)
 /**
- * Test page where you can subscribe to push notifications (through the browser) and post funny notifications
+ * Test page where the user can subscribe to push notifications (through the browser) and post funny notifications.
  */
 public class PushTestView extends VerticalLayout {
 	

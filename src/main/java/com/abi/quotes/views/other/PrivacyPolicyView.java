@@ -48,7 +48,7 @@ import java.sql.SQLException;
 @Route(value = "privacypolicy", layout=MainLayout.class)
 @RouteAlias(value = "privacy", layout = MainLayout.class)
 /**
- * new page that shows the privacy policy in a hopefully less annoying and more efficient way
+ * Page which shows the privacy policy in a hopefully less annoying and more efficient way.
  */
 public class PrivacyPolicyView extends VerticalLayout {
 

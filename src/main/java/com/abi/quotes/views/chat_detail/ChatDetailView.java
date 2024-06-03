@@ -62,7 +62,7 @@ import service.DataManager;
 @CssImport(value = "themes/zitate-sammlung/schulmanager.css")
 @CssImport(value = "themes/zitate-sammlung/file-viewer.css")
 /**
- * Page that shows a certain chat's 20 most recent messages, its UI can be manipulated using the url parameters.
+ * Page which shows a certain chat's 20 most recent messages, its UI can be manipulated using the url parameters.
  */
 public class ChatDetailView extends SmView implements HasDynamicTitle, HasUrlParameter<String> {
 

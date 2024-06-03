@@ -32,7 +32,7 @@ import service.DataManager;
 @PageTitle("Zitat")
 @Route(value = "quote-detail", layout = MainLayout.class)
 /**
- * Page that shows all details about a certain quote and its comments
+ * Page which shows all details about a certain quote and its comments.
  */
 public class QuoteDetailView extends VerticalLayout {
 	

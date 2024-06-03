@@ -27,7 +27,7 @@ import service.Permission;
 @RouteAlias(value = "zitate", layout = MainLayout.class) // original        route
 @JsModule("./insertatcursor.js")
 /**
- * Page that shows all teacher quotes
+ * Page which shows all teacher quotes.
  */
 public class ZitateView extends VerticalLayout {
 

@@ -23,7 +23,7 @@ import com.vaadin.flow.router.Route;
 @Route(value = "lehrer-detail", layout = MainLayout.class)
 @JsModule("./insertatcursor.js")
 /**
- * Page that shows a specific teacher's stats and all their quotes
+ * Page which shows a specific teacher's stats and all their quotes.
  */
 public class TeacherDetailView extends VerticalLayout {
 	

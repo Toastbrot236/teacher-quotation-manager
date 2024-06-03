@@ -14,6 +14,9 @@ import schulmanager.api.Session;
 import schulmanager.components.SmNotConnectedInfo;
 import service.DataManager;
 
+/**
+ * This class gets inherited by both ChatsView and ChatDetailView.
+ */
 public abstract class SmView extends VerticalLayout {
 	
 	protected Session session;

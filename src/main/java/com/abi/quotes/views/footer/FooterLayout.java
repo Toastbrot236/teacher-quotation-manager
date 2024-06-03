@@ -11,9 +11,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
 
 @CssImport(value = "themes/zitate-sammlung/footer.css")
-/**
- * Apparently this one gets used for the NavBar at the bottom of the screen
- */
 public class FooterLayout extends AppLayout {
 
     public FooterLayout() {

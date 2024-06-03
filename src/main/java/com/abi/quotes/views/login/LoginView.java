@@ -31,7 +31,7 @@ import java.util.concurrent.CompletableFuture;
 @Route(value = "login", layout = MainLayout.class)
 @CssImport(value = "themes/zitate-sammlung/loginBackground.css", themeFor = "vaadin-login-overlay-wrapper")
 /**
- * Page where you can log into zitate-sammlung
+ * Page where the user can log into zitate-sammlung.
  */
 public class LoginView extends LoginOverlay {
 

@@ -51,7 +51,7 @@ import service.DataManager;
 @CssImport(value = "themes/zitate-sammlung/schulmanager.css")
 @JavaScript("./interaction.js")
 /**
- * Page that shows your/someone else's Timetable
+ * Page which shows the user's/someone else's Timetable.
  */
 public class BetaTestView extends VerticalLayout implements CalendarCalc {
 

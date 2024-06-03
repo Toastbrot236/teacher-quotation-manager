@@ -40,7 +40,8 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 @Route(value = "announcements", layout=MainLayout.class)
 @RouteAlias(value = "klo", layout = MainLayout.class)
 /**
- * placeholder page that will hopefully someday show announcements (it's currently a "playground" for testing)
+ * Placeholder/Test page that will hopefully someday show certain chat messages which meet
+ * configurable criterias as announcements.
  */
 public class AnnouncementView extends VerticalLayout {
 
