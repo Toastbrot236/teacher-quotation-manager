@@ -18,6 +18,9 @@ import database.TableReceiver;
 
 @PageTitle("Alle Lehrer")
 @Route(value = "lehrer", layout = MainLayout.class)
+/**
+ * Page which shows all teachers and their quote stats (likes, dislikes, comment count).
+ */
 public class TeacherView extends VerticalLayout {
 	
 	private VirtualList<Row> list;

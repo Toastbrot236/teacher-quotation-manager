@@ -12,6 +12,7 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 
 import components.NewQuoteButton;
@@ -21,9 +22,13 @@ import components.SettingBar;
 import service.DataManager;
 import service.Permission;
 
-@PageTitle("Zitate")
-@Route(value = "zitate", layout = MainLayout.class)
+@PageTitle("Lehrerzitate")
+@Route(value = "lehrerzitate", layout = MainLayout.class)
+@RouteAlias(value = "zitate", layout = MainLayout.class) // original        route
 @JsModule("./insertatcursor.js")
+/**
+ * Page which shows all teacher quotes.
+ */
 public class ZitateView extends VerticalLayout {
 
     public ZitateView() {

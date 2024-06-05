@@ -48,6 +48,7 @@ import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
+import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.Location;
 import com.vaadin.flow.router.OptionalParameter;
 import com.vaadin.flow.router.PageTitle;
@@ -63,15 +64,19 @@ import schulmanager.components.AttachmentDisplay;
 import schulmanager.components.ChatOverviewBox;
 import service.DataManager;
 
-@PageTitle("Chat")
+//@PageTitle("Chat")
 @Route(value = "chat", layout = MainLayout.class)
 @CssImport(value = "themes/zitate-sammlung/schulmanager.css")
 @CssImport(value = "themes/zitate-sammlung/file-viewer.css")
-public class ChatDetailView extends SmView implements HasUrlParameter<String> {
+/**
+ * Page which shows a certain chat's 20 most recent messages, its UI can be manipulated using the url parameters.
+ */
+public class ChatDetailView extends SmView implements HasDynamicTitle, HasUrlParameter<String> {
 
 	private int threadId = -1;
 	private boolean canAnswer = false;
 	private String subject = "Fehler 402";
+	private String title = "Irgendein Chat";
 	private boolean isPrivateChat = false;
 	private String recipientString = "Fehler 403";
 	private int unreadCount = 0;
@@ -79,6 +84,10 @@ public class ChatDetailView extends SmView implements HasUrlParameter<String> {
 	private Upload upload;
 	
 	private VerticalLayout innerLayout;
+
+	private int screenWidth;
+	private boolean bigScreen;
+
 	
 	private ArrayList<String> uploadedFiles;
 	
@@ -104,20 +113,46 @@ public class ChatDetailView extends SmView implements HasUrlParameter<String> {
 	    	recipientString = parametersMap.get("recipientString").get(0);
 	    if (parametersMap.containsKey("unreadCount"))
 	    	unreadCount = Integer.parseInt(parametersMap.get("unreadCount").get(0));
-	    
-	    if (threadId == -1)
+
+		// if the subject is not an empty string or set to it's default value (Fehler 402), set the tab name to the subject
+		if (!(subject.equals("Fehler 402") || subject.equals("")))
+			title = subject;
+
+		if (threadId == -1)
 	    	add(new H1("Hier ist etwas schiefgelaufen! (Fehler 401)"));
 	    else init();
 	}
-	
+
+
 	public void init() {
 		
+		//getScreenWidth();
 		createHeader();
 		createMessagesList();
 		createMessageBar();
-		
+
 	}
-	
+
+
+	//@Override
+	public String getPageTitle() {
+		return title;
+	}
+
+
+	/*
+	private synchronized void createAttach() {
+		UI.getCurrent().getPage().retrieveExtendedClientDetails(receiver -> {
+			screenWidth = receiver.getScreenWidth();
+			bigScreen = screenWidth > 900;
+			System.out.println("Screen width: " + screenWidth);
+		});
+		for (int i = 0; i < attachments.size(); i++) {
+			bubbleLayout.add(new AttachmentDisplay(attachments.get(i).getAsJsonObject(), getScreenWidth()));
+		}
+	}
+	*/
+
 	private void createHeader() {
 		HorizontalLayout header = new HorizontalLayout();
 		header.setWidthFull();
@@ -177,7 +212,7 @@ public class ChatDetailView extends SmView implements HasUrlParameter<String> {
 		innerLayout.setPadding(false);
 		innerLayout.setSpacing(false);
 		innerLayout.setWidth("100%");
-		innerLayout.setMaxWidth("800px");
+		innerLayout.setMaxWidth("900px");
 		innerLayout.getStyle().set("padding-top", "18px");
 		innerLayout.getStyle().set("padding-bottom", "100px");
 		
@@ -247,14 +282,22 @@ public class ChatDetailView extends SmView implements HasUrlParameter<String> {
 		timeSpan.getStyle().set("font-size", "10px");
 
 		bubbleLayout.add(senderSpan, messageText);
-		
-		for (int i = 0; i < attachments.size(); i++) {
-			bubbleLayout.add(new AttachmentDisplay(attachments.get(i).getAsJsonObject()));
+
+		if (attachments.size() > 0) {
+			// Copied from BetaTestView
+			UI.getCurrent().getPage().retrieveExtendedClientDetails(receiver -> {
+				screenWidth = receiver.getScreenWidth();
+				//System.out.println("Screen width: " + screenWidth);
+
+				for (int i = 0; i < attachments.size(); i++) {
+					bubbleLayout.add(new AttachmentDisplay(attachments.get(i).getAsJsonObject(), screenWidth));
+				}
+
+				bubbleLayout.add(timeSpan);
+				bubbleLayout.setHorizontalComponentAlignment(Alignment.END, timeSpan);
+			});
 		}
-		
-		bubbleLayout.add(timeSpan);
-		bubbleLayout.setHorizontalComponentAlignment(Alignment.END, timeSpan);
-	
+
 		box.add(bubbleLayout);
 		return box;
 	}
@@ -272,12 +315,14 @@ public class ChatDetailView extends SmView implements HasUrlParameter<String> {
 			VerticalLayout outerContainer = new VerticalLayout();
 			outerContainer.setMargin(false);
 			outerContainer.setPadding(false);
-			outerContainer.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+			outerContainer.setDefaultHorizontalComponentAlignment(Alignment.STRETCH);
 			
 			HorizontalLayout bar = new HorizontalLayout();
 			/*bar.*/outerContainer.getStyle().set("position", "fixed").set("bottom", "70px");
 			bar.setMaxHeight("30%");
-			bar.setWidthFull();
+			//bar.setWidthFull();
+			bar.setMargin(true);
+			bar.getStyle().set("margin-left", "5px").set("margin-right", "5px").set("margin-bottom", "10px").set("margin-top", "0px");
 			bar.setJustifyContentMode(JustifyContentMode.CENTER);
 			
 			Button attachmentButton = new Button(VaadinIcon.PAPERCLIP.create());

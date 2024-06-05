@@ -13,10 +13,19 @@ import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.contextmenu.ContextMenu;
+import com.vaadin.flow.component.contextmenu.MenuItem;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.html.Hr;
 
 import service.CalendarCalc;
 import service.DataManager;
 
+/**
+ * A "box" that represents one chat in the chat overview on the chats page.
+ */
 public class ChatOverviewBox extends HorizontalLayout implements CalendarCalc {
 
 	private JsonObject subscription;
@@ -42,7 +51,7 @@ public class ChatOverviewBox extends HorizontalLayout implements CalendarCalc {
 		boolean isPrivateChat = thread.get("isPrivateChat").getAsBoolean();
 		boolean allowAnswers = thread.get("allowAnswers").getAsBoolean();
 		
-		//The subject of a private chat should be the name of the other person
+		// The subject of a private chat should be the name of the other person
 		if (isPrivateChat) {
 			String userFirstName = DataManager.getFirstName();
 			if (senderString.contains(userFirstName))
@@ -71,15 +80,28 @@ public class ChatOverviewBox extends HorizontalLayout implements CalendarCalc {
 		senderSpan.getStyle().set("text-overflow", "ellipsis").set("white-space", "nowrap").set("overflow-x", "hidden").set("width", "100%").set("color", "var(--lumo-contrast-80pct)").set("font-size", "14px");
 		recipientSpan.getStyle().set("text-overflow", "ellipsis").set("white-space", "nowrap").set("overflow-x", "hidden").set("width", "100%").set("color", "var(--lumo-contrast-80pct)").set("font-size", "14px");
 		textPart.add(subjectSpan, senderSpan, recipientSpan);
-		
+
+		// VerticalLayout to the right that contains the context menu button and the timestamp of last message
 		VerticalLayout optionPart = new VerticalLayout();
 		optionPart.setPadding(false);
 		optionPart.setSpacing(false);
-		Span lastMessageSpan = new Span(beautifyLocalDateTime(lastMessageTimestamp));
+
+		// the date at the top right
+		Span lastMessageSpan = new Span(beautifyLocalDateTime(lastMessageTimestamp) + "  ");
+		lastMessageSpan.getStyle().set("padding-right", "5px");
 		lastMessageSpan.getStyle().set("font-size", "9.5px");
+
+		// ContextMenu button
 		Button menuButton = new Button(VaadinIcon.ELLIPSIS_DOTS_V.create());
-		menuButton.addThemeVariants(ButtonVariant.LUMO_SMALL, ButtonVariant.LUMO_TERTIARY);
+		menuButton.getStyle().set("padding-bottom", "10px").set("padding-top", "10px").set("padding-right", "5px");
+		menuButton.addThemeVariants(/*ButtonVariant.LUMO_SMALL, */ButtonVariant.LUMO_TERTIARY);
+		createChatOptionsMenu(menuButton);
+		menuButton.setEnabled(false);  // disabled for now
+
+		// both get added to VerticalLayout
 		optionPart.add(lastMessageSpan, menuButton);
+
+		// unread messages count if there are any
 		if (unreadCount > 0) {
 			Span unreadMessagesInfo = new Span(unreadCount + "");
 			unreadMessagesInfo.getStyle().set("border-radius", "10px");
@@ -116,7 +138,55 @@ public class ChatOverviewBox extends HorizontalLayout implements CalendarCalc {
 		});
 
 	}
-	
+
+	private ContextMenu createChatOptionsMenu(Component button) {
+
+		// the older solution using regular buttons instead of menuItems inside context menu
+		/*
+		ContextMenu menu = new ContextMenu();
+		menu.setDefaultHorizontalComponentAlignment(Alignment.END);
+		//Button hideButton = new Button("Verbergen");
+		//hideButton.setIcon(VaadinIcon.EYE_SLASH.create());
+		//hideButton.addClickListener(e -> {
+		//	getUI().ifPresent(ui -> ui.navigate("chats"));
+		//});
+		menu.addItem(hideButton);
+		*/
+
+		// initialise context menu
+		ContextMenu menu = new ContextMenu();
+
+		// Hide button
+		MenuItem hideButton = menu.addItem("Verbergen", event -> {
+			getUI().ifPresent(ui -> ui.navigate("start")); // placeholder action
+		});
+		hideButton.addComponentAsFirst(createIcon(VaadinIcon.EYE_SLASH));
+
+		// Add to News button
+		MenuItem addNewsButton = menu.addItem("zu News hinz.", event -> {
+			getUI().ifPresent(ui -> ui.navigate("klo")); // placeholder action
+		});
+		addNewsButton.addComponentAsFirst(createIcon(VaadinIcon.NEWSPAPER));
+
+		// finish and return context menu
+		menu.setOpenOnClick(true);
+		menu.setTarget(button);
+		return menu;
+	}
+
+	/**
+	 * Copied from https://vaadin.com/docs/latest/components/context-menu#styling-menu-items
+	 * @param vaadinIcon the icon to work with
+	 * @return the processed icon
+	 */
+	private Component createIcon(VaadinIcon vaadinIcon) {
+		Icon icon = vaadinIcon.create();
+		icon.getStyle().set("color", "var(--lumo-secondary-text-color)")
+				.set("margin-inline-end", "var(--lumo-space-s")
+				.set("padding", "var(--lumo-space-xs");
+		return icon;
+	}
+
 	public String beautifyLocalDateTime(LocalDateTime time) {
 		if (time.toLocalDate().equals(LocalDate.now())) {
 			return time.format(DateTimeFormatter.ofPattern("kk:mm"));

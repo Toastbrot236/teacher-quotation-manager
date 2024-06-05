@@ -24,6 +24,9 @@ import service.Permission;
 @PageTitle("Schülerzitate")
 @Route(value = "schuelerzitate", layout = MainLayout.class)
 @JsModule("./insertatcursor.js")
+/**
+ * Page that shows all student quotes
+ */
 public class StudentQuoteView extends VerticalLayout {
 
     public StudentQuoteView() {

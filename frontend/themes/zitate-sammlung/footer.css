@@ -7,4 +7,5 @@ vaadin-app-layout::part(navbar) {
 	top: auto !important;
     justify-content: center;
 	min-height: var(--lumo-size-l) !important;
+	padding-top: 5px;
 }

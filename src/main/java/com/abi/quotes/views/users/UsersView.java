@@ -34,6 +34,9 @@ import service.DataManager;
 @PageTitle("Nutzerverwaltung")
 @Route(value = "nutzer", layout = MainLayout.class)
 @JsModule("./copytoclipboard.js")
+/**
+ * Admin-only page which contains a table where the admin can edit user information.
+ */
 public class UsersView extends VerticalLayout {
 	
 	public UsersView() {

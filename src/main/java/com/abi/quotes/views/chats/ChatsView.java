@@ -22,6 +22,9 @@ import service.DataManager;
 
 @PageTitle("Chats")
 @Route(value = "chats", layout = MainLayout.class)
+/**
+ * Page which shows the most recent 30 chats the user is in.
+ */
 public class ChatsView extends SmView {
 
 	public ChatsView() {

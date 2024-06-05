@@ -21,6 +21,9 @@ import service.DataManager;
 
 @PageTitle("Meine Favoriten")
 @Route(value = "favoriten", layout = MainLayout.class)
+/**
+ * Page which shows all quotes the user has favourited.
+ */
 public class FavoritesView extends VerticalLayout {
 
     public FavoritesView() {

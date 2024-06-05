@@ -43,6 +43,9 @@ import java.util.Base64;
 @PageTitle("File-Processor")
 @Route(value="file-processor", layout= MainLayout.class)
 @CssImport(value = "themes/zitate-sammlung/file-viewer.css")
+/**
+ * Test page.
+ */
 public class FileProcessorView extends VerticalLayout {
 
 	private ArrayList<UploadFileRequest> uploadRequests;
