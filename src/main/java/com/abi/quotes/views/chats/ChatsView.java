@@ -1,4 +1,4 @@
-package com.abi.quotes.view.chats;
+package com.abi.quotes.views.chats;
 
 import com.abi.quotes.views.MainLayout;
 import com.abi.quotes.views.beta_test.SmView;

@@ -1,4 +1,4 @@
-package com.abi.quotes.views.announcement;
+package com.abi.quotes.views.other;
 
 
 import java.sql.SQLException;

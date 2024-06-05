@@ -213,7 +213,7 @@ public class ChatDetailView extends SmView implements HasDynamicTitle, HasUrlPar
 		innerLayout.setSpacing(false);
 		innerLayout.setWidth("100%");
 		innerLayout.setMaxWidth("900px");
-		innerLayout.getStyle().set("padding-top", "18px");
+		innerLayout.getStyle().set("padding-top", "98px");
 		innerLayout.getStyle().set("padding-bottom", "100px");
 		
 		LocalDate currDate = null;
@@ -284,19 +284,19 @@ public class ChatDetailView extends SmView implements HasDynamicTitle, HasUrlPar
 		bubbleLayout.add(senderSpan, messageText);
 
 		if (attachments.size() > 0) {
-			// Copied from BetaTestView
+
 			UI.getCurrent().getPage().retrieveExtendedClientDetails(receiver -> {
 				screenWidth = receiver.getScreenWidth();
-				//System.out.println("Screen width: " + screenWidth);
 
 				for (int i = 0; i < attachments.size(); i++) {
 					bubbleLayout.add(new AttachmentDisplay(attachments.get(i).getAsJsonObject(), screenWidth));
 				}
-
-				bubbleLayout.add(timeSpan);
-				bubbleLayout.setHorizontalComponentAlignment(Alignment.END, timeSpan);
+	
 			});
 		}
+		
+		bubbleLayout.add(timeSpan);
+		bubbleLayout.setHorizontalComponentAlignment(Alignment.END, timeSpan);
 
 		box.add(bubbleLayout);
 		return box;

@@ -180,7 +180,7 @@ span.origi, span.origi > b {
   background-color: var(--lumo-base-color);
   position: fixed;
   position: -webkit-fixed;
-  top: 0;
+  top: 15px;
   width: 110%;
   z-index: 10;
   margin-bottom: 10px;
