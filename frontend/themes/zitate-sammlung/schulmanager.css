@@ -178,8 +178,8 @@ span.origi, span.origi > b {
 
 .header-top {
   background-color: var(--lumo-base-color);
-  position: sticky;
-  position: -webkit-sticky;
+  position: fixed;
+  position: -webkit-fixed;
   top: 0;
   width: 110%;
   z-index: 10;
