@@ -125,9 +125,20 @@ public class AttachmentDisplay extends VerticalLayout {
 		String imageUrl = "images/" + type + ".svg";
 		
 		Anchor a = new Anchor(requestUrl);
+		a.setWidthFull();
+		
 		Image img = new Image(imageUrl, "Unb. Dateityp");
 		img.setHeight("45px");
-		layout.add(img, new Span(fileName + "\""));
+		Span fileNameSpan = new Span(fileName.substring(1));
+		fileNameSpan.getStyle()
+		    .set("width", "70%")
+		    .set("overflow", "hidden")
+		    .set("-webkit-line-clamp", "2")
+		    .set("word-break", "break-all")
+		    .set("line-clamp", "2")
+		    .set("display", "-webkit-box")
+		    .set("-webkit-box-orient", "vertical");
+		layout.add(img, fileNameSpan);
 		a.add(layout);
 		
 		add(a);
