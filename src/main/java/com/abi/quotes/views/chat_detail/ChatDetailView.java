@@ -157,7 +157,8 @@ public class ChatDetailView extends SmView implements HasDynamicTitle, HasUrlPar
 		HorizontalLayout header = new HorizontalLayout();
 		header.setWidthFull();
 		header.setJustifyContentMode(JustifyContentMode.CENTER);
-		header.setDefaultVerticalComponentAlignment(Alignment.CENTER);
+		header.setDefaultVerticalComponentAlignment(Alignment.START);
+		header.getStyle().set("padding-right", "4px");
 		
 		Button backButton = new Button(VaadinIcon.ARROW_BACKWARD.create());
 		backButton.addThemeVariants(ButtonVariant.LUMO_ICON, ButtonVariant.LUMO_TERTIARY);
@@ -168,6 +169,7 @@ public class ChatDetailView extends SmView implements HasDynamicTitle, HasUrlPar
 		
 		Avatar avatar = new Avatar();
 		avatar.addThemeVariants(AvatarVariant.LUMO_SMALL);
+		avatar.getStyle().set("margin-top", "10px").set("margin-bottom", "10px");
 		avatar.setColorIndex(threadId % 6);
 		if (!isPrivateChat) {
 			avatar.setName(ChatOverviewBox.shortenSubject(subject));
@@ -178,7 +180,7 @@ public class ChatDetailView extends SmView implements HasDynamicTitle, HasUrlPar
 		headerTextLayout.setSpacing(false);
 		headerTextLayout.setPadding(false);
 		headerTextLayout.setWidth(null);
-		headerTextLayout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+		headerTextLayout.setDefaultHorizontalComponentAlignment(Alignment.START);
 		Span subjectSpan = new Span(subject);
 		subjectSpan.getStyle().set("font-weight", "bold");
 		headerTextLayout.add(subjectSpan);
@@ -194,7 +196,8 @@ public class ChatDetailView extends SmView implements HasDynamicTitle, HasUrlPar
 		recipientSpan.addClickListener(e -> {
 			tooltip.setOpened(!tooltip.isOpened());
 		});
-		
+		recipientSpan.getStyle().set("font-size", "13px");
+
 		headerTextLayout.add(recipientSpan);
 		header.add(headerTextLayout);
 		
@@ -213,8 +216,9 @@ public class ChatDetailView extends SmView implements HasDynamicTitle, HasUrlPar
 		innerLayout.setSpacing(false);
 		innerLayout.setWidth("100%");
 		innerLayout.setMaxWidth("900px");
-		innerLayout.getStyle().set("padding-top", "98px");
-		innerLayout.getStyle().set("padding-bottom", "100px");
+		innerLayout.getStyle().set("padding-top", "140px").set("padding-bottom", "100px").set("padding-right", "10px"); //temporarily increased padding-top until a better solution is found
+		//innerLayout.getStyle().set("padding-bottom", "100px");
+		//innerLayout.getStyle().set("padding-right", "10px");
 		
 		LocalDate currDate = null;
 		LocalDate date = null;
